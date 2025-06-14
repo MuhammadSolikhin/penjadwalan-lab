@@ -85,10 +85,28 @@
                                                 </label>
                                                 <select id="jamSelect{{ $tanggal }}" class="form-select" multiple>
                                                     @foreach ($jams as $jam)
-                                                        <option value="{{ $jam }}" @if (in_array($jam, $jamTerpilih[$tanggal] ?? [])) selected @endif>
-                                                            {{ $jam }}
+                                                        @php
+                                                            $bagianJam = explode('/', $jam);
+                                                            $hari = Carbon::parse($tanggal)->dayOfWeek;
+
+                                                            if (in_array($hari, [4, 6])) {
+                                                                // Kamis (4) atau Sabtu (6): pakai bagian kedua
+                                                                $jamYangDicek = trim($bagianJam[1] ?? $bagianJam[0]);
+                                                            } else {
+                                                                // Hari lainnya: pakai bagian pertama
+                                                                $jamYangDicek = trim($bagianJam[0]);
+                                                            }
+
+                                                            $disabled = in_array($jamYangDicek, $jadwalSudahDibooking[$tanggal] ?? []);
+                                                        @endphp
+
+                                                        <option value="{{ $jam }}"
+                                                            @if (in_array($jam, $jamTerpilih[$tanggal] ?? [])) selected @endif
+                                                            @if ($disabled) disabled @endif>
+                                                            {{ $jam }} @if ($disabled) (Sudah dibooking) @endif
                                                         </option>
                                                     @endforeach
+
                                                 </select>
                                             </div>
                                         @endforeach
@@ -100,41 +118,65 @@
                                         <input type="text" x-ref="tanggalRange" class="form-control">
                                     </div>
 
-                                    @if (!empty($hariOperasionalList))
-                                        <div class="mb-3">
-                                            <label>Hari Operasional:</label>
-                                            <div class="row">
-                                                @foreach ($hariOperasionalList as $hari)
-                                                    <div class="col-6 col-md-4">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" wire:model.live="hariTerpilih" value="{{ $hari->hari_operasional }}" id="hariOperasional{{ $hari->id }}" />
-                                                            <label class="form-check-label" for="hariOperasional{{ $hari->id }}">
-                                                                {{ Carbon::create()->startOfWeek(Carbon::SUNDAY)->addDays($hari->hari_operasional)->locale('id')->dayName }}
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
+                                    <div class="mb-3">
+                                        <label class="form-label">Jam Operasional</label>
+                                        <div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" id="jamManual" value="manual" wire:model.live="modeJam">
+                                                <label class="form-check-label" for="jamManual">Manual (Pilih Jam)</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" id="jamFull" value="full" wire:model="modeJam">
+                                                <label class="form-check-label" for="jamFull">Full Day (07:00 - 17:00)</label>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    @if ($modeJam === 'manual')
+                                        <div
+                                            wire:ignore
+                                            wire:key="jam-manual-select2-{{ implode('-', $tanggalAktif) }}"
+                                            x-data
+                                            x-init="initFuncInput.initJamOperasionalSelect2($el.querySelector('select'), $wire, 'rentang', @js($jamRentangTerpilih));">
+                                            <label class="form-label">Pilih Jam (berlaku untuk semua tanggal)</label>
+                                            @php
+                                                $hariIndex = isset($tanggalAktif[0])
+                                                    ? Carbon::parse($tanggalAktif[0])->dayOfWeek
+                                                    : now()->dayOfWeek;
+
+                                                $jamListForHari = $listJam[$hariIndex] ?? [
+                                                    '07:10 - 08:50', '08:50 - 10:30', '10:30 - 12:10',
+                                                    '13:00 - 14:40', '14:40 - 16:20', '18:20 - 20:00', '20:00 - 21:40'
+                                                ];
+                                            @endphp
+
+                                            <select id="jam-rentang" class="form-select" multiple>
+                                                @foreach ($jamListForHari as $jam)
+                                                    @php
+                                                         // Ambil bagian pertama sebelum slash
+                                                        $jamUtama = explode('/', $jam)[0] ?? $jam;
+                                                        $jamUtama = trim($jamUtama);
+
+                                                        $disabledGlobal = false;
+                                                        foreach ($tanggalAktif as $tgl) {
+                                                            if (in_array($jamUtama, $jadwalSudahDibooking[$tgl] ?? [])) {
+                                                                $disabledGlobal = true;
+                                                                break;
+                                                            }
+                                                        }
+                                                    @endphp
+                                                    <option value="{{ $jam }}"
+                                                        @selected(in_array($jam, $jamRentangTerpilih ?? []))
+                                                        @if ($disabledGlobal) disabled @endif>
+                                                        {{ $jam }} @if ($disabledGlobal) (Sudah dibooking di salah satu hari) @endif
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @elseif ($modeJam === 'full')
+                                        <div class="text-muted mb-3">Jam: Full Day (07:00 - 17:00 berlaku untuk semua tanggal)</div>
                                     @endif
 
-                                    @if (!empty($jamOperasionalPerTanggal))
-                                        @foreach ($jamOperasionalPerTanggal as $tanggal => $jamList)
-                                            <div class="mb-3" wire:key="jam-{{ $tanggal }}" x-data x-init="initFuncInput.initJamOperasionalSelect2($el.querySelector('select'), $wire, '{{ $tanggal }}')" wire:ignore>
-                                                <label class="form-label">
-                                                    {{ Carbon::parse($tanggal)->locale('id')->translatedFormat('l, d F Y') }}
-                                                </label>
-                                                <select id="jamSelect{{ $tanggal }}" class="form-select" multiple>
-                                                    @foreach ($jamList as $jam)
-                                                        <option value="{{ $jam }}" @if (in_array($jam, $jamTerpilih[$tanggal] ?? [])) selected @endif>
-                                                            {{ $jam }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                    
                                 @endif
 
                                 <div class="mb-3">

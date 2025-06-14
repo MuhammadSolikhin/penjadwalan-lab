@@ -36,7 +36,6 @@ Livewire.on('resetTanggalMultiFlatpickr', () => {
 });
 
 Livewire.on('initFlatpickrWithHariAktif', ({ hariAktif }) => {
-    console.log('Hari Aktif Baru:', hariAktif);
     const el = document.querySelector('#tanggalMulti');
     if (el && el.flatpickrInstance) {
         el.flatpickrInstance.destroy();
@@ -51,17 +50,15 @@ Livewire.on('resetTanggalRangeFlatpickr', () => {
     }
 });
 
-function initLokasiSelect2(lokasi, livewire)
-{
+function initLokasiSelect2(lokasi, livewire) {
     const $select = $(lokasi); // lokasi => $el.querySelector
 
     $select.select2({
         theme: 'bootstrap-5',
-        dropdownParent: $select.parent(), 
+        dropdownParent: $select.parent(),
     });
 
-    if (livewire)
-    {
+    if (livewire) {
         $select.on('change', function () {
             livewire.set('lokasiId', $(this).val());
         });
@@ -100,7 +97,7 @@ function initTanggalMultiFlatpickr(tanggalMultiInput, livewire, hariAktif) {
         locale: 'id',
         defaultDate: tanggalMultiFromLivewire,
         disable: [
-            function(date) {
+            function (date) {
                 return !hariAktif.includes(date.getDay());
             }
         ],
@@ -123,7 +120,7 @@ function initTanggalRangeFlatpickr(tanggalRange, livewire) {
         dateFormat: 'Y-m-d',
         locale: 'id',
         defaultDate: tanggalRangeFromLivewire,
-        onChange: function(selectedDates, dateStr, instance) {
+        onChange: function (selectedDates, dateStr, instance) {
             if (selectedDates.length === 2) {
                 const start = instance.formatDate(selectedDates[0], 'Y-m-d');
                 const end = instance.formatDate(selectedDates[1], 'Y-m-d');
@@ -136,6 +133,20 @@ function initTanggalRangeFlatpickr(tanggalRange, livewire) {
 
     tanggalRange.flatpickrInstance = instance;
 }
+
+Livewire.on('initJamSelect2Rentang', () => {
+    setTimeout(() => {
+        const el = document.querySelector('#jam-rentang');
+        if (el) {
+            initFuncInput.initJamOperasionalSelect2(
+                el,
+                Livewire.find(el.closest('[wire\\:id]')),
+                'rentang'
+            );
+        }
+    }, 100);
+});
+
 
 function initJamOperasionalSelect2(jamOperasional, livewire, tanggalStr, selectedValues = []) {
     const $select = $(jamOperasional);
@@ -155,7 +166,12 @@ function initJamOperasionalSelect2(jamOperasional, livewire, tanggalStr, selecte
 
     if (livewire) {
         $select.on('change', function () {
-            livewire.set(`jamTerpilih.${tanggalStr}`, $(this).val());
+            if (tanggalStr === 'rentang') {
+                livewire.set(`jamRentangTerpilih`, $(this).val());
+            } else {
+                livewire.set(`jamTerpilih.${tanggalStr}`, $(this).val());
+            }
+
         });
     }
 }
