@@ -1,7 +1,6 @@
 .select2 {
-    width:100%!important;
+    flex-grow:1 !important;
 }
-
 
 a {
     text-decoration: none !important;
@@ -203,7 +202,7 @@ a {
 
 /* Sidebar */
 .wrapper .sidebar {
-    /* background-color: white !important; */
+    background-color: white !important;
     position: fixed !important;
     width: 250px !important;
     min-height: 100vh !important;
@@ -282,6 +281,22 @@ a {
     flex-grow: 1;
     padding: 0.2rem 1rem;
     transition: all 0.3s ease;
+    min-width: 0;
 }
 
 /* /Sidebar */
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input {
+    margin-right: 5px;
+}

@@ -2,7 +2,11 @@
 
     <div class="col-12">
         <h5><strong>Table Log</strong></h5>
+<<<<<<< HEAD
         <p>Merupakan Daftar Jadwal atau Booking Log.</p>
+=======
+        <p>Merupakan Daftar Booking Log.</p>
+>>>>>>> 4107aac2a9b972583670c9a86514222ee0cb2599
     </div>
 
     <div class="col-12 py-2 d-flex flex-wrap align-items-center justify-content-between">

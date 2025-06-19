@@ -3,6 +3,7 @@
 @section('title', 'Dashboard Laboran')
 
 @section('content')
+<<<<<<< HEAD
 <div class="my-3 mx-2">
     <p class="fw-bold fs-3">Selamat Datang, Laboran</p>
     <p class="fs-6 mb-4">Ringkasan aktifitas penggunaan laboratorium komputer Universitas Pamulang</p>
@@ -273,4 +274,10 @@
 
         new Chart(ctxURChart, configUR);
     </script>
+=======
+
+
+    
+
+>>>>>>> 4107aac2a9b972583670c9a86514222ee0cb2599
 @endsection

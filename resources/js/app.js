@@ -2,6 +2,7 @@
 import './bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+<<<<<<< HEAD
 
 // Script vanilla
 import './script';
@@ -35,3 +36,15 @@ import "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js";
 // Flatpickr
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+=======
+// Jquery Global File
+import $ from 'jquery';
+window.$ = $;
+window.jQuery = $;
+
+// Script vanilla
+import './script';
+
+// Powergrid (Datatables)
+import './../../vendor/power-components/livewire-powergrid/dist/powergrid'
+>>>>>>> 4107aac2a9b972583670c9a86514222ee0cb2599
