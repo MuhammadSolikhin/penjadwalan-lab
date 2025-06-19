@@ -14,12 +14,13 @@ Livewire.on('bookingDisimpan', () => {
     calendar.refetchEvents();
 });
 
+let calendar;
 
 document.addEventListener('DOMContentLoaded', function () {
-    const calendarEl = document.getElementById('calendar');
+    var calendarEl = document.getElementById('calendar');
     let semuaBookingSlot = [];
 
-    window.calendar = new Calendar(calendarEl, {
+    calendar = new Calendar(calendarEl, {
         plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
         initialView: 'dayGridMonth',
         locale: 'id',
@@ -62,6 +63,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     };
                 });
             },
+        },
+        datesSet: function () {
+            document.getElementById('calendar-loader').style.display = 'none';
+            document.getElementById('calendar').style.display = 'block';
         },
         eventClick: function (info) {
             const jadwal = info.event.extendedProps.jadwal || [];
@@ -142,6 +147,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     calendar.render();
+});
+
+document.querySelector('button[data-bs-target="#calendarPane"]').addEventListener('shown.bs.tab', function () {
+    if (!calendar) return;
+    calendar.render(); // render ulang saat tab diaktifkan
 });
 
 window.exportEventsToExcel = function () {

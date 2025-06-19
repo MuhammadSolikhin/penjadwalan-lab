@@ -132,11 +132,12 @@
                                         </div>
                                     </div>
 
-                                    @if ($modeJam === 'manual')
-                                        <div
+                                    @if (in_array($modeJam, ['manual', 'full']))
+                                       <div
+                                            x-data
+                                            x-show="$wire.modeJam === 'manual'"
                                             wire:ignore
                                             wire:key="jam-manual-select2-{{ implode('-', $tanggalAktif) }}"
-                                            x-data
                                             x-init="initFuncInput.initJamOperasionalSelect2($el.querySelector('select'), $wire, 'rentang', @js($jamRentangTerpilih));">
                                             <label class="form-label">Pilih Jam (berlaku untuk semua tanggal)</label>
                                             @php

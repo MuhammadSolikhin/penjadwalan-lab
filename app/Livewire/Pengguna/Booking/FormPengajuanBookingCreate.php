@@ -147,13 +147,15 @@ class FormPengajuanBookingCreate extends Component
     {
         if ($value === 'full') {
             foreach ($this->tanggalAktif as $tanggal) {
-                $this->jamTerpilih[$tanggal] = [
-                    '07:10 - 08:50',
-                    '08:50 - 10:30',
-                    '10:30 - 12:10',
-                    '13:00 - 14:40',
-                    '14:40 - 16:20',
-                ];
+                $this->jamTerpilih[$tanggal] = ($value === 'full')
+                    ? [
+                        '07:10 - 08:50',
+                        '08:50 - 10:30',
+                        '10:30 - 12:10',
+                        '13:00 - 14:40',
+                        '14:40 - 16:20',
+                    ]
+                    : [];
             }
         } else {
             foreach ($this->tanggalAktif as $tanggal) {
