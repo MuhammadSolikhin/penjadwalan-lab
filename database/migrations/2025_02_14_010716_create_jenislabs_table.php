@@ -13,17 +13,10 @@ return new class extends Migration
     {
         Schema::create('jenislabs', function (Blueprint $table) {
             $table->id();
-<<<<<<< HEAD
-            $table->string("name")->unique();
-            $table->string("slug")->unique();
-            $table->text("description")->nullable();
-            $table->timestamps();
-=======
             $table->string("nama_jenis_lab")->unique();
             $table->text("deskripsi_jenis_lab")->nullable();
             $table->timestamps();
             $table->softDeletes();
->>>>>>> 4107aac2a9b972583670c9a86514222ee0cb2599
         });
     }
 

@@ -3,9 +3,9 @@
 @section('title', 'Dashboard Admin')
 
 @section('content')
-    <div class="my-3 mx-2">
+    <div class="my-5 mx-2">
         <p class="fw-bold fs-3">Selamat Datang, Admin</p>
-        <p class="fs-6 mb-4">Ringkasan aktifitas penggunaan laboratorium komputer Universitas Pamolang</p>
+        <p class="fs-6 mb-4">Ringkasan aktifitas penggunaan laboratorium komputer Universitas Pamulang</p>
 
         {{-- Summary Cards --}}
         <div class="row row-cols-2 row-cols-lg-4 g-2 g-lg-3 mt-4">

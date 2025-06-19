@@ -13,15 +13,6 @@ return new class extends Migration
     {
         Schema::create('barangs', function (Blueprint $table) {
             $table->id();
-<<<<<<< HEAD
-            $table->string('name');
-            $table->text('spesifikasi');
-            $table->text('deskripsi');
-            $table->unsignedBigInteger('lab_id');
-            $table->foreign('lab_id')->references('id')->on('laboratorium_unpams')->onDelete('cascade');
-            $table->unsignedBigInteger('meja_id')->nullable()->constrained('barangs');
-            $table->timestamps();
-=======
             $table->string('nama_barang');
             $table->text('spesifikasi_barang');
             $table->text('deskripsi_barang');
@@ -35,7 +26,6 @@ return new class extends Migration
 
             $table->timestamps();
             // ->onDelete('set null')
->>>>>>> 4107aac2a9b972583670c9a86514222ee0cb2599
         });
     }
 

@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-<div class="search-container mybg-brown100 p-3">
+<div class="search-container mybg-brown100 mt-5 p-3">
     <div class="search-box border-0">
         <input type="search" class="search-input myoutline-0 border-0 rounded" placeholder="Pencarian...">
     </div>
@@ -7,15 +6,6 @@
     <div class="result-search">
         <ul class="result-container">
             <li class="result-item p-2 rounded-3">
-=======
-<div class="search-container">
-    <div class="search-box">
-        <input type="search" class="search-input" placeholder="Pencarian...">
-    </div>
-    <div class="result-search">
-        <ul class="result-container">
-            <li class="result-item">
->>>>>>> 4107aac2a9b972583670c9a86514222ee0cb2599
                 <a href="#" class="result-link">Aku Adalah Result</a>
             </li>
         </ul>
