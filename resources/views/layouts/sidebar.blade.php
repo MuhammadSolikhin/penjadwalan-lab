@@ -9,73 +9,75 @@
 
     <ul class="menu-container list-unstyled">
 
-        <span class="divider" style="font-size:0.75rem;">MENU</span>
         @php
             $userRole = auth()->user()->role->nama_peran;
             $dashboardRoute = in_array($userRole, ['admin', 'laboran']) ? $userRole . '.dashboard' : 'dashboard';
         @endphp
-        <li class="sidebar-item {{ Route::is($dashboardRoute) ? 'active' : '' }}">
-            <a href="{{ route($dashboardRoute) }}" class="sidebar-link">
-                <i data-feather="layers" class="sidebar-icon-link"></i>Beranda
+        <li class="sidebar-item pb-2 px-3 rounded-3 {{ Route::is($dashboardRoute) ? 'mybg-brown active' : 'mybg-brown200' }}">
+            <a href="{{ route($dashboardRoute) }}" class="sidebar-link {{ Route::is($dashboardRoute) ? 'text-light' : '' }}">
+                <img src="{{ Route::is($dashboardRoute) ? asset('images/icons/home.png') : asset('images/icons/home-black.png') }}" class="mb-1 me-2" width="20px" alt="">Beranda
             </a>
         </li>
-
-        <span class="divider" style="font-size:0.75rem;">TOOLS</span>
 
         @php
             $manajemenRoutes = ['admin.pengguna', 'laboran.laboratorium', 'admin.barang'];
             $isManajemenActive = in_array(Route::currentRouteName(), $manajemenRoutes);
         @endphp
 
-        @if(in_array($userRole, ['admin', 'laboran']))
-            <li class="sidebar-item {{ $isManajemenActive ? 'active' : '' }}">
-                <a href="#" class="sidebar-link d-flex flex-grow collapsed" data-bs-toggle="collapse" data-bs-target="#manajemenDropdown">
+        @if (in_array($userRole, ['admin', 'laboran']))
+            <li class="sidebar-item pb-2 px-3 rounded-3 mt-2 {{ $isManajemenActive ? 'mybg-brown active' : 'mybg-brown200' }}">
+                <a href="#" class="sidebar-link d-flex flex-grow collapsed {{ $isManajemenActive ? 'text-light' : '' }}" data-bs-toggle="collapse"
+                    data-bs-target="#manajemenDropdown">
                     <i data-feather="command" class="sidebar-icon-link"></i>Manajemen
                     <i data-feather="chevron-right" class="dropdown-icon {{ $isManajemenActive ? 'active' : '' }}"></i>
                 </a>
 
-                <ul class="collapse list-unstyled dropdown-menu-vanilla {{ $isManajemenActive ? 'active' : '' }}" id="manajemenDropdown">
-                    @if($userRole === 'admin')
+                <ul class="collapse list-unstyled dropdown-menu-vanilla {{ $isManajemenActive ? 'active' : '' }}"
+                    id="manajemenDropdown">
+                    @if ($userRole === 'admin')
                         <li class="sidebar-item {{ Route::is('admin.pengguna') ? 'active' : '' }}">
-                            <a href="{{ route('admin.pengguna') }}" class="sidebar-link">Pengguna</a>
+                            <a href="{{ route('admin.pengguna') }}" class="sidebar-link {{ $isManajemenActive ? 'text-light' : '' }}">Pengguna</a>
                         </li>
                     @endif
                     <li class="sidebar-item {{ Route::is('laboran.laboratorium') ? 'active' : '' }}">
-                        <a href="{{ route('laboran.laboratorium') }}" class="sidebar-link">Laboratorium</a>
+                        <a href="{{ route('laboran.laboratorium') }}" class="sidebar-link {{ $isManajemenActive ? 'text-light' : '' }}">Laboratorium</a>
                     </li>
                     <li class="sidebar-item {{ Route::is('admin.barang') ? 'active' : '' }}">
-                        <a href="{{ route('admin.barang') }}" class="sidebar-link">Barang</a>
+                        <a href="{{ route('admin.barang') }}" class="sidebar-link {{ $isManajemenActive ? 'text-light' : '' }}">Barang</a>
                     </li>
                 </ul>
             </li>
         @endif
 
         @php
-            $isBookingActive = Route::is('proses-pengajuan*') || Route::is('booking*')  || Route::is('laboran.proses-pengajuan*'); 
+            $isBookingActive =
+                Route::is('proses-pengajuan*') || Route::is('booking*') || Route::is('laboran.proses-pengajuan*');
         @endphp
 
-        <li class="sidebar-item {{ $isBookingActive ? 'active' : '' }}">
-            <a href="#" class="sidebar-link d-flex flex-grow collapsed" data-bs-toggle="collapse" data-bs-target="#bookingDropdown">
+        <li class="sidebar-item pb-2 px-3 rounded-3 mt-2 {{ $isBookingActive ? 'mybg-brown active' : 'mybg-brown200' }}">
+            <a href="#" class="sidebar-link d-flex flex-grow collapsed {{ $isBookingActive ? 'text-light' : '' }}" data-bs-toggle="collapse"
+                data-bs-target="#bookingDropdown">
                 <i data-feather="calendar" class="sidebar-icon-link"></i>Booking
                 <i data-feather="chevron-right" class="dropdown-icon {{ $isBookingActive ? 'active' : '' }}"></i>
             </a>
 
-            <ul class="collapse list-unstyled dropdown-menu-vanilla {{ $isBookingActive ? 'active' : '' }}" id="bookingDropdown">
+            <ul class="collapse list-unstyled dropdown-menu-vanilla {{ $isBookingActive ? 'active' : '' }}"
+                id="bookingDropdown">
 
-                @if ($userRole !== "laboran")
+                @if ($userRole !== 'laboran')
                     {{-- <li class="sidebar-item {{ Route::is('pengajuan*') ? 'active' : '' }}">
                         <a href="{{ route('pengajuan') }}" class="sidebar-link">Pengajuan</a>
                     </li> --}}
 
                     <li class="sidebar-item {{ Route::is('booking*') ? 'active' : '' }}">
-                        <a href="{{ route('booking.index') }}" class="sidebar-link">Booking</a>
+                        <a href="{{ route('booking.index') }}" class="sidebar-link {{ $isBookingActive ? 'text-light' : '' }}">Booking</a>
                     </li>
                 @endif
 
 
-                @if ($userRole == "laboran" || $userRole == "admin")
+                @if ($userRole == 'laboran' || $userRole == 'admin')
                     <li class="sidebar-item {{ Route::is('proses-pengajuan*') ? 'active' : '' }}">
-                        <a href="{{ route('proses-pengajuan.index') }}" class="sidebar-link">Proses Pengajuan</a>
+                        <a href="{{ route('proses-pengajuan.index') }}" class="sidebar-link {{ $isBookingActive ? 'text-light' : '' }}">Proses Pengajuan</a>
                     </li>
                 @endif
             </ul>
