@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- CSS and JS -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'public/css/mystyle.css'])
 
     <!-- Feather Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
@@ -16,18 +16,18 @@
     <title>@yield('title', 'Penjadwalan Lab')</title>
 
 </head>
-<body class="pt-4 bg-body-tertiary">
+<body class="bg-light">
 
     {{-- Header atau Navbar --}}
     @include('layouts.header')
 
-    <div class="wrapper d-flex bg-body-tertiary vh-100">
+    <div class="wrapper d-flex">
 
         {{-- Sidebar --}}
         @include('layouts.sidebar')
 
         {{-- Content --}}
-        <div class="content flex-grow pt-3">
+        <div class="content flex-grow">
 
             <div class="hidden-container">
                 <!-- Search Box Disini Biar Lebarnya Sesuai Dengan Content -->

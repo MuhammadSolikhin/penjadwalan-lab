@@ -1,9 +1,11 @@
-<div class="sidebar shadow py-5 px-4" id="sidebar">
-    <div class="brand-logo gap-2 d-flex justify-content-center py-1">
-        <i data-feather="activity" id="brandIcon"></i>
-        <span>Penjadwalan Lab</span>
+<div class="sidebar mybg-brown100 shadow py-5 px-4 mt-4" id="sidebar">
+    <div class="brand-logo gap-2 d-flex align-items-center py-1 my-2">
+        <img src="{{ asset('images/unpam-logo.png') }}" width="35px" alt="" srcset="">
+        <span class="mytext-brown"><b>Penjadwalan Lab</b></span>
     </div>
-    <hr>
+
+
+    <div class="m-4"></div>
 
     <ul class="menu-container list-unstyled">
 

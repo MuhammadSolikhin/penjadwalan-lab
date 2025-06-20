@@ -4,8 +4,11 @@ namespace App\Http\Requests\Laboran\LaboratoriumUnpam;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+<<<<<<< HEAD
+=======
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+>>>>>>> 4107aac2a9b972583670c9a86514222ee0cb2599
 
 class LaboratoriumUnpamStoreRequest extends FormRequest
 {
@@ -25,6 +28,20 @@ class LaboratoriumUnpamStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+<<<<<<< HEAD
+            'name' => [
+                'required',
+                'string',
+                'max:15',
+                Rule::unique('laboratorium_unpams')->where(function ($query) {
+                    return $query->where('lokasi_id', request()->lokasi);
+                })
+            ],
+            'jenislab_id' => 'required|string|exists:jenislabs,id',
+            'lokasi_id' => 'required|string|exists:lokasis,id',
+            'kapasitas' => 'required|integer',
+            'status' => 'required|string|in:tersedia,tidak tersedia'
+=======
             'nama_laboratorium_store' => [
                 'required',
                 'string',
@@ -38,12 +55,36 @@ class LaboratoriumUnpamStoreRequest extends FormRequest
             'kapasitas_laboratorium_store' => 'required|integer',
             'status_laboratorium_store' => 'required|string|in:tersedia,tidak tersedia',
             'deskripsi_laboratorium_store' => 'nullable|string|max:50'
+>>>>>>> 4107aac2a9b972583670c9a86514222ee0cb2599
         ];
     }
 
     public function messages(): array
     {
         return [
+<<<<<<< HEAD
+            'name.required' => 'Nama laboratorium wajib diisi.',
+            'name.string' => 'Nama laboratorium harus berupa teks.',
+            'name.max' => 'Nama laboratorium tidak boleh lebih dari 15 karakter.',
+            'name.unique' => 'Nama laboratorium sudah ada di lokasi yang dipilih.',
+
+            'jenislab_id.required' => 'Jenis lab wajib dipilih.',
+            'jenislab_id.string' => 'Jenis lab harus berupa teks.',
+            'jenislab_id.exists' => 'Jenis lab yang dipilih tidak valid.',
+
+            'lokasi_id.required' => 'Lokasi laboratorium wajib diisi.',
+            'lokasi_id.string' => 'Lokasi harus berupa teks.',
+            'lokasi_id.exists' => 'Lokasi yang dipilih tidak valid.',
+
+            'kapasitas.required' => 'Kapasitas laboratorium wajib diisi.',
+            'kapasitas.integer' => 'Kapasitas harus berupa angka.',
+
+            'status.required' => 'Status laboratorium wajib diisi.',
+            'status.string' => 'Status harus berupa teks.',
+            'status.in' => 'Status yang dipilih tidak valid. Pilih antara: tersedia atau tidak tersedia.',
+        ];
+    }
+=======
             'nama_laboratorium_store.required' => 'Nama laboratorium wajib diisi.',
             'nama_laboratorium_store.string' => 'Nama laboratorium harus berupa teks.',
             'nama_laboratorium_store.max' => 'Nama laboratorium tidak boleh lebih dari 15 karakter.',
@@ -81,4 +122,5 @@ class LaboratoriumUnpamStoreRequest extends FormRequest
                 ->with('form', 'createLaboratorium') // modal identifier
         );
     }
+>>>>>>> 4107aac2a9b972583670c9a86514222ee0cb2599
 }
