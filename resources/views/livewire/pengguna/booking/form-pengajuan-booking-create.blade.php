@@ -37,20 +37,10 @@
                                 </div>
                             @endif
 
-                            <div class="mb-3" x-data x-init="initFuncInput.initLokasiSelect2($el.querySelector('select'), $wire)" wire:key="lokasi-select" wire:ignore>
-                                <label for="lokasiId" class="form-label">Lokasi</label>
-                                <select id="lokasiId" class="form-select">
-                                    <option value="">Pilih Lokasi...</option>
-                                    @foreach ($lokasis as $lok)
-                                        <option value="{{ $lok->id }}">{{ $lok->nama_lokasi }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
                             @if(!empty($laboratoriumList))
                                 <div class="mb-3" x-data x-init="initFuncInput.initLaboratoriumSelect2($el.querySelector('select'), $wire)" wire:key="laboratorium-list-{{ md5(json_encode($laboratoriumList)) }}" wire:ignore>
                                     <label for="laboratoriumId" class="form-label">Laboratorium</label>
-                                    <select id="laboratoriumid" class="form-select" multiple>
+                                    <select id="laboratoriumid" class="form-select select2-fit" multiple style="width: 100%">
                                         @foreach ($laboratoriumList as $lab)
                                             <option value="{{ $lab->id }}">{{ $lab->nama_laboratorium }}</option>
                                         @endforeach

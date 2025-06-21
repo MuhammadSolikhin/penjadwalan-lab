@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Pengajuan')
+@vite(['resources/css/form-pengajuan.css'])
 @vite(['resources/js/pengguna/booking/form-pengajuan-booking.js'])
 @vite(['resources/js/pengguna/booking/calendar.js'])
 

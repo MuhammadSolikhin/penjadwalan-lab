@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 return data.map(event => {
                     const role = event.extendedProps?.jadwal?.[0]?.role || '';
+                    if (event.color === '#9ca3af') return event;
                     return {
                         ...event,
                         color: role === 'prodi' ? '#22c55e' : '#fde047'

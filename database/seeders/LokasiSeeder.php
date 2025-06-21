@@ -24,6 +24,11 @@ class LokasiSeeder extends Seeder
         ]);
 
         Lokasi::create([
+            'nama_lokasi' => 'Witana',
+            'deskripsi_lokasi' => 'untuk pengguna peran laboran'
+        ]);
+
+        Lokasi::create([
             'nama_lokasi' => 'Viktor',
             'deskripsi_lokasi' => 'untuk pengguna peran laboran'
         ]);

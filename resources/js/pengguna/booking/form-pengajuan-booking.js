@@ -74,8 +74,16 @@ function initLaboratoriumSelect2(laboratorium, livewire) {
     $select.select2({
         theme: "bootstrap-5",
         dropdownParent: $select.parent(),
-        placeholder: "Pilih Laboratorium"
+        placeholder: "Pilih Laboratorium",
+        width: 'style',
     });
+
+     setTimeout(() => {
+        const container = $select.data('select2')?.$container;
+        if (container) {
+            container.addClass('select2-fit'); // ⬅️ penting!
+        }
+    }, 0);
 
     $select.val(selectedIds).trigger('change');
 

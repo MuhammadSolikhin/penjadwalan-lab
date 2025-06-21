@@ -181,6 +181,10 @@ class FormPengajuanBookingCreate extends Component
     {
         $this->resetValidation();
         $this->resetForm();
+
+        $this->lokasiId = auth()->user()->lokasi_id;
+        $this->onLokasiChanged($this->lokasiId);
+
         $this->showModal = true;
     }
 
@@ -256,7 +260,9 @@ class FormPengajuanBookingCreate extends Component
     protected function onLokasiChanged($value)
     {
         if ($value) {
-            $this->laboratoriumList = LaboratoriumUnpam::where('lokasi_id', $value)->get();
+            $this->laboratoriumList = LaboratoriumUnpam::where('lokasi_id', $value)
+                ->where('unit_id', auth()->user()->unit_id)
+                ->get();
             $this->hariOperasionalList = $this->loadHariOperasionalByLokasi($value);
         } else {
             $this->laboratoriumList = [];
@@ -272,6 +278,7 @@ class FormPengajuanBookingCreate extends Component
         $this->dispatch('initFlatpickrWithHariAktif', ['hariAktif' => $this->hariAktif]);
         $this->dispatch('resetTanggalRangeFlatpickr');
     }
+
 
     protected function onModeTanggalChanged()
     {
@@ -354,7 +361,6 @@ class FormPengajuanBookingCreate extends Component
     public function validatePengajuanBooking()
     {
         $rules = [
-            'lokasiId' => 'required|exists:lokasis,id',
             'laboratoriumIds' => 'required|array|min:1',
             'laboratoriumIds.*' => 'exists:laboratorium_unpams,id',
             'modeTanggal' => 'required|in:multi,range',
@@ -590,7 +596,7 @@ class FormPengajuanBookingCreate extends Component
                 'status_pengajuan_booking' => 'menunggu',
                 'keperluan_pengajuan_booking' => $this->keperluanBooking,
                 'mode_tanggal_pengajuan' => $this->modeTanggal,
-                'lokasi_id' => $this->lokasiId,
+                'lokasi_id' => auth()->user()->lokasi_id,
                 'user_id' => auth()->id(),
             ]);
 
@@ -637,13 +643,10 @@ class FormPengajuanBookingCreate extends Component
 
     public function render()
     {
-        $lokasis = Lokasi::select(['id', 'nama_lokasi'])->whereNot('nama_lokasi', 'fleksible')->get();
         $listJam = $this->lokasiId ? $this->getListJamByLokasi() : [];
         return view('livewire.pengguna.booking.form-pengajuan-booking-create', [
-            'lokasis' => $lokasis,
             'listJam' => $listJam,
             'tanggalAktif' => $this->tanggalAktif,
-
         ]);
     }
 }

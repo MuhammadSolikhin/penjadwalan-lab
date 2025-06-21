@@ -21,72 +21,126 @@ class UserSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
             'lokasi_id' => 1,
+            'unit_id' => 1,
             'role_id' => 1,
         ]);
 
-
         User::create([
-            'nama_pengguna' => 'Dosen Prodi 1',
+            'nama_pengguna' => 'Prodi Pusat',
             'email' => 'dosen1@example.com',
             'password' => Hash::make('password'),
-            'lokasi_id' => 1,
+            'lokasi_id' => 2,
+            'unit_id' => 4,
             'role_id' => 4,
         ]);
 
         User::create([
-            'nama_pengguna' => 'Dosen Prodi 2',
+            'nama_pengguna' => 'Prodi Witana',
             'email' => 'dosen2@example.com',
             'password' => Hash::make('password'),
-            'lokasi_id' => 1,
+            'lokasi_id' => 3,
+            'unit_id' => 5,
             'role_id' => 4,
         ]);
 
         User::create([
-            'nama_pengguna' => 'Dosen Prodi 3',
+            'nama_pengguna' => 'Prodi Viktor',
             'email' => 'dosen3@example.com',
             'password' => Hash::make('password'),
-            'lokasi_id' => 1,
+            'lokasi_id' => 4,
+            'unit_id' => 3,
             'role_id' => 4,
-        ]); 
-
-        User::create([
-            'nama_pengguna' => 'Mahasiswa',
-            'email' => 'mahasiswa@example.com',
-            'password' => Hash::make('password'),
-            'lokasi_id' => 1,
-            'role_id' => 5,
         ]);
 
         User::create([
-            'nama_pengguna' => 'Laboran',
-            'email' => 'laboran@example.com',
+            'nama_pengguna' => 'Prodi Serang',
+            'email' => 'dosen4@example.com',
+            'password' => Hash::make('password'),
+            'lokasi_id' => 5,
+            'unit_id' => 4,
+            'role_id' => 4,
+        ]);
+
+        User::create([
+            'nama_pengguna' => 'Validator Unpam Pusat',
+            'email' => 'validatorpusat@example.com',
             'password' => Hash::make('password'),
             'lokasi_id' => 2,
+            'unit_id' => 1,
             'role_id' => 2,
         ]);
 
         User::create([
-            'nama_pengguna' => 'Laboran 2',
-            'email' => 'laboran2@example.com',
+            'nama_pengguna' => 'Validator Unpam Witana',
+            'email' => 'validatorwitana@example.com',
             'password' => Hash::make('password'),
             'lokasi_id' => 3,
+            'unit_id' => 1,
             'role_id' => 2,
         ]);
 
         User::create([
-            'nama_pengguna' => 'Laboran 3',
-            'email' => 'laboran3@example.com',
+            'nama_pengguna' => 'Validator Unpam Viktor',
+            'email' => 'validatorviktor@example.com',
             'password' => Hash::make('password'),
             'lokasi_id' => 4,
+            'unit_id' => 1,
             'role_id' => 2,
         ]);
 
         User::create([
-            'nama_pengguna' => 'Lembaga',
-            'email' => 'lembaga@example.com',
+            'nama_pengguna' => 'Validator Unpam Serang',
+            'email' => 'validatorserang@example.com',
             'password' => Hash::make('password'),
-            'lokasi_id' => 1,
+            'lokasi_id' => 5,
+            'unit_id' => 1,
+            'role_id' => 2,
+        ]);
+
+        User::create([
+            'nama_pengguna' => 'Lembaga Unpam Pusat',
+            'email' => 'lembagapusat@example.com',
+            'password' => Hash::make('password'),
+            'lokasi_id' => 2,
+            'unit_id' => 2,
             'role_id' => 3,
         ]);
+
+        User::create([
+            'nama_pengguna' => 'Lembaga Unpam Witana',
+            'email' => 'lembagawitana@example.com',
+            'password' => Hash::make('password'),
+            'lokasi_id' => 3,
+            'unit_id' => 2,
+            'role_id' => 3,
+        ]);
+
+        User::create([
+            'nama_pengguna' => 'Lembaga Unpam Viktor',
+            'email' => 'lembagaviktor@example.com',
+            'password' => Hash::make('password'),
+            'lokasi_id' => 4,
+            'unit_id' => 1,
+            'role_id' => 3,
+        ]);
+
+        User::create([
+            'nama_pengguna' => 'Lembaga Unpam Serang',
+            'email' => 'lembagaserang@example.com',
+            'password' => Hash::make('password'),
+            'lokasi_id' => 5,
+            'unit_id' => 1,
+            'role_id' => 3,
+        ]);
+
+         User::create([
+            'nama_pengguna' => 'Lembaga LSP',
+            'email' => 'lsp@example.com',
+            'password' => Hash::make('password'),
+            'lokasi_id' => 4,
+            'unit_id' => 1,
+            'role_id' => 3,
+        ]);
+
     }
 }

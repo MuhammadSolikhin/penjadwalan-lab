@@ -30,8 +30,9 @@ class BookingController extends Controller
 
             $role = $user->role->nama_peran;
 
-            $query = PengajuanBooking::with(['jadwalBookings', 'user.role', 'jadwalBookings.pengajuanBooking.user.role'])->whereIn('status_pengajuan_booking', ['diterima', 'menunggu']);
-            ;
+            $query = PengajuanBooking::with(['jadwalBookings', 'user.role', 'jadwalBookings.pengajuanBooking.user.role']);
+            $query->whereIn('status_pengajuan_booking', ['diterima', 'menunggu']);
+            
 
 
             if ($role === 'lembaga') {
@@ -43,6 +44,8 @@ class BookingController extends Controller
                     $q->where('prioritas_peran', '>=', 3);
                 });
             }
+
+            $query->where('lokasi_id',auth()->user()->lokasi_id);
             $pengajuanList = $query->get();
 
             $events = $pengajuanList->map(function ($pengajuan) {
@@ -51,14 +54,18 @@ class BookingController extends Controller
 
                 $start = $pengajuan->jadwalBookings->min('tanggal_jadwal');
                 $end = Carbon::parse($pengajuan->jadwalBookings->max('tanggal_jadwal'))->addDay(); // end is exclusive
-
+                $color = match ($pengajuan->status_pengajuan_booking) {
+                    'menunggu' => '#9ca3af',
+                    'disetujui' => '#f87171', 
+                    default => '#f87171',
+                };
                 return [
                     'id' => $pengajuan->id,
-                    'title' => $pengajuan->user->nama_pengguna . ' - ' . $pengajuan->keperluan_pengajuan_booking,
+                    'title' => $pengajuan->user->nama_pengguna . ' - ' . $pengajuan->keperluan_pengajuan_booking . ' - ' . $pengajuan->status_pengajuan_booking,
                     'start' => $start,
                     'end' => $end,
                     'allDay' => true,
-                    'color' => '#f87171',
+                    'color' => $color,
                     'extendedProps' => [
                         'jadwal' => $pengajuan->jadwalBookings->map(function ($jadwal) {
                             return [
@@ -80,7 +87,5 @@ class BookingController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
-
 
 }

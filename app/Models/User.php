@@ -25,7 +25,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
-        'lokasi_id'
+        'lokasi_id',
+        'unit_id'
     ];
 
     public function role()
@@ -81,5 +82,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
     }
 }
