@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             [
                 LokasiSeeder::class,
                 RolesSeeder::class,
+                UnitSeeder::class,
                 UserSeeder::class,
                 JenisLabSeeder::class,
                 LaboratoriumUnpamSeeder::class,

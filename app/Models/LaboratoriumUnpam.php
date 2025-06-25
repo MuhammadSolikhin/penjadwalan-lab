@@ -13,6 +13,7 @@ class LaboratoriumUnpam extends Model
     protected $fillable = [
         'nama_laboratorium',
         'lokasi_id',
+        'unit_id',
         'kapasitas_laboratorium',
         'status_laboratorium',
         'jenislab_id',
@@ -35,5 +36,10 @@ class LaboratoriumUnpam extends Model
     public function jadwalBookings()
     {
         return $this->hasMany(JadwalBooking::class);
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
     }
 }

@@ -8,6 +8,7 @@ use Spatie\Sluggable\SlugOptions;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Role;
 
 class User extends Authenticatable
 {
@@ -24,12 +25,13 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
-        'lokasi_id'
+        'lokasi_id',
+        'unit_id'
     ];
 
     public function role()
     {
-        return $this->belongsTo(roles::class, 'role_id');
+        return $this->belongsTo(Roles::class, 'role_id');
     }
 
     public function hasRole($roleName)
@@ -80,5 +82,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
     }
 }

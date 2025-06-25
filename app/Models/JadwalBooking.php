@@ -29,4 +29,17 @@ class JadwalBooking extends Model
     {
         return $this->hasMany(PembatalanJadwal::class);
     }
+
+    public function user()
+    {
+        return $this->hasOneThrough(
+            User::class,
+            PengajuanBooking::class,
+            'id',           // foreign key di PengajuanBooking
+            'id',           // foreign key di User
+            'pengajuan_booking_id', // local key di JadwalBooking
+            'user_id'       // local key di PengajuanBooking
+        );
+    }
+
 }

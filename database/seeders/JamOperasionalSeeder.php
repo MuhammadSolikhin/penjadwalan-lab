@@ -15,43 +15,48 @@ class JamOperasionalSeeder extends Seeder
      */
     public function run(): void
     {
-        $hariJamMap = [
-            1 => ['08:00:00', '17:00:00'], // Senin
-            2 => ['08:00:00', '17:00:00'], // Selasa
-            3 => ['08:00:00', '17:00:00'], // Rabu
-            4 => ['08:00:00', '17:00:00'], // Kamis
-            5 => ['08:00:00', '17:00:00'], // Jumat
-            6 => ['08:00:00', '12:00:00'], // Sabtu
-            0 => ['08:00:00', '09:00:00'], // Minggu
+        $jamKuliah = [
+            // Senin, Selasa, Rabu, Jumat
+            'default' => [
+                ['07:10:00', '08:50:00'],
+                ['08:50:00', '10:30:00'],
+                ['10:30:00', '12:10:00'],
+                ['13:00:00', '14:40:00'],
+                ['14:40:00', '16:20:00'],
+                ['18:20:00', '20:00:00'],
+                ['20:00:00', '21:40:00'],
+            ],
+            // Kamis & Sabtu
+            'khusus' => [
+                ['07:40:00', '09:20:00'],
+                ['09:20:00', '11:00:00'],
+                ['11:00:00', '13:50:00'],
+                ['13:50:00', '15:30:00'],
+                ['16:00:00', '17:40:00'],
+            ],
         ];
 
         $hariOperasionals = HariOperasional::all();
 
         foreach ($hariOperasionals as $hari) {
-            $namaHari = strtolower($hari->hari_operasional);
+            $dayNumber = (int) $hari->hari_operasional;
 
-            if (!isset($hariJamMap[$namaHari])) {
-                continue; // Lewati kalau tidak ada jam operasional (contoh: Minggu)
+            // Tentukan jenis jadwal
+            if (in_array($dayNumber, [4, 6])) { // 4 = Kamis, 6 = Sabtu
+                $jamList = $jamKuliah['khusus'];
+            } elseif (in_array($dayNumber, [1, 2, 3, 5])) { // Senin, Selasa, Rabu, Jumat
+                $jamList = $jamKuliah['default'];
+            } else {
+                continue; // Minggu atau tidak terdaftar
             }
 
-            [$startTime, $endTime] = $hariJamMap[$namaHari];
-            $start = Carbon::createFromFormat('H:i:s', $startTime);
-            $end = Carbon::createFromFormat('H:i:s', $endTime);
-
-            // Loop untuk membuat jam operasional per jam
-            while ($start->lt($end)) {
-                // Format jam mulai dan jam selesai untuk masing-masing jam
-                $jamSelesai = $start->copy()->addMinute(59)->addSecond(59);
-
+            foreach ($jamList as [$mulai, $selesai]) {
                 JamOperasional::create([
                     'hari_operasional_id' => $hari->id,
-                    'jam_mulai' => $start->format('H:i:s'),
-                    'jam_selesai' => $jamSelesai->format('H:i:s'),
+                    'jam_mulai' => $mulai,
+                    'jam_selesai' => $selesai,
                     'is_disabled' => false,
                 ]);
-
-                // Tambahkan satu jam ke waktu mulai
-                $start->addHour();
             }
         }
     }

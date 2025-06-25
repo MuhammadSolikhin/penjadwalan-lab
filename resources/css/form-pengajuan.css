@@ -13,3 +13,17 @@
     opacity: 1;
     transition: all 0.3s ease;
 }
+
+/* Select2 container mengikuti lebar parent */
+.select2-container.select2-fit {
+    width: 100% !important;
+}
+
+.select2-selection__choice {
+    max-width: max-content !important;
+    white-space: nowrap;
+}
+
+
+
+
