@@ -97,7 +97,7 @@
                     <!-- Spacer -->
                     <div style="height: 50px;"></div>
 
-                    <button class="mybutton text-light" type="submit" value="Login">Daftar</button>
+                    <button class="mybtn mybtn-primary w-100 p-3" type="submit" value="Login">Daftar</button>
 
                 </form>
                 <p class="text-center mt-3">Sudah punya akun? <a class="text-light text-decoration-none" href="/login"><b>Login</b></a>

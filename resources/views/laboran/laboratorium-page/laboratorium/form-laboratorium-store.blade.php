@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
 
-        <div class="modal-header bg-primary text-white">
+        <div class="modal-header mybg-brown text-white">
           <h5 class="modal-title d-flex align-items-center flex-wrap" id="modalTambahLabel">
             <i data-feather="plus-square" class="me-2"></i>Tambah Laboratorium
           </h5>
@@ -130,7 +130,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="submit" class="mybtn mybtn-secondary p-2">Simpan</button>
             </div>
         </form>
 

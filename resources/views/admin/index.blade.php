@@ -3,7 +3,6 @@
 @section('title', 'Dashboard Admin')
 
 @section('content')
-    <div class="my-5 mx-2">
         <p class="fw-bold fs-3">Selamat Datang, Admin</p>
         <p class="fs-6 mb-4">Ringkasan aktifitas penggunaan laboratorium komputer Universitas Pamulang</p>
 
@@ -165,7 +164,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
 

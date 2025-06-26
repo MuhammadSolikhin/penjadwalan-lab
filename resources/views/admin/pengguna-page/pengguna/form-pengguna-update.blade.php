@@ -2,9 +2,9 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
-        <div class="modal-header bg-primary text-white">
+        <div class="modal-header bg-warning">
             <h5 class="modal-title d-flex align-items-center flex-wrap" id="modalEditPenggunaLabel">
-                <i data-feather="plus-square" class="me-2"></i>Ubah Pengguna
+                <i data-feather="plus-square" class="me-2"></i>Ubah Data Pengguna
             </h5>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
         </div>
@@ -149,7 +149,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="submit" class="btn btn-warning">Simpan Perubahan</button>
             </div>
         </form>
 

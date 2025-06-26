@@ -164,10 +164,10 @@ class UsersController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.pengguna')->with('success', 'Pengguna Berhasil di-hapus');
+            return redirect()->route('admin.pengguna')->with('success', 'Pengguna Berhasil dihapus');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('admin.pengguna')->with('error', 'Pengguan Gagal di-hapus');
+            return redirect()->route('admin.pengguna')->with('error', 'Pengguan Gagal dihapus');
         }
     }
 

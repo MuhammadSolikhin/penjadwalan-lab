@@ -121,10 +121,10 @@ class JenisLabController extends Controller
             $lab->delete(); // ini akan soft delete
 
             DB::commit();
-            return redirect()->route('laboran.laboratorium')->with('success', 'Jenis Lab Berhasil di-hapus');
+            return redirect()->route('laboran.laboratorium')->with('success', 'Jenis Lab Berhasil dihapus');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('laboran.laboratorium')->with('error', 'Jenis Lab Gagal di-hapus');
+            return redirect()->route('laboran.laboratorium')->with('error', 'Jenis Lab Gagal dihapus');
         }
     }
 }
