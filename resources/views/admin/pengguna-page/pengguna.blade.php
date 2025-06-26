@@ -20,9 +20,9 @@
 @include('admin.pengguna-page.lokasi.form-lokasi-update')
 @include('admin.pengguna-page.lokasi.form-lokasi-soft-delete')
 
-    <div class="col-12 p-3 py-4">
-        <h2>{{ $page_meta['page'] }}</h2>
-        <span>{{ $page_meta['description'] }}</span>
+    <div>
+        <h2 class="fw-bold fs-3">Manajemen Pengguna</h2>
+        <span>Halaman untuk mengelola data pengguna</span>
         <hr>
         <div id="table-container">
             @include('admin.pengguna-page.navigasi-pengguna')

@@ -15,9 +15,9 @@
     @include('laboran.laboratorium-page.jenis-lab.form-jenis-lab-update')
     @include('laboran.laboratorium-page.jenis-lab.form-jenis-lab-soft-delete')
 
-    <div class="col-12 px-3 py-4">
-        <h2>{{ $page_meta['page'] }}</h2>
-        <span>{{ $page_meta['description'] }}</span>
+    <div class="col-12">
+        <h2 class="fw-bold">Manajemen Laboratorium</h2>
+        <span>Halaman untuk mengelola data laboratorium yang dimiliki oleh Universitas Pamulang</span>
         <hr>
 
         <div id="table-container">

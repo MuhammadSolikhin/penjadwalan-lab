@@ -1,6 +1,6 @@
 <nav>
     <div class="nav nav-tabs border-0" id="nav-tab" role="tablist">
-        <button class="nav-link active border-0 col-12 col-md-auto"
+        <button class="mynav-link active border-0 col-12 col-md-auto rounded-top-2 p-2"
             id="nav-laboratorium-tab"
             data-bs-toggle="tab"
             data-bs-target="#nav-laboratorium"
@@ -10,7 +10,7 @@
             aria-selected="true">
             Laboratorium
         </button>
-        <button class="nav-link border-0 col-12 col-md-auto"
+        <button class="mynav-link border-0 col-12 col-md-auto rounded-top-2 p-2"
             id="nav-jenis-laboratorium-tab"
             data-bs-toggle="tab"
             data-bs-target="#nav-jenis-laboratorium"

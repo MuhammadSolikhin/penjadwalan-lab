@@ -1,25 +1,19 @@
 <div class="col-12 p-2">
     <div class="alert alert-warning align-items-start" role="alert">
         <span><b>Perhatian!</b></span><br>
-        <span>Lokasi membatasi agar Laboran hanya memproses pengajuan booking laboratorium sesuai lokasi tugasnya.</span>
-    </div>
-</div>
-
-
-<div class="col-12 p-2 d-flex flex-wrap align-items-center justify-content-between">
-    <div class="col-12 col-md-auto mb-2 bg-info rounded p-2 text-center text-white">
-        <span><b>Daftar Lokasi</b></span>
-    </div>
-    <div class="col-12 col-md-auto mb-2 text-end">
-        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#formLokasiStore">
-            <i data-feather="plus"></i>
-        </button>
+        <span>Pengguna hanya dapat mengajukan ruang laboratorium sesuai dengan lokasinya</span>
     </div>
 </div>
 
 <div class="col-12 p-2 d-flex flex-wrap align-items-center justify-content-between">
-    <div id="searchLokasi" class="col-12 col-md-auto mb-2"></div>
-    <div id="sortingLokasi" class="col-12 col-md-auto mb-2"></div>
+    <div class="d-flex">
+        <div id="searchLokasi" class="col-12 col-md-auto mb-2 me-2"></div>
+        <div id="sortingLokasi" class="col-12 col-md-auto mb-2"></div>
+    </div>
+
+    <button class="mybtn mybtn-primary p-2" data-bs-toggle="modal" data-bs-target="#formLokasiStore">
+        <i data-feather="plus"></i>
+    </button>
 </div>
 
 <div class="table-responsive px-2" id="tableLokasiContainer">
@@ -29,5 +23,6 @@
 
 <div class="col-12 p-2 d-flex flex-wrap align-items-center text-center justify-content-between">
     <div id="infoLokasi" class="col-12 col-md-auto mb-3 mb-md-0"></div>
-    <div id="pagingLokasi" class="col-12 col-md-auto mb-3 mb-md-0 d-flex justify-content-center justify-content-md-auto"></div>
+    <div id="pagingLokasi"
+        class="col-12 col-md-auto mb-3 mb-md-0 d-flex justify-content-center justify-content-md-auto"></div>
 </div>

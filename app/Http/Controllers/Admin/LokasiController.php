@@ -122,10 +122,10 @@ class LokasiController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.pengguna')->with('success', 'Lokasi Berhasil di-hapus');
+            return redirect()->route('admin.pengguna')->with('success', 'Lokasi Berhasil dihapus');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('admin.pengguna')->with('error', 'Lokasi Gagal di-hapus');
+            return redirect()->route('admin.pengguna')->with('error', 'Lokasi Gagal dihapus');
         }
     }
 }

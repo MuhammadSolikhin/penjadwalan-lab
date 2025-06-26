@@ -6,6 +6,7 @@
 
     <!-- CSS and JS -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'public/css/mystyle.css'])
+    <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
 
     <!-- Feather Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
@@ -38,7 +39,9 @@
             {{-- Error Toast --}}
             <x-validation></x-validation>
 
-            @yield('content')
+            <div class="my-5 p-3 mx-2">
+                @yield('content')
+            </div>
         </div>
 
     </div>

@@ -4,7 +4,7 @@
 
 <div>
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" wire:click="$dispatchSelf('openModalCreate')">
+    <button type="button" class="mybtn mybtn-primary p-2" wire:click="$dispatchSelf('openModalCreate')">
         Buat Pengajuan
     </button>
 

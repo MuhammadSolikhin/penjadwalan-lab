@@ -44,7 +44,7 @@ body {
 }
 
 .mybg-dark30 {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.8);
     color: white;
 }
 
@@ -128,7 +128,7 @@ body {
 }
 /* Welcome Page End */
 
-/* Login Page Style */
+/* Component Style */
 .bg-fullscreen{
     background-image: url("../images/lab-mobile.jpg");
     background-position: center;
@@ -145,13 +145,35 @@ body {
     color: white;
 }
 
-.mybutton{
-    background-color: #A67B5B;
+.mybtn{
     border-radius: 10px;
-    border: none;
-    padding: 20px;
-    color: black;
     font-weight: 500;
-    width: 100%;
+    border: 0px;
 }
-/* Login Page End */
+
+.mybtn-primary{
+    background-color: #A67B5B;
+    color: white;
+}
+
+.mybtn-secondary{
+    background-color: #FFDBB5;
+    color: black;
+}
+
+.mybtn:hover{
+    background-color: #584332;
+}
+
+.mynav-link{
+    text-decoration: none;
+    color: black;
+    background-color: transparent;
+}
+
+.mynav-link.active{
+    color: #603F26;
+    font-weight: 500;
+    background-color: white;
+}
+/* Component End */

@@ -4,9 +4,9 @@
 @vite(['resources/js/pengguna/booking/form-pengajuan-booking.js'])
 
 @section('content')
-    <div class="col-12 p-3 py-4">
-        <h2>{{ $page_meta['page'] }}</h2>
-        <span>{{ $page_meta['description'] }}</span>
+    <div class="col-12">
+        <h2>Reservasi</h2>
+        <span>Halaman untuk melakukan dan mengelola pengajuan yang ada</span>
         <hr>
 
         @livewire('pengguna.booking.form-pengajuan-booking-create')
