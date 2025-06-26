@@ -2,6 +2,7 @@ import flatpickr from "flatpickr";
 import { Indonesian } from "flatpickr/dist/l10n/id.js";
 import "flatpickr/dist/flatpickr.min.css";
 import "flatpickr/dist/themes/airbnb.css";
+import Swal from 'sweetalert2';
 
 flatpickr.localize(Indonesian);
 window.flatpickr = flatpickr;
@@ -21,6 +22,16 @@ window.initFuncInput = {
 Livewire.on('resetLokasiSelect', () => {
     const $select = $('#lokasiId');
     $select.val(null).trigger('change');
+});
+
+Livewire.on('bookingDisimpan', () => {
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: 'Pengajuan booking berhasil disimpan!',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+    });
 });
 
 Livewire.on('resetLaboratoriumSelect', () => {
@@ -78,7 +89,7 @@ function initLaboratoriumSelect2(laboratorium, livewire) {
         width: 'style',
     });
 
-     setTimeout(() => {
+    setTimeout(() => {
         const container = $select.data('select2')?.$container;
         if (container) {
             container.addClass('select2-fit'); // ⬅️ penting!
