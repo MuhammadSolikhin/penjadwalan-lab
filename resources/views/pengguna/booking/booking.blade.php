@@ -14,13 +14,13 @@
         {{-- Nav Tabs --}}
         <ul class="nav nav-tabs mb-3" id="pengajuanTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="table-tab" data-bs-toggle="tab" data-bs-target="#tablePane"
+                <button class="mynav-link active border-0 p-2 rounded-2" id="table-tab" data-bs-toggle="tab" data-bs-target="#tablePane"
                     type="button" role="tab">
                     Tabel Pengajuan
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="calendar-tab" data-bs-toggle="tab" data-bs-target="#calendarPane" type="button"
+                <button class="mynav-link border-0 p-2 rounded-2" id="calendar-tab" data-bs-toggle="tab" data-bs-target="#calendarPane" type="button"
                     role="tab">
                     Kalender
                 </button>

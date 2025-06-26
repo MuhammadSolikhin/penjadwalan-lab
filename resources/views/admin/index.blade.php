@@ -39,7 +39,7 @@
         </div>
 
         {{-- Usage History Chart --}}
-        <div class="bg-white rounded-3 m-4 p-4" style="position: relative; width:75vw">
+        <div class="bg-white rounded-3 m-4 p-5" style="position: relative; width:72vw">
             <h4 class="fw-bold text-center p-3">Jumlah Jadwal 6 Periode Terakhir</h4>
             <canvas id="uHistoryChart"></canvas>
         </div>
