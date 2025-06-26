@@ -107,4 +107,7 @@ Route::group(['middleware' => ['role:admin,lembaga,prodi,user']], function() {
 
     // Booking Page (Livewire)
     Route::resource('/booking', BookingController::class);
+    Route::get('/api/booking-events', [BookingController::class, 'getBookingEvents']);
+
 });
+
