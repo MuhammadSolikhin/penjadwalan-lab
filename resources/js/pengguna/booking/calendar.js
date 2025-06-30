@@ -19,7 +19,12 @@ let calendar;
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     let semuaBookingSlot = [];
-
+    function getSlotByHari(dateString) {
+        const day = new Date(dateString).getDay();
+        return (day === 4 || day === 6)
+            ? [['07:40:00', '09:20:00'], ['09:20:00', '11:00:00'], ['11:00:00', '13:50:00'], ['13:50:00', '15:30:00'], ['16:00:00', '17:40:00'], ['18:20:00', '20:00:00'], ['20:00:00', '21:40:00']]
+            : [['07:10:00', '08:50:00'], ['08:50:00', '10:30:00'], ['10:30:00', '12:10:00'], ['13:00:00', '14:40:00'], ['14:40:00', '16:20:00'], ['18:20:00', '20:00:00'], ['20:00:00', '21:40:00']];
+    }
     calendar = new Calendar(calendarEl, {
         plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
         initialView: 'dayGridMonth',
@@ -69,11 +74,42 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('calendar-loader').style.display = 'none';
             document.getElementById('calendar').style.display = 'block';
         },
+
         eventClick: function (info) {
-            const jadwal = info.event.extendedProps.jadwal || [];
-            const pemesan = info.event.extendedProps.pemesan || '-';
+            const extended = info.event.extendedProps;
+            const mode = extended.mode || 'multi';
+            const pemesan = extended.pemesan || '-';
             const keperluan = info.event.title;
 
+            let jadwal = [];
+
+            if (mode === 'range') {
+                // Buat daftar tanggal dari start hingga end
+                const start = new Date(info.event.start);
+                const end = new Date(info.event.end); // eksklusif
+                for (let d = new Date(start); d < end; d.setDate(d.getDate() + 1)) {
+                    const tanggal = d.toISOString().split('T')[0];
+                    const slotWaktu = getSlotByHari(tanggal);
+                    slotWaktu.forEach(([mulai, selesai]) => {
+                        jadwal.push({
+                            tanggal,
+                            mulai,
+                            selesai,
+                            lab: extended.lab || '-',
+                        });
+                    });
+                }
+            } else {
+                // mode multi/single
+                jadwal = [{
+                    tanggal: extended.tanggal,
+                    mulai: extended.mulai,
+                    selesai: extended.selesai,
+                    lab: extended.lab,
+                }];
+            }
+
+            // Grouped untuk build tabel
             const grouped = {};
             jadwal.forEach(j => {
                 if (!grouped[j.tanggal]) grouped[j.tanggal] = [];
@@ -83,13 +119,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     lab: j.lab
                 });
             });
-
-            function getSlotByHari(dateString) {
-                const day = new Date(dateString).getDay();
-                return (day === 4 || day === 6)
-                    ? [['07:40:00', '09:20:00'], ['09:20:00', '11:00:00'], ['11:00:00', '13:50:00'], ['13:50:00', '15:30:00'], ['16:00:00', '17:40:00'], ['18:20:00', '20:00:00'], ['20:00:00', '21:40:00']]
-                    : [['07:10:00', '08:50:00'], ['08:50:00', '10:30:00'], ['10:30:00', '12:10:00'], ['13:00:00', '14:40:00'], ['14:40:00', '16:20:00'], ['18:20:00', '20:00:00'], ['20:00:00', '21:40:00']];
-            }
 
             let tableHtml = `
         <strong>Keperluan:</strong> ${keperluan}<br>
@@ -111,11 +140,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 const slotWaktu = getSlotByHari(tanggal);
 
                 slotWaktu.forEach(([mulai, selesai]) => {
-                    const match = semuaBookingSlot.some(slot =>
+                    let match = semuaBookingSlot.some(slot =>
                         slot.tanggal === tanggal &&
                         slot.mulai === mulai &&
                         slot.selesai === selesai
                     );
+
+                    if (mode === 'range') {
+                        // Slot malam: jam >= 18:00
+                        const jamMulai = parseInt(mulai.split(':')[0], 10);
+                        if (jamMulai < 18) match = true;
+                    }
 
                     const slotData = (grouped[tanggal] || []).find(slot => slot.mulai === mulai && slot.selesai === selesai);
                     const lab = slotData?.lab ?? '-';
@@ -143,7 +178,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 confirmButtonText: 'Tutup',
             });
         },
-
         eventColor: '#f87171',
     });
 
