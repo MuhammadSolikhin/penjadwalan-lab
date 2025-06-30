@@ -6,12 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Register Page</title>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('AdminLte/plugins/fontawesome-free/css/all.min.css') }}">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{{ asset('AdminLte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('AdminLte/dist/css/adminlte.min.css') }}">
     {{-- Custom CSS --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.css">
     <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
