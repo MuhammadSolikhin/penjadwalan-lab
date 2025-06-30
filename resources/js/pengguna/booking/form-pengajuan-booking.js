@@ -61,6 +61,20 @@ Livewire.on('resetTanggalRangeFlatpickr', () => {
     }
 });
 
+Livewire.on('initJamSelect2', ({ tanggal }) => {
+    setTimeout(() => {
+        const el = document.querySelector(`#jam-${tanggal}`);
+        if (el) {
+            initFuncInput.initJamOperasionalSelect2(
+                el,
+                Livewire.find(el.closest('[wire\\:id]')),
+                tanggal
+            );
+        }
+    }, 100);
+});
+
+
 function initLokasiSelect2(lokasi, livewire) {
     const $select = $(lokasi); // lokasi => $el.querySelector
 

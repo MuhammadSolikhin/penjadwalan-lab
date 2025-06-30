@@ -202,11 +202,18 @@ class FormPengajuanBookingCreate extends Component
     public function updatedModeTanggal()
     {
         $this->onModeTanggalChanged();
+
+        if ($this->modeTanggal === 'multi') {
+            $this->modeJam = 'manual';
+        } elseif ($this->modeTanggal === 'range') {
+            $this->modeJam = 'full';
+        }
     }
 
     public function updatedTanggalMulti($value)
     {
         $this->onTanggalMultiChanged($value);
+        $this->modeJam = 'manual';
     }
 
     public function updatedTanggalRange($value)
@@ -413,26 +420,33 @@ class FormPengajuanBookingCreate extends Component
 
     protected function resolveSlotTanggal($tanggal, $jamTerpilih)
     {
+        \Log::debug("🕒 Jam Terpilih Tanggal $tanggal:", [
+            'modeJam' => $this->modeJam,
+            'jam' => $jamTerpilih[$tanggal] ?? null
+        ]);
+
         $hari = Carbon::parse($tanggal)->dayOfWeek;
 
-        if ($this->modeJam === 'full') {
-            return in_array($hari, [4, 6]) ? [
-                ['07:40:00', '09:20:00'],
-                ['09:20:00', '11:00:00'],
-                ['11:00:00', '13:50:00'],
-                ['13:50:00', '15:30:00'],
-                ['16:00:00', '17:40:00'],
-            ] : [
-                ['07:10:00', '08:50:00'],
-                ['08:50:00', '10:30:00'],
-                ['10:30:00', '12:10:00'],
-                ['13:00:00', '14:40:00'],
-                ['14:40:00', '16:20:00'],
-            ];
+        if ($this->modeJam === 'manual') {
+            return $jamTerpilih[$tanggal] ?? [];
         }
 
-        return $jamTerpilih[$tanggal] ?? [];
+        // mode full
+        return in_array($hari, [4, 6]) ? [
+            ['07:40:00', '09:20:00'],
+            ['09:20:00', '11:00:00'],
+            ['11:00:00', '13:50:00'],
+            ['13:50:00', '15:30:00'],
+            ['16:00:00', '17:40:00'],
+        ] : [
+            ['07:10:00', '08:50:00'],
+            ['08:50:00', '10:30:00'],
+            ['10:30:00', '12:10:00'],
+            ['13:00:00', '14:40:00'],
+            ['14:40:00', '16:20:00'],
+        ];
     }
+
 
     protected function formatJamToDb($jam)
     {
@@ -460,6 +474,12 @@ class FormPengajuanBookingCreate extends Component
                 $jamFinal = $jam;
             }
 
+            // Pastikan format benar
+            if (!str_contains($jamFinal, '-')) {
+                \Log::warning("⚠️ Jam tidak valid: '$jamFinal' pada tanggal $tanggal");
+                return [null, null];
+            }
+
             [$mulai, $selesai] = array_map('trim', explode('-', $jamFinal));
         } else {
             [$mulai, $selesai] = $jam;
@@ -470,6 +490,8 @@ class FormPengajuanBookingCreate extends Component
             $this->formatJamToDb($selesai),
         ];
     }
+
+
 
     protected function cekBentrok($labId, $tanggal, $mulai, $selesai, $lab, &$errors)
     {
@@ -503,6 +525,10 @@ class FormPengajuanBookingCreate extends Component
             $lab = LaboratoriumUnpam::find($labId);
 
             foreach ($tanggalList as $tanggal) {
+                if ($this->modeJam === 'manual' && empty($this->jamTerpilih[$tanggal])) {
+                    session()->flash('error', "Jam belum dipilih untuk tanggal $tanggal");
+                    return;
+                }
                 $slotTanggal = $this->resolveSlotTanggal($tanggal, $jamTerpilih);
 
                 if (empty($slotTanggal))
