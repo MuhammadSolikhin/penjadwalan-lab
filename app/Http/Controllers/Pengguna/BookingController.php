@@ -69,6 +69,12 @@ class BookingController extends Controller
                             'allDay' => true,
                             'color' => $color,
                             'extendedProps' => [
+                                'lab' => $pengajuan->jadwalBookings
+                                    ->pluck('laboratoriumUnpam.nama_laboratorium')
+                                    ->unique()
+                                    ->filter()
+                                    ->values()
+                                    ->all(),
                                 'tanggal' => $start,
                                 'mode' => 'range',
                                 'pemesan' => $pengajuan->user->nama_pengguna ?? 'Tidak diketahui',
@@ -100,9 +106,18 @@ class BookingController extends Controller
                             'role' => $pengajuan->user->role?->nama_peran ?? '-',
                             'pemesan' => $pengajuan->user->nama_pengguna ?? 'Tidak diketahui',
                             'mode' => 'multi',
+                            'jadwal' => $pengajuan->jadwalBookings->map(function ($j) {
+                                return [
+                                    'tanggal' => $j->tanggal_jadwal,
+                                    'mulai' => $j->jam_mulai,
+                                    'selesai' => $j->jam_selesai,
+                                    'lab' => $j->laboratoriumUnpam?->nama_laboratorium ?? '-',
+                                ];
+                            }),
                         ],
                     ];
                 });
+
             });
 
 

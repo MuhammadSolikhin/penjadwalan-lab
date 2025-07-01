@@ -98,7 +98,6 @@ class FormPengajuanBookingCreate extends Component
         }
     }
 
-
     protected function getListJamByLokasi()
     {
         $listJam = [];
@@ -163,7 +162,6 @@ class FormPengajuanBookingCreate extends Component
             }
         }
     }
-
 
     protected function loadHariOperasionalByLokasi($lokasiId)
     {
@@ -268,7 +266,6 @@ class FormPengajuanBookingCreate extends Component
     {
         if ($value) {
             $this->laboratoriumList = LaboratoriumUnpam::where('lokasi_id', $value)
-                ->where('unit_id', auth()->user()->unit_id)
                 ->get();
             $this->hariOperasionalList = $this->loadHariOperasionalByLokasi($value);
         } else {
