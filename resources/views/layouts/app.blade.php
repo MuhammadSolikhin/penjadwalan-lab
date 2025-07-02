@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
 
     <!-- Feather Icons -->
-    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="{{ asset('js/feather.js') }}"></script>
 
     {{-- Logo Unpam Buat Favicon --}}
     <link rel="icon" href="{{ asset('images/unpam-logo.png') }}" type="image">
@@ -46,7 +46,7 @@
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('js/sweetalert2.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             feather.replace();

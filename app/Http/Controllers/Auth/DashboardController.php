@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function admin(){
+        $usersCount = User::all()->count();
         return view("admin.index", [
-            'page_meta' => [
-                'page' => 'Dashboard'
-            ]
+            'usersCount' => $usersCount
         ]);
     }
 

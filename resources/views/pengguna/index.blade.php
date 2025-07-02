@@ -41,7 +41,7 @@
     {{-- Building Chart --}}
     <div class="d-flex align-items-center bg-white rounded-3 m-4 p-4">
         <div class="col-4 text-center">
-            <p class="fs-1 fw-bold">514</h6>
+            <p class="fs-1 fw-bold">556</h6>
             <p>Jumlah Keseluruhan Jadwal</p>
         </div>
 
@@ -69,6 +69,14 @@
                     <p class="position-absolute fw-bold" style="top: 44px; left: 38px">44</p>
                 </div>
                 <p>Gedung Witana</p>
+            </div>
+
+            <div>
+                <div style="position: relative; width:100px">
+                    <canvas id="buildChart4"></canvas>
+                    <p class="position-absolute fw-bold" style="top: 44px; left: 38px">52</p>
+                </div>
+                <p>Unpam Serang</p>
             </div>
         </div>
     </div>
@@ -138,77 +146,77 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
-
     <script>
-        // Building Chart Config
-        const buildName = ['Gedung Pusat', 'Gedung Viktor', 'Gedung Witana'];
-        const temp = [218, 252, 44];
+        document.addEventListener('DOMContentLoaded', function() {
+            // Building Chart Config
+            const buildName = ['Gedung Pusat', 'Gedung Viktor', 'Gedung Witana', 'Unpam Serang'];
+            const temp = [218, 252, 44, 52];
 
-        for (let i = 0; i < buildName.length; i++) {
-            const ctxBuild = document.getElementById('buildChart' + (i + 1));
+            for (let i = 0; i < buildName.length; i++) {
+                const ctxBuild = document.getElementById('buildChart' + (i + 1));
 
-            const data = {
+                const data = {
+                    datasets: [{
+                        label: buildName[i],
+                        data: [temp[i], (556 - temp[i])],
+                        backgroundColor: [
+                            'rgb(96, 63, 38)',
+                            'rgb(217, 217, 217)'
+                        ],
+                        hoverOffset: 4
+                    }],
+                };
+
+                const config = {
+                    type: 'doughnut',
+                    data: data,
+                    options: {
+                        events: []
+                    }
+                };
+
+
+                new Chart(ctxBuild, config);
+            }
+
+            // User Rank Chart
+            const ctxURChart = document.getElementById('userRankChart');
+
+            const dataUR = {
+                labels: [
+                    'Teknik Informatika',
+                    'Teknik Elektro',
+                    'Lembaga Bahasa',
+                    'Lembaga Sertifikasi Profesi',
+                    'Lain-lain'
+                ],
                 datasets: [{
-                    label: buildName[i],
-                    data: [temp[i], (514 - temp[i])],
+                    label: 'Penggunaan',
+                    data: [500, 300, 250, 140, 100],
                     backgroundColor: [
-                        'rgb(96, 63, 38)',
-                        'rgb(217, 217, 217)'
+                        'rgb(174, 198, 207)',
+                        'rgb(217, 217, 217)',
+                        'rgb(162, 132, 94)',
+                        'rgb(255, 179, 71)',
+                        'rgb(255, 145, 155)'
                     ],
                     hoverOffset: 4
                 }],
             };
 
-            const config = {
+            const configUR = {
                 type: 'doughnut',
-                data: data,
+                data: dataUR,
                 options: {
-                    events: []
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
                 }
             };
 
-
-            new Chart(ctxBuild, config);
-        }
-
-        // User Rank Chart
-        const ctxURChart = document.getElementById('userRankChart');
-
-        const dataUR = {
-            labels: [
-                'Teknik Informatika',
-                'Teknik Elektro',
-                'Lembaga Bahasa',
-                'Lembaga Sertifikasi Profesi',
-                'Lain-lain'
-            ],
-            datasets: [{
-                label: 'Penggunaan',
-                data: [500, 300, 250, 140, 100],
-                backgroundColor: [
-                    'rgb(174, 198, 207)',
-                    'rgb(217, 217, 217)',
-                    'rgb(162, 132, 94)',
-                    'rgb(255, 179, 71)',
-                    'rgb(255, 145, 155)'
-                ],
-                hoverOffset: 4
-            }],
-        };
-
-        const configUR = {
-            type: 'doughnut',
-            data: dataUR,
-            options: {
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-            }
-        };
-
-        new Chart(ctxURChart, configUR);
+            new Chart(ctxURChart, configUR);
+        });
     </script>
 @endsection

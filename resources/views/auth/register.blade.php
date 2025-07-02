@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Register Page</title>
 
-    {{-- Custom CSS --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.css">
+    {{-- Custom CSS & JS --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'public/css/mystyle.css'])
     <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
 
 </head>
@@ -104,12 +104,6 @@
     </div>
     <!-- /.login-box -->
 
-    <!-- jQuery -->
-    <script src="{{ asset('AdminLte/plugins/jquery/jquery.min.js') }}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{{ asset('AdminLte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{ asset('AdminLte/dist/js/adminlte.min.js') }}"></script>
 </body>
 
 </html>
