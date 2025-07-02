@@ -13,19 +13,25 @@ return new class extends Migration
     {
         Schema::create('barangs', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_barang');
-            $table->text('spesifikasi_barang');
-            $table->text('deskripsi_barang');
-            $table->enum('status',['rusak','tersedia','tidak dipakai'])->default('tidak dipakai');
+            $table->string('nama');
+            $table->text('spesifikasi');
+            $table->text('deskripsi')->nullable();
+            $table->enum('status',['digunakan','rusak','tidak dipakai'])->default('tidak dipakai');
 
-            $table->unsignedBigInteger('lab_id');
-            $table->foreign('lab_id')->references('id')->on('laboratorium_unpams');
+            $table->foreignId('kategori_barang_id')->constrained('kategori_barangs');
+            $table->foreignId('lab_id')->constrained('laboratorium_unpams');
 
             $table->unsignedBigInteger('meja_id')->nullable();
             $table->foreign('meja_id')->references('id')->on('barangs');
 
             $table->timestamps();
-            // ->onDelete('set null')
+            
+            // Indexes
+            $table->index(['nama'], 'barangs_nama_index');
+            $table->index(['status'], 'barangs_status_index');
+            $table->index(['kategori_barang_id'], 'barangs_kategori_barang_id_index');
+            $table->index(['lab_id'], 'barangs_lab_id_index');
+            $table->index(['meja_id'], 'barangs_meja_id_index');
         });
     }
 

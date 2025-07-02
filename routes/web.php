@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\BarangController;
 use App\Http\Controllers\Admin\LokasiController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\UsersController;
@@ -13,6 +12,9 @@ use App\Http\Controllers\Laboran\LaboratoriumUnpamController;
 use App\Http\Controllers\Pengguna\BookingController;
 use App\Http\Controllers\Pengguna\JadwalBookingController;
 use App\Http\Controllers\Pengguna\ProsesPengajuanBookingController;
+use App\Livewire\Barang\Barang;
+use App\Livewire\KategoriBarang\KategoriBarang;
+use App\Livewire\KategoriBarang\KategoriBarangFormStore;
 use Illuminate\Support\Facades\Route;
 
 
@@ -65,9 +67,6 @@ Route::group(['middleware' => ['role:admin']], function() {
     Route::put('/admin/ubah-lokasi/{id}', [LokasiController::class, 'update']);
     Route::delete('/admin/hapus-lokasi/{id}', [LokasiController::class, 'softDelete']);
 
-    // Barang
-    Route::get('/admin/barang', [BarangController::class, 'index'])->name('admin.barang');
-    Route::get('/admin/tambah-barang', [BarangController::class, 'create'])->name('admin.barang.create');
 });
 
 
@@ -96,6 +95,13 @@ Route::group(['middleware' => ['role:admin,laboran']], function() {
 
     // Proses Pengajuan Page
     Route::resource('/laboran/proses-pengajuan', ProsesPengajuanBookingController::class);
+
+    // Kategori Barang
+    Route::get('/kategori-barang', KategoriBarang::class)->name('kategori-barang.index');
+    Route::get('/kategori-barang/tambah', KategoriBarangFormStore::class)->name('kategori-barang.create');
+
+    // Barang
+    Route::get('/barang', Barang::class)->name('barang.index');
 
 });
 
