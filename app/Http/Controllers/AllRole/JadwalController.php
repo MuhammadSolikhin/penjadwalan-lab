@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\BookingDetail;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\JadwalBooking;
 use Illuminate\Support\Facades\Auth;
 
 class JadwalController extends Controller
@@ -166,5 +167,4 @@ class JadwalController extends Controller
             return redirect()->back()->with('error', 'Terjadi kesalahan saat membatalkan jadwal.');
         }
     }
-
 }

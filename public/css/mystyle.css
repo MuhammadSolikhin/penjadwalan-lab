@@ -181,3 +181,9 @@ body {
     background-color: white;
 }
 /* Component End */
+
+/* Override bootstrap style */
+.form-check-input:checked{
+    background-color: #A67B5B !important;
+    border-color: #603F26 !important;
+}
