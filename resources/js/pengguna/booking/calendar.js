@@ -56,9 +56,11 @@ document.addEventListener('DOMContentLoaded', function () {
                             tanggal: j.tanggal,
                             mulai: j.mulai,
                             selesai: j.selesai,
+                            lab: j.lab,
                         });
                     });
                 });
+
 
                 return data.map(event => {
                     const role = event.extendedProps?.jadwal?.[0]?.role || '';
@@ -121,8 +123,17 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             let tableHtml = `
-        <strong>Keperluan:</strong> ${keperluan}<br>
-        <strong>Pemesan:</strong> ${pemesan}<br><br>
+                    <strong>Keperluan:</strong> ${keperluan}<br>
+                    <strong>Pemesan:</strong> ${pemesan}<br>
+                `;
+
+            if (mode === 'range') {
+                const labList = Array.isArray(extended.lab) ? extended.lab : [extended.lab];
+                const labFormatted = labList.filter(Boolean).join(', ') || '-';
+                tableHtml += `<strong>Lab:</strong> ${labFormatted}<br>`;
+            }
+            tableHtml += `
+       
         <div style="max-height:300px;overflow:auto">
         <table border="1" cellpadding="4" cellspacing="0" style="width:100%;text-align:left;font-size:0.9em;">
             <thead>
@@ -130,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <th>Tanggal</th>
                     <th>Jam</th>
                     <th>Status</th>
-                    <th>Lab</th>
+                    ${mode !== 'range' ? '<th>Lab</th>' : ''}                
                 </tr>
             </thead>
             <tbody>
@@ -138,36 +149,70 @@ document.addEventListener('DOMContentLoaded', function () {
 
             Object.keys(grouped).forEach(tanggal => {
                 const slotWaktu = getSlotByHari(tanggal);
+                let mergedSlots = [];
+                let prev = null;
 
                 slotWaktu.forEach(([mulai, selesai]) => {
-                    let match = semuaBookingSlot.some(slot =>
-                        slot.tanggal === tanggal &&
-                        slot.mulai === mulai &&
-                        slot.selesai === selesai
-                    );
+                    let match = false;
 
                     if (mode === 'range') {
-                        // Slot malam: jam >= 18:00
                         const jamMulai = parseInt(mulai.split(':')[0], 10);
                         if (jamMulai < 18) match = true;
+                    } else {
+                        // mode multi: cocokkan lab juga
+                        const labsDiSlotIni = (grouped[tanggal] || [])
+                            .filter(slot => slot.mulai === mulai && slot.selesai === selesai)
+                            .map(slot => slot.lab);
+
+                        match = semuaBookingSlot.some(slot =>
+                            slot.tanggal === tanggal &&
+                            slot.mulai === mulai &&
+                            slot.selesai === selesai &&
+                            labsDiSlotIni.includes(slot.lab)
+                        );
                     }
 
                     const slotData = (grouped[tanggal] || []).find(slot => slot.mulai === mulai && slot.selesai === selesai);
-                    const lab = slotData?.lab ?? '-';
+                    const lab = (mode === 'range') ? '' : (slotData?.lab ?? '-');
 
                     const warna = match ? 'red' : 'green';
                     const status = match ? 'Terbooking' : 'Tersedia';
 
+                    if (prev && prev.status === status && (mode === 'range' || prev.lab === lab)) {
+                        // Gabungkan slot
+                        prev.end = selesai;
+                    } else {
+                        // Simpan slot sebelumnya
+                        if (prev) mergedSlots.push(prev);
+
+                        // Mulai slot baru
+                        prev = {
+                            tanggal,
+                            start: mulai,
+                            end: selesai,
+                            status,
+                            warna,
+                            lab
+                        };
+                    }
+                });
+
+                // Simpan slot terakhir
+                if (prev) mergedSlots.push(prev);
+
+                // Render ke HTML
+                mergedSlots.forEach(slot => {
                     tableHtml += `
-                <tr>
-                    <td>${tanggal}</td>
-                    <td>${mulai.substring(0, 5)} s/d ${selesai.substring(0, 5)}</td>
-                    <td style="color:${warna}">● ${status}</td>
-                    <td>${lab}</td>
-                </tr>
-            `;
+            <tr>
+                <td>${slot.tanggal}</td>
+                <td>${slot.start.substring(0, 5)} s/d ${slot.end.substring(0, 5)}</td>
+                <td style="color:${slot.warna}">● ${slot.status}</td>
+                ${mode !== 'range' ? `<td>${slot.lab}</td>` : ''}
+            </tr>
+        `;
                 });
             });
+
 
             tableHtml += '</tbody></table></div>';
 

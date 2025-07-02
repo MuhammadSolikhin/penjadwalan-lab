@@ -19,8 +19,8 @@ class UsersController extends Controller
     public function index()
     {
 
-        $LokasiFormSelect = Lokasi::select('id','nama_lokasi')->get();
-        $PeranFormSelect = roles::select('id','nama_peran')->get();
+        $LokasiFormSelect = Lokasi::select('id', 'nama_lokasi')->get();
+        $PeranFormSelect = roles::select('id', 'nama_peran')->get();
 
         return view("admin.pengguna-page.pengguna", [
             'Pengguna' => new User(),
@@ -29,14 +29,15 @@ class UsersController extends Controller
             'LokasiFormSelect' => $LokasiFormSelect,
             'PeranFormSelect' => $PeranFormSelect,
             'page_meta' => [
-                'page'=> 'Pengguna',
+                'page' => 'Pengguna',
                 'description' => 'Halaman untuk manajemen pengguna, peran dan lokasi.'
             ]
         ]);
     }
 
-    public function getApiPengguna(Request $request){
-        $query = User::select(['id','nama_pengguna', 'email', 'lokasi_id', 'role_id']);
+    public function getApiPengguna(Request $request)
+    {
+        $query = User::select(['id', 'nama_pengguna', 'email', 'lokasi_id', 'role_id']);
 
         // Pencarian
         if ($request->has('search') && !empty($request->search['value'])) {
@@ -56,10 +57,10 @@ class UsersController extends Controller
         $orderColumnIndex = $request->input('order.0.column');
         $orderDirection = $request->input('order.0.dir') ?? 'desc';
 
-        $columns = [null, 'nama_pengguna','id', 'email', 'lokasi_id', 'role_id'];
+        $columns = [null, 'nama_pengguna', 'id', 'email', 'lokasi_id', 'role_id'];
         $orderColumnName = $columns[$orderColumnIndex] ?? 'id';
 
-        if (in_array($orderColumnName, ['id','nama_pengguna', 'email', 'lokasi_id', 'role_id'])) {
+        if (in_array($orderColumnName, ['id', 'nama_pengguna', 'email', 'lokasi_id', 'role_id'])) {
             $query->orderBy($orderColumnName, $orderDirection);
         } else {
             $query->orderBy('id', 'desc');
@@ -93,7 +94,8 @@ class UsersController extends Controller
         ]);
     }
 
-    public function store(PenggunaStoreRequest $Request) {
+    public function store(PenggunaStoreRequest $Request)
+    {
         // dd($Request->validated());
 
         DB::beginTransaction();
@@ -119,7 +121,8 @@ class UsersController extends Controller
         }
     }
 
-    public function update(PenggunaUpdateRequest $Request, $id) {
+    public function update(PenggunaUpdateRequest $Request, $id)
+    {
         // dd($Request->validated());
 
         DB::beginTransaction();
@@ -131,7 +134,7 @@ class UsersController extends Controller
             $Pengguna = User::findOrFail(Crypt::decryptString($id));
 
             $updateData = [
-                'nama_penguna' => $data['nama_pengguna_update'],
+                'nama_pengguna' => $data['nama_pengguna_update'],
                 'email' => $data['email_pengguna_update'],
                 'lokasi_id' => $data['lokasi_id_update'],
                 'role_id' => $data['peran_id_update'],
@@ -153,7 +156,8 @@ class UsersController extends Controller
         }
     }
 
-    public function softDelete($id){
+    public function softDelete($id)
+    {
 
         DB::beginTransaction();
 
