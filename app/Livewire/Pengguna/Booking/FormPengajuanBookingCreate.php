@@ -265,8 +265,7 @@ class FormPengajuanBookingCreate extends Component
     protected function onLokasiChanged($value)
     {
         if ($value) {
-            $this->laboratoriumList = LaboratoriumUnpam::where('lokasi_id', $value)
-                ->get();
+            $this->laboratoriumList = LaboratoriumUnpam::all();
             $this->hariOperasionalList = $this->loadHariOperasionalByLokasi($value);
         } else {
             $this->laboratoriumList = [];
