@@ -174,5 +174,4 @@ class UsersController extends Controller
             return redirect()->route('admin.pengguna')->with('error', 'Pengguan Gagal dihapus');
         }
     }
-
 }

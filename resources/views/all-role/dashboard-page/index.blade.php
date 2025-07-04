@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="my-3 mx-2">
-        <p class="fw-bold fs-3">Selamat Datang, [Nama Pengguna]</p>
+        <p class="fw-bold fs-3">Selamat Datang, {{ Auth::user()->nama_pengguna }}</p>
         <p class="fs-6 mb-4">Ringkasan aktifitas penggunaan laboratorium komputer Universitas Pamulang</p>
 
         {{-- Summary Cards --}}
@@ -234,45 +234,109 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
     <script>
-        // User Rank Chart
-        const ctxURChart = document.getElementById('userRankChart');
-
-        const dataUR = {
-            labels: [
-                'Teknik Informatika',
-                'Teknik Elektro',
-                'Lembaga Bahasa',
-                'Lembaga Sertifikasi Profesi',
-                'Lain-lain'
-            ],
-            datasets: [{
-                label: 'Penggunaan',
-                data: [500, 300, 250, 140, 100],
-                backgroundColor: [
-                    'rgb(128, 206, 225)',
-                    'rgb(217, 217, 217)',
-                    'rgb(162, 132, 94)',
-                    'rgb(255, 179, 71)',
-                    'rgb(255, 145, 155)'
-                ],
-                hoverOffset: 4
-            }],
-        };
-
-        const configUR = {
-            type: 'doughnut',
-            data: dataUR,
-            options: {
-                plugins: {
-                    legend: {
-                        display: false
-                    }
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctxBar = document.getElementById('uHistoryChart').getContext('2d');
+            // Usage History Chart
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['2023-1', '2023-2', '2024-1', '2024-2', '2025-1', '2025-2'],
+                    datasets: [{
+                        label: 'Jumlah Jadwal',
+                        data: [500, 476, 498, 572, 490, 514],
+                        backgroundColor: [
+                            'rgba(255, 234, 197, 0.8)',
+                        ],
+                        borderColor: [
+                            'rgb(255, 159, 64)',
+                        ],
+                        borderWidth: 1
+                    }]
                 },
-            }
-        };
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
 
-        new Chart(ctxURChart, configUR);
+            // Building Chart Config
+            const buildName = ['Gedung Pusat', 'Gedung Viktor', 'Gedung Witana', 'Unpam Serang'];
+            const temp = [218, 252, 44, 52];
+
+            for (let i = 0; i < buildName.length; i++) {
+                const ctxBuild = document.getElementById('buildChart' + (i + 1)).getContext('2d');
+
+                const data = {
+                    datasets: [{
+                        label: buildName[i],
+                        data: [temp[i], (566 - temp[i])],
+                        backgroundColor: [
+                            'rgb(96, 63, 38)',
+                            'rgb(217, 217, 217)'
+                        ],
+                        hoverOffset: 4
+                    }],
+                };
+
+                const config = {
+                    type: 'doughnut',
+                    data: data,
+                    options: {
+                        events: []
+                    }
+                };
+
+
+                new Chart(ctxBuild, config);
+            }
+
+            // User Rank Chart
+            const ctxURChart = document.getElementById('userRankChart').getContext('2d');
+
+            const dataUR = {
+                labels: [
+                    'Teknik Informatika',
+                    'Teknik Elektro',
+                    'Lembaga Bahasa',
+                    'Lembaga Sertifikasi Profesi',
+                    'Lain-lain'
+                ],
+                datasets: [{
+                    label: 'Penggunaan',
+                    data: [500, 300, 250, 140, 100],
+                    backgroundColor: [
+                        'rgb(174, 198, 207)',
+                        'rgb(217, 217, 217)',
+                        'rgb(162, 132, 94)',
+                        'rgb(255, 179, 71)',
+                        'rgb(255, 145, 155)'
+                    ],
+                    hoverOffset: 4
+                }],
+            };
+
+            const configUR = {
+                type: 'doughnut',
+                data: dataUR,
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                }
+            };
+
+            new Chart(ctxURChart, configUR);
+        });
     </script>
 @endsection

@@ -11,4 +11,8 @@ window.jQuery = $;
 import './script';
 
 // Powergrid (Datatables)
-import './../../vendor/power-components/livewire-powergrid/dist/powergrid'
+import './../../vendor/power-components/livewire-powergrid/dist/powergrid';
+
+// Chart JS
+import Chart from 'chart.js/auto';
+window.Chart = Chart;

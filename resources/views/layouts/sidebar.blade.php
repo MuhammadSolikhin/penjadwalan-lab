@@ -42,9 +42,6 @@
                     <li class="sidebar-item {{ Route::is('laboran.laboratorium') ? 'active' : '' }}">
                         <a href="{{ route('laboran.laboratorium') }}" class="sidebar-link {{ $isManajemenActive ? 'text-light' : '' }}">Laboratorium</a>
                     </li>
-                    <li class="sidebar-item {{ Route::is('admin.barang') ? 'active' : '' }}">
-                        <a href="{{ route('admin.barang') }}" class="sidebar-link {{ $isManajemenActive ? 'text-light' : '' }}">Barang</a>
-                    </li>
                 </ul>
             </li>
         @endif
@@ -83,5 +80,28 @@
             </ul>
         </li>
 
+        @php
+            $isBarangActive = Route::is('barang.*');
+        @endphp
+
+        <li class="sidebar-item pb-2 px-3 rounded-3 mt-2 {{ $isBarangActive ? 'mybg-brown active' : 'mybg-brown200' }}">
+            <a href="#" class="sidebar-link d-flex flex-grow collapsed {{ $isBarangActive ? 'text-light' : '' }}" data-bs-toggle="collapse"
+                data-bs-target="#barangDropdown">
+                <i data-feather="box" class="sidebar-icon-link"></i>Barang
+                <i data-feather="chevron-right" class="dropdown-icon {{ $isBarangActive ? 'active' : '' }}"></i>
+            </a>
+
+            <ul class="collapse list-unstyled dropdown-menu-vanilla {{ $isBarangActive ? 'active' : '' }}"
+                id="barangDropdown">
+                <li class="sidebar-item {{ Route::is('kategori-barang.index') ? 'active' : '' }}">
+                    <a href="{{ route('kategori-barang.index') }}" class="sidebar-link {{ $isBarangActive ? 'text-light' : '' }}">Kategori Barang</a>
+                </li>
+                <li class="sidebar-item {{ Route::is('barang.index') ? 'active' : '' }}">
+                    <a href="{{ route('barang.index') }}" class="sidebar-link {{ $isBarangActive ? 'text-light' : '' }}">Daftar Barang</a>
+                </li>
+            </ul>
+        </li>
+
+        
     </ul>
 </div>
