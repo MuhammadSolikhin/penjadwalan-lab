@@ -81,7 +81,7 @@
         </li>
 
         @php
-            $isBarangActive = Route::is('barang.*');
+            $isBarangActive = Route::is('kategori-barang.*') || Route::is('barang.*');
         @endphp
 
         <li class="sidebar-item pb-2 px-3 rounded-3 mt-2 {{ $isBarangActive ? 'mybg-brown active' : 'mybg-brown200' }}">
@@ -93,10 +93,10 @@
 
             <ul class="collapse list-unstyled dropdown-menu-vanilla {{ $isBarangActive ? 'active' : '' }}"
                 id="barangDropdown">
-                <li class="sidebar-item {{ Route::is('kategori-barang.index') ? 'active' : '' }}">
+                <li class="sidebar-item {{ Route::is('kategori-barang.*') ? 'active' : '' }}">
                     <a href="{{ route('kategori-barang.index') }}" class="sidebar-link {{ $isBarangActive ? 'text-light' : '' }}">Kategori Barang</a>
                 </li>
-                <li class="sidebar-item {{ Route::is('barang.index') ? 'active' : '' }}">
+                <li class="sidebar-item {{ Route::is('barang.*') ? 'active' : '' }}">
                     <a href="{{ route('barang.index') }}" class="sidebar-link {{ $isBarangActive ? 'text-light' : '' }}">Daftar Barang</a>
                 </li>
             </ul>
