@@ -42,4 +42,9 @@ class LaboratoriumUnpam extends Model
     {
         return $this->belongsTo(Unit::class);
     }
+
+    public function barangs()
+    {
+        return $this->hasMany(Barang::class, 'lab_id');
+    }
 }

@@ -20,4 +20,14 @@ class Barang extends Model
     {
         return $this->belongsTo(KategoriBarang::class, 'kategori_barang_id');
     }
+
+    public function laboratoriumUnpam()
+    {
+        return $this->belongsTo(LaboratoriumUnpam::class, 'lab_id');
+    }
+
+    public function meja()
+    {
+        return $this->belongsTo(Barang::class, 'meja_id');
+    }
 }
