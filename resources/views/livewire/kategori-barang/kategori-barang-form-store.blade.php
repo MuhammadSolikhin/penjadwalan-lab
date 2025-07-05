@@ -1,7 +1,6 @@
 <div>
     @section('title', 'Tambah Kategori Barang')
-
-    @section('content')
+    <div>
         <h2 class="fw-bold fs-3">Kategori Barang</h2>
         <span>Halaman untuk menambahkan kategori barang</span>
         <hr>
@@ -24,5 +23,5 @@
                 </div>
             </form>
         </div>
-    @endsection
+    </div>
 </div>

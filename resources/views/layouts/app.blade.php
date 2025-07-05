@@ -40,7 +40,8 @@
             <x-validation></x-validation>
 
             <div class="my-5 p-3 mx-2">
-                @yield('content')
+                @yield('content' ?? '')
+                {{ $slot ?? '' }}
             </div>
         </div>
 
