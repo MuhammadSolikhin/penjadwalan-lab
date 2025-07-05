@@ -12,7 +12,7 @@
         <div class="col">
             <div class="bg-white rounded m-2 px-4 py-2">
                 <p class="fw-medium mt-2">Jumlah Komputer</p>
-                <p class="fs-2 fw-bold">undefined</p>
+                <p class="fs-2 fw-bold">{{ $computerCount }}</p>
             </div>
         </div>
         {{-- Card Two --}}
