@@ -1,49 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- CSS and JS -->
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'public/css/mystyle.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
 
-    <!-- Feather Icons -->
+    @livewireStyles
+
+    <link rel="icon" href="{{ asset('images/unpam-logo.png') }}" type="image">
     <script src="{{ asset('js/feather.js') }}"></script>
 
-    {{-- Logo Unpam Buat Favicon --}}
-    <link rel="icon" href="{{ asset('images/unpam-logo.png') }}" type="image">
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 
     <title>@yield('title', 'Penjadwalan Lab')</title>
-
 </head>
-<body class="bg-light">
 
-    {{-- Header atau Navbar --}}
+<body x-data x-cloak class="bg-light">
+
     @include('layouts.header')
 
     <div class="wrapper d-flex">
-
-        {{-- Sidebar --}}
         @include('layouts.sidebar')
-
-        {{-- Content --}}
         <div class="content flex-grow">
-
             <div class="hidden-container">
-                <!-- Search Box Disini Biar Lebarnya Sesuai Dengan Content -->
                 @include('layouts.search-box')
                 @include('layouts.notif')
             </div>
-
-            {{-- Error Toast --}}
             <x-validation></x-validation>
-
             <div class="my-5 p-3 mx-2">
-                @yield('content')
+                @yield('content' ?? '')
+                {{ $slot ?? '' }}
             </div>
         </div>
-
     </div>
 
     <script src="{{ asset('js/sweetalert2.js') }}"></script>
@@ -52,5 +47,9 @@
             feather.replace();
         })
     </script>
+
+    @livewireScripts
+    @powerGridScripts
 </body>
+
 </html>

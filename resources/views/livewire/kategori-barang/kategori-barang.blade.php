@@ -1,7 +1,8 @@
 <div>
     @section('title', 'Kategori Barang')
 
-    @section('content')
+    <div>
+
         <h2 class="fw-bold fs-3">Kategori Barang</h2>
         <span>Halaman untuk mengelola kategori barang</span>
         <hr>
@@ -19,7 +20,10 @@
                 </div>
             </div>
 
-
+            <div class="row">
+                <livewire:kategoribarang.kategori-barang-table/>
+            </div>
         </div>
-    @endsection
+        
+    </div>
 </div>
