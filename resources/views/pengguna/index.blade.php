@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <p class="fw-bold fs-3">Selamat Datang {{ auth()->user()->nama_pengguna }} !</p>
+    <p class="fw-bold fs-3">Selamat Datang, {{ auth()->user()->nama_pengguna }}</p>
     <p class="fs-6 mb-4">Ringkasan aktifitas penggunaan laboratorium komputer Universitas Pamulang</p>
 
     {{-- Summary Cards --}}
