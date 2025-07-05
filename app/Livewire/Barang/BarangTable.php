@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\KategoriBarang;
+namespace App\Livewire\Barang;
 
-use App\Models\KategoriBarang;
+use App\Models\Barang;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\View\View;
@@ -13,9 +13,9 @@ use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
-final class KategoriBarangTable extends PowerGridComponent
+final class BarangTable extends PowerGridComponent
 {
-    public string $tableName = 'kategori-barangs';
+    public string $tableName = 'barangs';
 
     public function setUp(): array
     {
@@ -32,7 +32,7 @@ final class KategoriBarangTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return KategoriBarang::query();
+        return Barang::query();
     }
 
     public function relationSearch(): array
@@ -45,8 +45,13 @@ final class KategoriBarangTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('id')
             ->add('nama')
+            ->add('spesifikasi')
             ->add('deskripsi')
-            ->add('created_at_formmatted', fn(KategoriBarang $model) => Carbon::parse($model->created_at)->locale('id')->translatedFormat('d F Y H:i'));
+            ->add('status')
+            ->add('kategori_nama', fn(Barang $model) => $model->kategoriBarang ? $model->kategoriBarang->nama : '-')
+            ->add('lab_nama', fn(Barang $model) => $model->laboratoriumUnpam ? $model->laboratoriumUnpam->nama_laboratorium : '-')
+            ->add('meja_nama', fn(Barang $model) => $model->meja ? $model->meja->nama_meja : '-')
+            ->add('created_at_formatted', fn(Barang $model) => Carbon::parse($model->created_at)->locale('id')->translatedFormat('d F Y H:i'));
     }
 
     public function columns(): array
@@ -57,11 +62,23 @@ final class KategoriBarangTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
+            Column::make('Spesifikasi', 'spesifikasi')
+                ->sortable()
+                ->searchable(),
+
             Column::make('Deskripsi', 'deskripsi')
                 ->sortable()
                 ->searchable(),
-            
-            Column::make('Dibuat', 'created_at_formmatted')
+
+            Column::make('Status', 'status')
+                ->sortable()
+                ->searchable(),
+
+            Column::make('Kategori barang', 'kategori_nama'),
+            Column::make('Laboratorium', 'lab_nama'),
+            Column::make('Meja', 'meja_nama'),
+
+            Column::make('Dibuat', 'created_at_formatted')
                 ->sortable()
                 ->searchable(),
 
@@ -75,14 +92,14 @@ final class KategoriBarangTable extends PowerGridComponent
         ];
     }
 
-    public function actions(KategoriBarang $row): array
+    public function actions(Barang $row): array
     {
         return [
             Button::make('edit')
                 ->slot('Ubah')
                 ->id()
-                ->class("btn btn-sm btn-primary text-white")
-                ->route('kategori-barang.edit', ['hash' => encrypt($row->id)]),
+                ->class('btn btn-sm btn-primary text-white')
+                ->route('barang.edit', ['hash' => encrypt($row->id)]),
         ];
     }
 
@@ -91,6 +108,7 @@ final class KategoriBarangTable extends PowerGridComponent
         return 'Tidak ada data yang ditemukan.';
         // return view('dishes.no-data');
     }
+
 
     /*
     public function actionRules($row): array
