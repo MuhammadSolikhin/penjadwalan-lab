@@ -15,6 +15,7 @@ use App\Http\Controllers\Pengguna\ProsesPengajuanBookingController;
 use App\Livewire\Barang\Barang;
 use App\Livewire\KategoriBarang\KategoriBarang;
 use App\Livewire\KategoriBarang\KategoriBarangFormStore;
+use App\Livewire\KategoriBarang\KategoriBarangFormUpdate;
 use Illuminate\Support\Facades\Route;
 
 
@@ -99,6 +100,7 @@ Route::group(['middleware' => ['role:admin,laboran']], function() {
     // Kategori Barang
     Route::get('/kategori-barang', KategoriBarang::class)->name('kategori-barang.index');
     Route::get('/kategori-barang/tambah', KategoriBarangFormStore::class)->name('kategori-barang.create');
+    Route::get('/kategori-barang/ubah/{hash}', KategoriBarangFormUpdate::class)->name('kategori-barang.edit');
 
     // Barang
     Route::get('/barang', Barang::class)->name('barang.index');

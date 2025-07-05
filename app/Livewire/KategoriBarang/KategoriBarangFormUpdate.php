@@ -9,15 +9,23 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 #[Layout('layouts.app')]
-class KategoriBarangFormStore extends Component
+class KategoriBarangFormUpdate extends Component
 {
-
+    public $kategoriBarang;
     public $nama, $deskripsi;
+
+    public function mount($hash)
+    {
+        $id = decrypt($hash);
+        $this->kategoriBarang = KategoriBarang::findOrFail($id);
+        $this->nama = $this->kategoriBarang->nama;
+        $this->deskripsi = $this->kategoriBarang->deskripsi;
+    }
 
     public function validateForm()
     {
         $rules = [
-            'nama' => 'required|string|max:255|unique:kategori_barangs,nama',
+            'nama' => 'required|string|max:255|unique:kategori_barangs,nama,' . $this->kategoriBarang->id,
             'deskripsi' => 'required|string|max:1000',
         ];
 
@@ -30,31 +38,29 @@ class KategoriBarangFormStore extends Component
         $this->validate($rules, $messages);
     }
 
-
-    public function store()
+    public function update()
     {
         $this->validateForm();
 
         try {
-
             DB::beginTransaction();
 
-            KategoriBarang::create([
+            $this->kategoriBarang->update([
                 'nama' => $this->nama,
                 'deskripsi' => $this->deskripsi,
             ]);
 
             DB::commit();
-            session()->flash('success', 'Kategori barang berhasil ditambahkan.');
+            session()->flash('success', 'Kategori barang berhasil diupdate.');
             return redirect()->route('kategori-barang.index');
         } catch (Exception $e) {
             DB::rollBack();
-            session()->flash('error', 'Terjadi kesalahan saat menambahkan kategori barang');
+            session()->flash('error', 'Terjadi kesalahan saat mengupdate kategori barang');
         }
     }
 
     public function render()
     {
-        return view('livewire.kategori-barang.kategori-barang-form-store');
+        return view('livewire.kategori-barang.kategori-barang-form-update');
     }
 }
