@@ -5,17 +5,21 @@ use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Auth\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
 
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Laboran\JenisLabController;
 use App\Http\Controllers\Laboran\LaboratoriumUnpamController;
 use App\Http\Controllers\Pengguna\BookingController;
 use App\Http\Controllers\Pengguna\JadwalBookingController;
 use App\Http\Controllers\Pengguna\ProsesPengajuanBookingController;
 use App\Livewire\Barang\Barang;
+use App\Livewire\Barang\BarangFormStore;
+use App\Livewire\Barang\BarangFormUpdate;
 use App\Livewire\KategoriBarang\KategoriBarang;
 use App\Livewire\KategoriBarang\KategoriBarangFormStore;
+use App\Livewire\KategoriBarang\KategoriBarangFormUpdate;
 use Illuminate\Support\Facades\Route;
+
 
 
 Route::group(['middleware' => 'guest'], function() {
@@ -99,9 +103,12 @@ Route::group(['middleware' => ['role:admin,laboran']], function() {
     // Kategori Barang
     Route::get('/kategori-barang', KategoriBarang::class)->name('kategori-barang.index');
     Route::get('/kategori-barang/tambah', KategoriBarangFormStore::class)->name('kategori-barang.create');
+    Route::get('/kategori-barang/ubah/{hash}', KategoriBarangFormUpdate::class)->name('kategori-barang.edit');
 
     // Barang
     Route::get('/barang', Barang::class)->name('barang.index');
+    Route::get('/barang/tambah', BarangFormStore::class)->name('barang.create');
+    Route::get('/barang/ubah/{hash}', BarangFormUpdate::class)->name('barang.edit');
 
 });
 

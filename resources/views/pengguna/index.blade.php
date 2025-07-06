@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <p class="fw-bold fs-3">Selamat Datang {{ auth()->user()->nama_pengguna }} !</p>
+    <p class="fw-bold fs-3">Selamat Datang, {{ auth()->user()->nama_pengguna }}</p>
     <p class="fs-6 mb-4">Ringkasan aktifitas penggunaan laboratorium komputer Universitas Pamulang</p>
 
     {{-- Summary Cards --}}
@@ -12,7 +12,7 @@
         <div class="col">
             <div class="bg-white rounded m-2 px-4 py-2">
                 <p class="fw-medium mt-2">Jumlah Komputer</p>
-                <p class="fs-2 fw-bold">undefined</p>
+                <p class="fs-2 fw-bold">{{ $computerCount }}</p>
             </div>
         </div>
         {{-- Card Two --}}

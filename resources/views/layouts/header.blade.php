@@ -8,13 +8,13 @@
 
             <!-- Notification -->
             <div class="notification-icon-container" style="cursor: pointer;">
-                <i data-feather="bell" id="notificationIcon"></i><span id="notifCounter"></span>
+                <i data-feather="bell" id="notificationIcon" style="height: 20px"></i><span id="notifCounter"></span>
             </div>
             <!-- /Notification -->
 
             <!-- Search -->
             <div class="search-icon-container" style="cursor: pointer;">
-                <i data-feather="search" id="searchIcon"></i>
+                <i data-feather="search" id="searchIcon" style="height: 20px"></i>
             </div>
             <!-- /Search -->
 
@@ -28,15 +28,15 @@
                 </div>
 
                 <!-- Dropdown Menu Profile -->
-                <ul class="dropdown-menu-profile mt-3" id="dropdownMenuProfile">
-                    <li class="profile-item">
+                <ul class="dropdown-menu-profile shadow rounded-2 mt-3" id="dropdownMenuProfile">
+                    <li class="profile-item border-bottom">
                         <a class="profile-link" href="#">
                             <i data-feather="user" class="profile-icon"></i>
-                            Profile
+                            Profil
                         </a>
                     </li>
                     <li class="profile-item">
-                        <a class="profile-link" href="#">
+                        <a class="profile-link border-bottom" href="#">
                             <i data-feather="settings" class="profile-icon"></i>
                             Pengaturan
                         </a>

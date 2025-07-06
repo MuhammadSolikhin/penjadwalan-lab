@@ -1,4 +1,4 @@
-<div class="notif-container mybg-brown100 mt-5 rounded-3">
+<div class="notif-container shadow mybg-brown100 rounded-4">
     <div class="mx-3 my-3">
         <h6 class="fs-4 fw-bold">Notifikasi</h6>
 

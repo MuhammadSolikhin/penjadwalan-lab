@@ -13,28 +13,28 @@
             <div class="col">
                 <div class="bg-white rounded m-2 px-4 py-2">
                     <p class="fw-medium mt-2">Jumlah Komputer</p>
-                    <p class="fs-2 fw-bold">512</p>
+                    <p class="fs-2 fw-bold">{{ $computerCount }}</p>
                 </div>
             </div>
             {{-- Card Two --}}
             <div class="col">
                 <div class="bg-white rounded m-2 px-4 py-2">
                     <p class="fw-medium mt-2">Jumlah Ruangan</p>
-                    <p class="fs-2 fw-bold">43</p>
+                    <p class="fs-2 fw-bold">{{ $laboratoryCount }}</p>
                 </div>
             </div>
             {{-- Card Three --}}
             <div class="col">
                 <div class="bg-white rounded m-2 px-4 py-2">
                     <p class="fw-medium mt-2">Jumlah Jadwal</p>
-                    <p class="fs-2 fw-bold">972</p>
+                    <p class="fs-2 fw-bold">{{ $schedulesCount }}</p>
                 </div>
             </div>
             {{-- Card Four --}}
             <div class="col">
                 <div class="bg-white rounded m-2 px-4 py-2">
                     <p class="fw-medium mt-2">Jadwal Tersedia</p>
-                    <p class="fs-2 fw-bold">154</p>
+                    <p class="fs-2 fw-bold">{{ $availableSchedules }}</p>
                 </div>
             </div>
         </div>
