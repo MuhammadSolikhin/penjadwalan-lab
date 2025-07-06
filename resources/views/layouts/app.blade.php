@@ -48,7 +48,6 @@
     </script>
 
     @livewireScripts
-    @powerGridScripts
 </body>
 
 </html>

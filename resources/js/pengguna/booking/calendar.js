@@ -18,6 +18,7 @@ let calendar;
 
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
+    if (!calendarEl) return;
     let semuaBookingSlot = [];
     function getSlotByHari(dateString) {
         const day = new Date(dateString).getDay();
@@ -227,6 +228,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     calendar.render();
+    window.myCalendar = calendar;
+    const calendarWrapper = calendarEl.parentNode;
+    const observer = new ResizeObserver(() => {
+        if (window.myCalendar) {
+            window.myCalendar.updateSize();
+        }
+    });
+    observer.observe(calendarWrapper);
 });
 
 document.querySelector('button[data-bs-target="#calendarPane"]').addEventListener('shown.bs.tab', function () {

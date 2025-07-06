@@ -23,6 +23,12 @@ function initSidebar() {
             sideBar.classList.toggle("hidden");
             sideBar.classList.remove("active");
         }
+
+        setTimeout(() => {
+            if (window.myCalendar) {
+                window.myCalendar.updateSize();
+            }
+        }, 300);
     });
 
     document.addEventListener("click", (event) => {
@@ -74,7 +80,7 @@ function initSearch() {
     }
 }
 
-function initProfile(){
+function initProfile() {
     const dropdownToggle = document.getElementById("profileDropdown");
     const dropdownMenuProfile = document.getElementById("dropdownMenuProfile");
 
@@ -91,7 +97,7 @@ function initProfile(){
     document.addEventListener("click", closeProfileMenu);
 }
 
-function notifCounter(){
+function notifCounter() {
     const notifActive = document.querySelectorAll(".notif-item.active").length;
     const notifCounter = document.getElementById("notifCounter");
 
@@ -105,7 +111,7 @@ function notifCounter(){
 
 notifCounter();
 
-function initNotif(){
+function initNotif() {
     const notif = document.querySelector(".notification-icon-container");
     const notifMessage = document.querySelector(".notif-container");
 
@@ -114,7 +120,7 @@ function initNotif(){
     })
 
     function closeNotifMessage(e) {
-        if(!notif.contains(e.target) && !notifMessage.contains(e.target)){
+        if (!notif.contains(e.target) && !notifMessage.contains(e.target)) {
             notifMessage.classList.remove("show");
         }
     }
