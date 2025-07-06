@@ -8,6 +8,7 @@ use App\Models\JadwalBooking;
 use App\Models\LaboratoriumUnpam;
 use App\Models\PengajuanBooking;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -120,7 +121,7 @@ class DashboardController extends Controller
         $availableSchedules = $possibleSchedules - $schedulesCount;
 
         // User reservation
-        $reservations = PengajuanBooking::with('laboratorium.lokasi')->where('user_id', '=', auth()->id())->get();
+        $reservations = PengajuanBooking::with('laboratorium.lokasi')->where('user_id', '=', Auth::user()->id)->get();
 
         return view("pengguna.index", [
             'laboratoryCount' => $laboratoryCount,
