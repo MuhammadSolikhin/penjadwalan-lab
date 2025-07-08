@@ -7,6 +7,8 @@ use App\Models\JadwalBooking;
 use App\Models\LaboratoriumUnpam;
 use App\Models\Lokasi;
 use App\Models\PengajuanBooking;
+use App\Models\Unit;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
@@ -265,12 +267,28 @@ class FormPengajuanBookingCreate extends Component
     protected function onLokasiChanged($value)
     {
         if ($value) {
-            $this->laboratoriumList = LaboratoriumUnpam::where('lokasi_id', $value)->get();
+            $unit = User::with('unit')->where('id', auth()->user()->id)->first();
+            $kodeUnit = $unit->unit->kode_unit;
+            $jenisUnit = $unit->unit->jenis_unit;
+
+            if ($jenisUnit == 'lembaga') {
+                $this->laboratoriumList = LaboratoriumUnpam::where('status_laboratorium', 1)
+                    ->where('lokasi_id', $value)->get();
+            } else {
+                $this->laboratoriumList = LaboratoriumUnpam::where('lokasi_id', $value)
+                    ->whereHas('unit', function ($query) use ($kodeUnit) {
+                        $query->where('kode_unit', '00000') 
+                            ->orWhere('kode_unit', $kodeUnit);
+                    })->get();
+            }
+
             $this->hariOperasionalList = $this->loadHariOperasionalByLokasi($value);
         } else {
             $this->laboratoriumList = [];
             $this->hariOperasionalList = collect();
         }
+
+
 
         $this->laboratoriumIds = [];
         $this->tanggalMulti = [];

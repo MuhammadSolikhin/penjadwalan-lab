@@ -11,7 +11,7 @@ class Unit extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama_unit', 'jenis_unit'];
+    protected $fillable = ['nama_unit', 'jenis_unit','kode_unit'];
 
     public function users()
     {

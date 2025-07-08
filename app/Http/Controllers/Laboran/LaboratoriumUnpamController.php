@@ -34,7 +34,7 @@ class LaboratoriumUnpamController extends Controller
 
     public function getApiLaboratorium(Request $request)
     {
-        $query = LaboratoriumUnpam::select(['id', 'kode_laboratorium', 'nama_laboratorium', 'kapasitas_laboratorium', 'status_laboratorium', 'lokasi_id', 'jenislab_id', 'deskripsi_laboratorium']);
+        $query = LaboratoriumUnpam::select(['id', 'kode_laboratorium', 'kode_prodi', 'nama_laboratorium', 'kapasitas_laboratorium', 'status_laboratorium', 'lokasi_id', 'jenislab_id', 'deskripsi_laboratorium']);
 
         // Pencarian
         if ($request->has('search') && !empty($request->search['value'])) {
@@ -75,6 +75,7 @@ class LaboratoriumUnpamController extends Controller
             $result[] = [
                 'id_laboratorium' => Crypt::encryptString($laboratorium->id),
                 'kode_laboratorium' => $laboratorium->kode_laboratorium,
+                'kode_prodi' => $laboratorium->kode_prodi,
                 'nama_laboratorium' => $laboratorium->nama_laboratorium,
                 'kapasitas_laboratorium' => $laboratorium->kapasitas_laboratorium,
                 'status_laboratorium' => $laboratorium->status_laboratorium,

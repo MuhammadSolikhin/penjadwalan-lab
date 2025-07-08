@@ -35,12 +35,12 @@ class LaboratoriumUnpamSeeder extends Seeder
 
         foreach ($labsViktor as $lab) {
             DB::table('laboratorium_unpams')->insert([
-                'kode_laboratorium' => 'LAB-' . str_pad($kodeCounter++, 4, '0', STR_PAD_LEFT),
                 'nama_laboratorium' => $lab['name'],
+                'kode_laboratorium' => 'LAB-' . str_pad($kodeCounter++, 4, '0', STR_PAD_LEFT),
                 'lokasi_id' => 4,
                 'unit_id' => $lab['unit_id'],
                 'kapasitas_laboratorium' => 25,
-                'status_laboratorium' => 1, // boolean (1 = tersedia)
+                'status_laboratorium' => 0,
                 'jenislab_id' => 1,
                 'deskripsi_laboratorium' => "Laboratorium {$lab['name']} digunakan untuk praktikum dan ujian.",
                 'created_at' => now(),
@@ -58,12 +58,12 @@ class LaboratoriumUnpamSeeder extends Seeder
         foreach ($lokasiTambahan as $id => $nama) {
             for ($i = 1; $i <= 10; $i++) {
                 DB::table('laboratorium_unpams')->insert([
-                    'kode_laboratorium' => 'LAB-' . str_pad($kodeCounter++, 4, '0', STR_PAD_LEFT),
                     'nama_laboratorium' => "Lab $nama $i",
+                    'kode_laboratorium' => 'LAB-' . str_pad($kodeCounter++, 4, '0', STR_PAD_LEFT),
                     'lokasi_id' => $id,
                     'unit_id' => rand(3, 7),
                     'kapasitas_laboratorium' => rand(15, 35),
-                    'status_laboratorium' => 1,
+                    'status_laboratorium' => 0,
                     'jenislab_id' => rand(1, 4),
                     'deskripsi_laboratorium' => "Laboratorium di lokasi $nama nomor $i.",
                     'created_at' => now(),
@@ -72,5 +72,4 @@ class LaboratoriumUnpamSeeder extends Seeder
             }
         }
     }
-
 }

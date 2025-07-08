@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('kode_laboratorium')->unique();
             $table->string('nama_laboratorium');
             $table->integer('kapasitas_laboratorium');
-            $table->boolean('status_laboratorium')->default(1);
+            $table->boolean('status_laboratorium')->default(1); // 1 = tersedia, 0 = tidak tersedia
 
             $table->foreignId('lokasi_id')->constrained('lokasis');
             $table->foreignId('jenislab_id')->constrained('jenislabs');
