@@ -265,7 +265,7 @@ class FormPengajuanBookingCreate extends Component
     protected function onLokasiChanged($value)
     {
         if ($value) {
-            $this->laboratoriumList = LaboratoriumUnpam::all();
+            $this->laboratoriumList = LaboratoriumUnpam::where('lokasi_id', $value)->get();
             $this->hariOperasionalList = $this->loadHariOperasionalByLokasi($value);
         } else {
             $this->laboratoriumList = [];
@@ -666,7 +666,10 @@ class FormPengajuanBookingCreate extends Component
     public function render()
     {
         $listJam = $this->lokasiId ? $this->getListJamByLokasi() : [];
+        $lokasis = Lokasi::select(['id', 'nama_lokasi'])->whereNot('nama_lokasi', 'fleksible')->get();
+
         return view('livewire.pengguna.booking.form-pengajuan-booking-create', [
+            'lokasis' => $lokasis,
             'listJam' => $listJam,
             'tanggalAktif' => $this->tanggalAktif,
         ]);

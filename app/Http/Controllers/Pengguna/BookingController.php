@@ -20,6 +20,36 @@ class BookingController extends Controller
         ]);
     }
 
+    public function diterima()
+    {
+        return view('pengguna.booking.diterima', [
+            'page_meta' => [
+                'page' => 'Data Booking Diterima',
+                'description' => 'Daftar pengajuan booking yang diterima.'
+            ]
+        ]);
+    }
+
+    public function menunggu()
+    {
+        return view('pengguna.booking.menunggu', [
+            'page_meta' => [
+                'page' => 'Data Booking Menunggu',
+                'description' => 'Daftar pengajuan booking yang masih menunggu.'
+            ]
+        ]);
+    }
+
+    public function dibatalkan()
+    {
+        return view('pengguna.booking.dibatalkan', [
+            'page_meta' => [
+                'page' => 'Data Booking Dibatalkan',
+                'description' => 'Daftar pengajuan booking yang dibatalkan.'
+            ]
+        ]);
+    }
+    
     public function getBookingEvents(Request $request)
     {
         try {

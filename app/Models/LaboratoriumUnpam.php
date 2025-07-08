@@ -11,6 +11,7 @@ class LaboratoriumUnpam extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'kode_laboratorium',
         'nama_laboratorium',
         'lokasi_id',
         'unit_id',

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class LaboratoriumUnpamSeeder extends Seeder
 {
-     public function run(): void
+    public function run(): void
     {
         $labsViktor = [
             ['name' => 'CBT 1', 'unit_id' => 1],
@@ -31,13 +31,16 @@ class LaboratoriumUnpamSeeder extends Seeder
             ['name' => 'Multimedia 2', 'unit_id' => 7],
         ];
 
+        $kodeCounter = 1;
+
         foreach ($labsViktor as $lab) {
             DB::table('laboratorium_unpams')->insert([
+                'kode_laboratorium' => 'LAB-' . str_pad($kodeCounter++, 4, '0', STR_PAD_LEFT),
                 'nama_laboratorium' => $lab['name'],
                 'lokasi_id' => 4,
                 'unit_id' => $lab['unit_id'],
                 'kapasitas_laboratorium' => 25,
-                'status_laboratorium' => 'tersedia',
+                'status_laboratorium' => 1, // boolean (1 = tersedia)
                 'jenislab_id' => 1,
                 'deskripsi_laboratorium' => "Laboratorium {$lab['name']} digunakan untuk praktikum dan ujian.",
                 'created_at' => now(),
@@ -55,11 +58,12 @@ class LaboratoriumUnpamSeeder extends Seeder
         foreach ($lokasiTambahan as $id => $nama) {
             for ($i = 1; $i <= 10; $i++) {
                 DB::table('laboratorium_unpams')->insert([
+                    'kode_laboratorium' => 'LAB-' . str_pad($kodeCounter++, 4, '0', STR_PAD_LEFT),
                     'nama_laboratorium' => "Lab $nama $i",
                     'lokasi_id' => $id,
                     'unit_id' => rand(3, 7),
                     'kapasitas_laboratorium' => rand(15, 35),
-                    'status_laboratorium' => 'tersedia',
+                    'status_laboratorium' => 1,
                     'jenislab_id' => rand(1, 4),
                     'deskripsi_laboratorium' => "Laboratorium di lokasi $nama nomor $i.",
                     'created_at' => now(),
@@ -68,4 +72,5 @@ class LaboratoriumUnpamSeeder extends Seeder
             }
         }
     }
+
 }

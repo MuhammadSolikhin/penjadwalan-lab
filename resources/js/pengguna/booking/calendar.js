@@ -238,10 +238,6 @@ document.addEventListener('DOMContentLoaded', function () {
     observer.observe(calendarWrapper);
 });
 
-document.querySelector('button[data-bs-target="#calendarPane"]').addEventListener('shown.bs.tab', function () {
-    if (!calendar) return;
-    calendar.render(); // render ulang saat tab diaktifkan
-});
 
 window.exportEventsToExcel = function () {
     const events = calendar.getEvents();

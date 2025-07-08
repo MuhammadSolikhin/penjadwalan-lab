@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,9 +12,10 @@ return new class extends Migration
     {
         Schema::create('laboratorium_unpams', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_laboratorium')->unique();
             $table->string('nama_laboratorium');
             $table->integer('kapasitas_laboratorium');
-            $table->enum('status_laboratorium', ['tersedia', 'tidak tersedia'])->default('tersedia');
+            $table->boolean('status_laboratorium')->default(1);
 
             $table->foreignId('lokasi_id')->constrained('lokasis');
             $table->foreignId('jenislab_id')->constrained('jenislabs');
@@ -23,9 +23,9 @@ return new class extends Migration
             $table->text('deskripsi_laboratorium')->nullable();
 
             $table->timestamps();
-
             $table->softDeletes();
         });
+
     }
 
     /**

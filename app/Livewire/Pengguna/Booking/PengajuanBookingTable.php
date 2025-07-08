@@ -18,14 +18,13 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class PengajuanBookingTable extends PowerGridComponent
 {
     public string $tableName = 'pengajuan_bookings';
+    public string $status;
 
     public bool $deferLoading = true;
     // public string $loadingComponent = 'components.my-custom-loading';
 
     public function setUp(): array
     {
-        $this->showCheckBox();
-
         return [
             PowerGrid::header()
                 ->showSearchInput(),
@@ -37,7 +36,7 @@ final class PengajuanBookingTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return PengajuanBooking::query()->where('user_id', Auth::id())->with('lokasi');
+        return PengajuanBooking::query()->where('user_id', Auth::id())->where('status_pengajuan_booking', $this->status)->with('lokasi');
     }
 
     public function fields(): PowerGridFields
@@ -47,9 +46,9 @@ final class PengajuanBookingTable extends PowerGridComponent
             ->add('kode_booking')
             ->add('status_pengajuan_booking')
             ->add('keperluan_pengajuan_booking')
-            ->add('nama_lokasi', fn (PengajuanBooking $model) => optional($model->lokasi)->nama_lokasi)
+            ->add('nama_lokasi', fn(PengajuanBooking $model) => optional($model->lokasi)->nama_lokasi)
             ->add('created_at')
-            ->add('created_at_formatted', fn (PengajuanBooking $model) => Carbon::parse($model->created_at)->locale('id')->translatedFormat('d F Y H:i'));
+            ->add('created_at_formatted', fn(PengajuanBooking $model) => Carbon::parse($model->created_at)->locale('id')->translatedFormat('d F Y H:i'));
     }
 
     public function columns(): array
@@ -62,7 +61,7 @@ final class PengajuanBookingTable extends PowerGridComponent
             Column::make('Kode Booking', 'kode_booking')
                 ->searchable()
                 ->sortable(),
-            
+
             Column::make('Status', 'status_pengajuan_booking')
                 ->searchable()
                 ->sortable(),
@@ -92,7 +91,7 @@ final class PengajuanBookingTable extends PowerGridComponent
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert(' . $rowId . ')');
     }
 
     public function actions(PengajuanBooking $row): array
@@ -124,8 +123,8 @@ final class PengajuanBookingTable extends PowerGridComponent
     }
 
     public function noDataLabel(): string|View
-    { 
-        return 'Tidak ada data yang ditemukan.';
+    {
+        return view('components.powergrid.empty');
         // return view('dishes.no-data');
     }
 

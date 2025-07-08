@@ -4,9 +4,18 @@
 
 <div>
     <!-- Button trigger modal -->
-    <button type="button" class="mybtn mybtn-primary p-2" wire:click="$dispatchSelf('openModalCreate')">
-        Buat Pengajuan
-    </button>
+    <div class="d-flex justify-content-between align-items-center mb-3 mt-3" style="gap: 10px;">
+        <div>
+            <button type="button" class="mybtn mybtn-primary p-2" wire:click="$dispatchSelf('openModalCreate')">
+                Buat Pengajuan
+            </button>
+        </div>
+        <div>
+            <button class="btn btn-success me-2" onclick="exportEventsToExcel()">Export ke Excel</button>
+            <button class="btn btn-danger" onclick="exportCalendarToPDF()">Export ke PDF</button>
+        </div>
+    </div>
+
 
     <!-- Modal -->
     @if ($showModal)
@@ -37,16 +46,22 @@
                                 </div>
                             @endif
 
+                            <div class="mb-3" x-data x-init="initFuncInput.initLokasiSelect2($el.querySelector('select'), $wire)" wire:key="lokasi-select" wire:ignore>
+                                <label for="lokasiId" class="form-label">Lokasi</label>
+                                <select id="lokasiId" class="form-select">
+                                    <option value="">Pilih Lokasi...</option>
+                                    @foreach ($lokasis as $lok)
+                                        <option value="{{ $lok->id }}">{{ $lok->nama_lokasi }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             @if(!empty($laboratoriumList))
-                                <div class="mb-3" x-data x-init="initFuncInput.initLaboratoriumSelect2($el.querySelector('select'), $wire)" wire:key="laboratorium-list-{{ md5(json_encode($laboratoriumList)) }}" wire:ignore>
+                               <div class="mb-3" x-data x-init="initFuncInput.initLaboratoriumSelect2($el.querySelector('select'), $wire)" wire:key="laboratorium-list-{{ md5(json_encode($laboratoriumList)) }}" wire:ignore>
                                     <label for="laboratoriumId" class="form-label">Laboratorium</label>
-                                    <select id="laboratoriumid" class="form-select select2-fit" multiple style="width: 100%">
+                                    <select id="laboratoriumid" class="form-select" multiple>
                                         @foreach ($laboratoriumList as $lab)
-                                            <option 
-                                                value="{{ $lab->id }}" 
-                                                title="Kapasitas: {{ $lab->kapasitas_laboratorium . "\n" . $lab->status_laboratorium }}">
-                                                {{ $lab->nama_laboratorium }}
-                                            </option> 
+                                            <option value="{{ $lab->id }}">{{ $lab->nama_laboratorium }}</option>
                                         @endforeach
                                     </select>
                                 </div>

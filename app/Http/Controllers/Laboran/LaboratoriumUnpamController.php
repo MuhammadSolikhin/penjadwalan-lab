@@ -15,7 +15,8 @@ use App\Http\Requests\Laboran\LaboratoriumUnpam\LaboratoriumUnpamUpdateRequest;
 class LaboratoriumUnpamController extends Controller
 {
 
-    public function index(){
+    public function index()
+    {
         $Jenislab = Jenislab::select(['id', 'nama_jenis_lab'])->get();
         $Lokasi = Lokasi::select(['id', 'nama_lokasi'])->whereNot('nama_lokasi', 'fleksible')->get();
 
@@ -31,16 +32,17 @@ class LaboratoriumUnpamController extends Controller
         ]);
     }
 
-    public function getApiLaboratorium(Request $request) {
-        $query = LaboratoriumUnpam::select(['id', 'nama_laboratorium', 'kapasitas_laboratorium', 'status_laboratorium', 'lokasi_id', 'jenislab_id', 'deskripsi_laboratorium']);
+    public function getApiLaboratorium(Request $request)
+    {
+        $query = LaboratoriumUnpam::select(['id', 'kode_laboratorium', 'nama_laboratorium', 'kapasitas_laboratorium', 'status_laboratorium', 'lokasi_id', 'jenislab_id', 'deskripsi_laboratorium']);
 
         // Pencarian
         if ($request->has('search') && !empty($request->search['value'])) {
             $search = $request->search['value'];
             $query->where(function ($q) use ($search) {
                 $q->where('nama_laboratorium', 'like', "%{$search}%")
-                    ->orWhere('kapasitas_laboratorium', 'like', "%{$search}%")
-                    ->orWhere('status_laboratorium', 'like', "%{$search}%");
+                    ->orWhere('kapasitas_laboratorium', 'like', "%{$search}%");
+                //->orWhere('status_laboratorium', 'like', "%{$search}%");
             });
         }
 
@@ -51,7 +53,7 @@ class LaboratoriumUnpamController extends Controller
         $orderColumnIndex = $request->input('order.0.column');
         $orderDirection = $request->input('order.0.dir') ?? 'desc';
 
-        $columns = [null,'nama_laboratorium', 'id', 'kapasitas_laboratorium', 'status_laboratorium', 'deskripsi_laboratorium'];
+        $columns = [null, 'nama_laboratorium', 'id', 'kapasitas_laboratorium', 'status_laboratorium', 'deskripsi_laboratorium'];
         $orderColumnName = $columns[$orderColumnIndex] ?? 'id';
 
         // Hanya izinkan kolom DB untuk di-sort
@@ -72,6 +74,7 @@ class LaboratoriumUnpamController extends Controller
         foreach ($data as $index => $laboratorium) {
             $result[] = [
                 'id_laboratorium' => Crypt::encryptString($laboratorium->id),
+                'kode_laboratorium' => $laboratorium->kode_laboratorium,
                 'nama_laboratorium' => $laboratorium->nama_laboratorium,
                 'kapasitas_laboratorium' => $laboratorium->kapasitas_laboratorium,
                 'status_laboratorium' => $laboratorium->status_laboratorium,
@@ -91,7 +94,8 @@ class LaboratoriumUnpamController extends Controller
         ]);
     }
 
-    public function store(LaboratoriumUnpamStoreRequest $Request){
+    public function store(LaboratoriumUnpamStoreRequest $Request)
+    {
         // dd($Request->all());
 
         DB::beginTransaction();
@@ -117,7 +121,8 @@ class LaboratoriumUnpamController extends Controller
         }
     }
 
-    public function update(LaboratoriumUnpamUpdateRequest $Request, $id){
+    public function update(LaboratoriumUnpamUpdateRequest $Request, $id)
+    {
         // dd($Request->all());
 
         DB::beginTransaction();

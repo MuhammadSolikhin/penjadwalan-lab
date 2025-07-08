@@ -22,13 +22,13 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::group(['middleware' => 'guest'], function() {
+Route::group(['middleware' => 'guest'], function () {
     // Home
     Route::get('/', [LoginController::class, 'home'])->name('home');
 
     // Registrasi Route
-    Route::get('/register', [RegisterController::class,'index'])->name('register');
-    Route::post('/register', [RegisterController::class,'store']);
+    Route::get('/register', [RegisterController::class, 'index'])->name('register');
+    Route::post('/register', [RegisterController::class, 'store']);
 
     // Login Route
     Route::get('/login', [LoginController::class, 'index'])->name('login');
@@ -36,13 +36,13 @@ Route::group(['middleware' => 'guest'], function() {
 
 });
 
-Route::group(['middleware'=> 'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
-Route::group(['middleware' => ['role:admin']], function() {
+Route::group(['middleware' => ['role:admin']], function () {
     // Dashboard
-    Route::get('/admin/dashboard', [DashboardController::class,'admin'])->name('admin.dashboard');
+    Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
 
     // Pengguna Page
     Route::get('/admin/pengguna', [UsersController::class, 'index'])->name('admin.pengguna');
@@ -75,8 +75,8 @@ Route::group(['middleware' => ['role:admin']], function() {
 
 
 
-Route::group(['middleware' => ['role:admin,laboran']], function() {
-    Route::get('/laboran/dashboard', [DashboardController::class,'laboran'])->name('laboran.dashboard');
+Route::group(['middleware' => ['role:admin,laboran']], function () {
+    Route::get('/laboran/dashboard', [DashboardController::class, 'laboran'])->name('laboran.dashboard');
 
     // Laboratorium Page
     Route::get('/laboran/laboratorium', [LaboratoriumUnpamController::class, 'index'])->name('laboran.laboratorium');
@@ -112,14 +112,21 @@ Route::group(['middleware' => ['role:admin,laboran']], function() {
 
 });
 
-Route::group(['middleware' => ['role:admin,lembaga,prodi,user']], function() {
-    Route::get('/dashboard', [DashboardController::class,'dashboardPengguna'])->name('dashboard');
+Route::group(['middleware' => ['role:admin,lembaga,prodi,user']], function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboardPengguna'])->name('dashboard');
 
     // Jadwal Page
     Route::get('/jadwal', [JadwalBookingController::class, 'index'])->name('jadwal');
 
     // Booking Page (Livewire)
-    Route::resource('/booking', BookingController::class);
+    Route::get('/booking', [BookingController::class, 'index'])->name('booking.index');
+
+    Route::prefix('/booking')->name('booking.')->group(function () {
+        Route::get('/diterima', [BookingController::class, 'diterima'])->name('diterima');
+        Route::get('/menunggu', [BookingController::class, 'menunggu'])->name('menunggu');
+        Route::get('/dibatalkan', [BookingController::class, 'dibatalkan'])->name('dibatalkan');
+    });
+    
     Route::get('/api/booking-events', [BookingController::class, 'getBookingEvents']);
 
 });
