@@ -24,6 +24,6 @@
                 <livewire:kategoribarang.kategori-barang-table/>
             </div>
         </div>
-        
+        <livewire:kategoribarang.kategori-barang-form-destroy/>
     </div>
 </div>

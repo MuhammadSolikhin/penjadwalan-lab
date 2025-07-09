@@ -16,13 +16,19 @@ use App\Livewire\Barang\Barang;
 use App\Livewire\Barang\BarangFormStore;
 use App\Livewire\Barang\BarangFormUpdate;
 use App\Livewire\KategoriBarang\KategoriBarang;
+use App\Livewire\KategoriBarang\KategoriBarangFormDestroy;
 use App\Livewire\KategoriBarang\KategoriBarangFormStore;
 use App\Livewire\KategoriBarang\KategoriBarangFormUpdate;
 use Illuminate\Support\Facades\Route;
 
 
 
+<<<<<<< Updated upstream
 Route::group(['middleware' => 'guest'], function() {
+=======
+
+Route::group(['middleware' => 'guest'], function () {
+>>>>>>> Stashed changes
     // Home
     Route::get('/', [LoginController::class, 'home'])->name('home');
 
@@ -104,6 +110,7 @@ Route::group(['middleware' => ['role:admin,laboran']], function() {
     Route::get('/kategori-barang', KategoriBarang::class)->name('kategori-barang.index');
     Route::get('/kategori-barang/tambah', KategoriBarangFormStore::class)->name('kategori-barang.create');
     Route::get('/kategori-barang/ubah/{hash}', KategoriBarangFormUpdate::class)->name('kategori-barang.edit');
+    Route::get('/kategori-barang/hapus/{hash}', KategoriBarangFormDestroy::class)->name('kategori-barang.destroy');
 
     // Barang
     Route::get('/barang', Barang::class)->name('barang.index');

@@ -30,7 +30,7 @@
                         <select wire:model="meja_id" class="form-select" id="meja-id">
                             <option value="">Pilih Meja</option>
                             @foreach($mejas as $meja)
-                                <option value="{{ $meja->id }}">{{ $meja->nama }} - {{ $meja->laboratoriumUnpam->nama }} ({{ $meja->laboratoriumUnpam->lokasi->nama }})</option>
+                                <option value="{{ $meja->id }}">{{ $meja->nama }} - {{ $meja->laboratoriumUnpam->nama }} ({{ $meja->laboratoriumUnpam->lokasi->nama_lokasi }})</option>
                             @endforeach
                         </select>
                         @error('meja_id') <span class="text-danger">{{ $message }}</span> @enderror
