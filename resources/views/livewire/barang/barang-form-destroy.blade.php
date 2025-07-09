@@ -14,9 +14,23 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <span class="fw-semibold">Nama Kategori Barang:</span> {{ ucfirst($nama) }}
+                        <span class="fw-semibold">Nama Barang:</span> {{ ucfirst($nama) }}
                     </div>
-                    <p>Apakah Anda yakin ingin menghapus kategori barang ini?</p>
+                    <div class="mb-3">
+                        <span class="fw-semibold">Kategori Barang:</span> {{ ucfirst($kategoriBarang) }}
+                    </div>
+                    <div class="mb-3">
+                        <span class="fw-semibold">Laboratorium:</span> {{ $laboratorium }}
+                    </div>
+                    <div class="mb-3">
+                        <span class="fw-semibold">Status :</span> {{ ucfirst($status) }}
+                    </div>
+                    @if ($meja) 
+                        <div class="mb-3">
+                            <span class="fw-semibold">Meja:</span> {{ $meja->nama }} - {{ $meja->laboratoriumUnpam->nama_laboratorium }} ({{ $meja->laboratoriumUnpam->lokasi->nama_lokasi }})
+                        </div>
+                    @endif
+                    <p>Apakah Anda yakin ingin menghapus barang ini?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" @click="open = false">Batal</button>

@@ -24,6 +24,6 @@
                 <livewire:barang.barang-table/>
             </div>
         </div>
-        
+        <livewire:barang.barang-form-destroy/>
     </div>
 </div>

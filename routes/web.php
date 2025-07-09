@@ -13,6 +13,7 @@ use App\Http\Controllers\Pengguna\BookingController;
 use App\Http\Controllers\Pengguna\JadwalBookingController;
 use App\Http\Controllers\Pengguna\ProsesPengajuanBookingController;
 use App\Livewire\Barang\Barang;
+use App\Livewire\Barang\BarangFormDestroy;
 use App\Livewire\Barang\BarangFormStore;
 use App\Livewire\Barang\BarangFormUpdate;
 use App\Livewire\KategoriBarang\KategoriBarang;
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['middleware' => 'guest'], function () {
-    
+
     // Home
     Route::get('/', [LoginController::class, 'home'])->name('home');
 
@@ -112,6 +113,7 @@ Route::group(['middleware' => ['role:admin,laboran']], function () {
     Route::get('/barang', Barang::class)->name('barang.index');
     Route::get('/barang/tambah', BarangFormStore::class)->name('barang.create');
     Route::get('/barang/ubah/{hash}', BarangFormUpdate::class)->name('barang.edit');
+    Route::get('/barang/hapus/{hash}', BarangFormDestroy::class)->name('barang.destroy');
 
 });
 

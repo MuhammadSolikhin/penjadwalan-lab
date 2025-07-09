@@ -33,30 +33,39 @@ class BarangFormUpdate extends Component
         $this->loadKategoriBarangs();
         $this->loadLaboratoriumUnpams();
 
-        // Tampilkan select meja jika kategori meja
+        // LOGIKA BARU: tampilkan select meja jika kategori BUKAN 'meja'
         $kategori = KategoriBarang::find($this->kategori_barang_id);
-        if ($kategori && strtolower($kategori->nama) == 'meja') {
+        if ($kategori && strtolower($kategori->nama) !== 'meja') {
             $this->showMejaSelect = true;
             $this->loadMejas();
+        } else {
+            $this->showMejaSelect = false;
+            $this->mejas = [];
         }
     }
 
     public function updatedKategoriBarangId($value)
     {
         $this->showMejaSelect = false;
+        $this->meja_id = null;
 
-        $kategoriId = $value;
-
-        if ($kategoriId) {
-            $kategoriBarang = KategoriBarang::find($kategoriId);
+        if ($value) {
+            $kategoriBarang = KategoriBarang::find($value);
 
             if ($kategoriBarang && strtolower($kategoriBarang->nama) == 'meja') {
+                // Jika kategori adalah 'meja', JANGAN tampilkan select meja
+                $this->showMejaSelect = false;
+                $this->mejas = [];
+                $this->meja_id = null;
+            } else {
+                // Jika kategori bukan 'meja', tampilkan select meja dan load mejas
                 $this->showMejaSelect = true;
                 $this->loadMejas();
-            } else {
-                $this->showMejaSelect = false;
-                $this->meja_id = null;
             }
+        } else {
+            $this->showMejaSelect = false;
+            $this->mejas = [];
+            $this->meja_id = null;
         }
     }
 
