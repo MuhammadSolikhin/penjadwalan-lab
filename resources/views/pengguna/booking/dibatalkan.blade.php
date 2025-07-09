@@ -10,5 +10,4 @@
     <hr>
     @livewire('pengguna.booking.pengajuan-booking-table', ['status' => 'dibatalkan'])
     @livewire('pengguna.booking.detail-pengajuan-booking')
-
 @endsection

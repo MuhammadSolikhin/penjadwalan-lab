@@ -39,11 +39,6 @@ export function initLaboratoriumDatatable() {
                 className: "text-nowrap align-middle"
             },
             {
-                title: "Kode Prodi",
-                data: "kode_prodi",
-                className: "text-nowrap align-middle"
-            },
-            {
                 title: "Ruang Lab",
                 data: "nama_laboratorium",
                 className: "min-mobile text-nowrap align-middle"

@@ -10,5 +10,6 @@
     <hr>
     @livewire('pengguna.booking.pengajuan-booking-table', ['status' => 'menunggu'])
     @livewire('pengguna.booking.detail-pengajuan-booking')
-
+    @livewire('pengguna.booking.batalkan-pengajuan-booking')
+    @livewire('pengguna.booking.form-pengajuan-booking-edit')
 @endsection
