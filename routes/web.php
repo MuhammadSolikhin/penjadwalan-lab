@@ -13,9 +13,11 @@ use App\Http\Controllers\Pengguna\BookingController;
 use App\Http\Controllers\Pengguna\JadwalBookingController;
 use App\Http\Controllers\Pengguna\ProsesPengajuanBookingController;
 use App\Livewire\Barang\Barang;
+use App\Livewire\Barang\BarangFormDestroy;
 use App\Livewire\Barang\BarangFormStore;
 use App\Livewire\Barang\BarangFormUpdate;
 use App\Livewire\KategoriBarang\KategoriBarang;
+use App\Livewire\KategoriBarang\KategoriBarangFormDestroy;
 use App\Livewire\KategoriBarang\KategoriBarangFormStore;
 use App\Livewire\KategoriBarang\KategoriBarangFormUpdate;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['middleware' => 'guest'], function () {
+
     // Home
     Route::get('/', [LoginController::class, 'home'])->name('home');
 
@@ -104,11 +107,13 @@ Route::group(['middleware' => ['role:admin,laboran']], function () {
     Route::get('/kategori-barang', KategoriBarang::class)->name('kategori-barang.index');
     Route::get('/kategori-barang/tambah', KategoriBarangFormStore::class)->name('kategori-barang.create');
     Route::get('/kategori-barang/ubah/{hash}', KategoriBarangFormUpdate::class)->name('kategori-barang.edit');
+    Route::get('/kategori-barang/hapus/{hash}', KategoriBarangFormDestroy::class)->name('kategori-barang.destroy');
 
     // Barang
     Route::get('/barang', Barang::class)->name('barang.index');
     Route::get('/barang/tambah', BarangFormStore::class)->name('barang.create');
     Route::get('/barang/ubah/{hash}', BarangFormUpdate::class)->name('barang.edit');
+    Route::get('/barang/hapus/{hash}', BarangFormDestroy::class)->name('barang.destroy');
 
 });
 

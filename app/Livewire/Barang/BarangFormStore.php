@@ -35,18 +35,18 @@ class BarangFormStore extends Component
     public function updatedKategoriBarangId($value)
     {
         $this->showMejaSelect = false;
+        $this->meja_id = null;
 
-        $kategoriId = $value;
+        if ($value) {
+            $kategoriBarang = KategoriBarang::findOrFail($value);
 
-        if ($kategoriId)
-        {
-            $kategoriBarang = KategoriBarang::find($kategoriId);
-        
-            if($kategoriBarang == 'meja') {
+            if ($kategoriBarang && strtolower($kategoriBarang->nama) == 'meja') {
+                // Jika kategori adalah 'meja'
+                $this->showMejaSelect = false;
+            } else {
+                // Jika kategori bukan 'meja'
                 $this->showMejaSelect = true;
                 $this->loadMejas();
-            } else {
-                $this->showMejaSelect = false;
                 $this->meja_id = null;
             }
         }
@@ -75,7 +75,7 @@ class BarangFormStore extends Component
         $mejasQuery = Barang::with(['laboratoriumUnpam.lokasi'])
             ->select('id', 'nama', 'lab_id')
             ->whereHas('kategoriBarang', function ($query) {
-                $query->where('nama', 'like', '%meja%');
+                $query->where('nama', 'like','%meja%');
             });
         
         if ($peran != 'admin')

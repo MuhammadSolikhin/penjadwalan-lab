@@ -50,7 +50,7 @@ final class BarangTable extends PowerGridComponent
             ->add('status')
             ->add('kategori_nama', fn(Barang $model) => $model->kategoriBarang ? $model->kategoriBarang->nama : '-')
             ->add('lab_nama', fn(Barang $model) => $model->laboratoriumUnpam ? $model->laboratoriumUnpam->nama_laboratorium : '-')
-            ->add('meja_nama', fn(Barang $model) => $model->meja ? $model->meja->nama_meja : '-')
+            ->add('meja_nama', fn(Barang $model) => $model->meja ? $model->meja->nama : '-')
             ->add('created_at_formatted', fn(Barang $model) => Carbon::parse($model->created_at)->locale('id')->translatedFormat('d F Y H:i'));
     }
 
@@ -100,6 +100,12 @@ final class BarangTable extends PowerGridComponent
                 ->id()
                 ->class('btn btn-sm btn-primary text-white')
                 ->route('barang.edit', ['hash' => encrypt($row->id)]),
+
+            Button::make('delete')
+                ->slot('Hapus')
+                ->id()
+                ->class('btn btn-sm btn-danger text-white')
+                ->dispatch('barangDestroyModal', ['hash' => encrypt($row->id)]),
         ];
     }
 

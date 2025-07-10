@@ -83,6 +83,12 @@ final class KategoriBarangTable extends PowerGridComponent
                 ->id()
                 ->class("btn btn-sm btn-primary text-white")
                 ->route('kategori-barang.edit', ['hash' => encrypt($row->id)]),
+
+            Button::make('delete')
+                ->slot('Hapus')
+                ->id()
+                ->class("btn btn-sm btn-danger text-white")
+                ->dispatch('kategoriBarangDestroyModal', ['hash' => encrypt($row->id)]),
         ];
     }
 
