@@ -39,56 +39,58 @@
     </div>
 
     {{-- Building Chart --}}
-    <div class="d-flex align-items-center bg-white rounded-3 m-4 p-4">
-        <div class="col-4 text-center">
+    <div class="row bg-white rounded-3 m-4 p-4">
+        <div class="col-12 col-md-4 text-center">
             <p class="fs-1 fw-bold">{{ $schedulesCount }}</h6>
             <p>Jumlah Keseluruhan Jadwal</p>
         </div>
 
-        <div class="d-flex col-8 justify-content-around">
-            <div>
-                <div style="position: relative; width:100px">
-                    <canvas id="buildChart1"></canvas>
-                    <p class="position-absolute fw-bold" style="top: 44px; left: 38px">{{ $pusatCount }}</p>
+        <div class="col-12 col-md-8">
+            <div class="row">
+                <div class="col-6 col-md-3 d-flex flex-column align-items-center">
+                    <div class="d-flex justify-content-center align-items-center" style="position: relative; width:100px">
+                        <canvas id="buildChart1"></canvas>
+                        <p class="position-absolute fw-bold" style="top: 44px;">{{ $pusatCount }}</p>
+                    </div>
+                    <p>Gedung Pusat</p>
                 </div>
-                <p>Gedung Pusat</p>
-            </div>
 
 
-            <div>
-                <div style="position: relative; width:100px">
-                    <canvas id="buildChart2"></canvas>
-                    <p class="position-absolute fw-bold" style="top: 44px; left: 38px">{{ $witanaCount }}</p>
+                <div class="col-6 col-md-3 d-flex flex-column align-items-center">
+                    <div class="d-flex justify-content-center align-items-center" style="position: relative; width:100px">
+                        <canvas id="buildChart2"></canvas>
+                        <p class="position-absolute fw-bold" style="top: 44px;">{{ $witanaCount }}</p>
+                    </div>
+                    <p>Gedung Witana</p>
                 </div>
-                <p>Gedung Witana</p>
-            </div>
 
-            <div>
-                <div style="position: relative; width:100px">
-                    <canvas id="buildChart3"></canvas>
-                    <p class="position-absolute fw-bold" style="top: 44px; left: 38px">{{ $viktorCount }}</p>
+                <div class="col-6 col-md-3 d-flex flex-column align-items-center">
+                    <div class="d-flex justify-content-center align-items-center" style="position: relative; width:100px">
+                        <canvas id="buildChart3"></canvas>
+                        <p class="position-absolute fw-bold" style="top: 44px;">{{ $viktorCount }}</p>
+                    </div>
+                    <p>Gedung Viktor</p>
                 </div>
-                <p>Gedung Viktor</p>
-            </div>
 
-            <div>
-                <div style="position: relative; width:100px">
-                    <canvas id="buildChart4"></canvas>
-                    <p class="position-absolute fw-bold" style="top: 44px; left: 38px">{{ $serangCount }}</p>
+                <div class="col-6 col-md-3 d-flex flex-column align-items-center">
+                    <div class="d-flex justify-content-center align-items-center" style="position: relative; width:100px">
+                        <canvas id="buildChart4"></canvas>
+                        <p class="position-absolute fw-bold" style="top: 44px;">{{ $serangCount }}</p>
+                    </div>
+                    <p>Unpam Serang</p>
                 </div>
-                <p>Unpam Serang</p>
             </div>
         </div>
     </div>
 
     {{-- Most Use & Room Status --}}
-    <div class="d-flex m-4 gap-2">
-        <div class="col bg-white rounded me-2 px-4 pt-4">
+    <div class="row m-4 gap-3">
+        <div class="col-12 col-lg bg-white rounded me-2 px-4 pt-4">
             <div class="d-flex flex-column align-items-center text-center">
                 <p class="fw-bold fs-5">Grafik peringkat<br>penggunaan terbanyak</p>
-                <div class="position-relative" style="width: 150px">
+                <div class="position-relative d-flex justify-content-center align-items-center" style="width: 150px">
                     <canvas id="userRankChart"></canvas>
-                    <p class="position-absolute fw-bold fs-3 text-center" style="top: 58px; left: 52px">
+                    <p class="position-absolute fw-bold fs-3 text-center" style="top: 55px;">
                         {{ $schedulesCount }}
                     </p>
                 </div>
@@ -128,8 +130,8 @@
         </div>
 
         {{-- Submission Table --}}
-        <div class="col bg-white rounded-3">
-            <h6 class="fs-4 fw-medium mybg-brown100 rounded-top-3 p-3">Status Pengajuan</h6>
+        <div class="col-12 col-lg bg-white rounded-3 p-0 m-0">
+            <h6 class="fs-4 fw-medium mybg-brown100 rounded-top-3 w-100 p-3">Status Pengajuan</h6>
 
             <div class="px-4">
                 <table class="table">
