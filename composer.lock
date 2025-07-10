@@ -1271,16 +1271,16 @@
         },
         {
             "name": "laravel/prompts",
-            "version": "v0.3.5",
+            "version": "v0.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/prompts.git",
-                "reference": "57b8f7efe40333cdb925700891c7d7465325d3b1"
+                "reference": "86a8b692e8661d0fb308cec64f3d176821323077"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/prompts/zipball/57b8f7efe40333cdb925700891c7d7465325d3b1",
-                "reference": "57b8f7efe40333cdb925700891c7d7465325d3b1",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/86a8b692e8661d0fb308cec64f3d176821323077",
+                "reference": "86a8b692e8661d0fb308cec64f3d176821323077",
                 "shasum": ""
             },
             "require": {
@@ -1324,9 +1324,9 @@
             "description": "Add beautiful and user-friendly forms to your command-line applications.",
             "support": {
                 "issues": "https://github.com/laravel/prompts/issues",
-                "source": "https://github.com/laravel/prompts/tree/v0.3.5"
+                "source": "https://github.com/laravel/prompts/tree/v0.3.6"
             },
-            "time": "2025-02-11T13:34:40+00:00"
+            "time": "2025-07-07T14:17:42+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -2660,16 +2660,16 @@
         },
         {
             "name": "power-components/livewire-powergrid",
-            "version": "v6.4.1",
+            "version": "v6.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Power-Components/livewire-powergrid.git",
-                "reference": "7692a7565638509d6e3e311356aef81e7c81fffc"
+                "reference": "dbbcab79f69de2d2d03a2447535471ac8c985858"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Power-Components/livewire-powergrid/zipball/7692a7565638509d6e3e311356aef81e7c81fffc",
-                "reference": "7692a7565638509d6e3e311356aef81e7c81fffc",
+                "url": "https://api.github.com/repos/Power-Components/livewire-powergrid/zipball/dbbcab79f69de2d2d03a2447535471ac8c985858",
+                "reference": "dbbcab79f69de2d2d03a2447535471ac8c985858",
                 "shasum": ""
             },
             "require": {
@@ -2726,7 +2726,7 @@
             "homepage": "https://github.com/power-components/livewire-powergrid",
             "support": {
                 "issues": "https://github.com/Power-Components/livewire-powergrid/issues",
-                "source": "https://github.com/Power-Components/livewire-powergrid/tree/v6.4.1"
+                "source": "https://github.com/Power-Components/livewire-powergrid/tree/v6.4.2"
             },
             "funding": [
                 {
@@ -2734,7 +2734,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-07-04T14:45:19+00:00"
+            "time": "2025-07-08T11:42:32+00:00"
         },
         {
             "name": "psr/clock",
