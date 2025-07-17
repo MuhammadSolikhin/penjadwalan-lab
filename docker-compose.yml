@@ -1,7 +1,6 @@
-version: "3.8"
 services:
   app:
-    image: khinnn/penjadwalan_lab-app:latest
+    image: khinnn/penjadwalan_lab:latest
     restart: always
     ports:
       - "8000:8000"

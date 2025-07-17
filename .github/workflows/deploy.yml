@@ -76,7 +76,9 @@ jobs:
       run: |
         ssh ${{ vars.EC2_USER }}@${{ vars.EC2_HOST }} "mkdir -p ${{ vars.EC2_PROJECT_PATH }}"
         scp docker-compose.yml ${{ vars.EC2_USER }}@${{ vars.EC2_HOST }}:${{ vars.EC2_PROJECT_PATH }}
-    
+    - name: Copy .env to EC2
+      run: |
+        scp .env ${{ vars.EC2_USER }}@${{ vars.EC2_HOST }}:${{ vars.EC2_PROJECT_PATH }}/.env
       
     - name: Deploy on EC2 via SSH
       run: |
