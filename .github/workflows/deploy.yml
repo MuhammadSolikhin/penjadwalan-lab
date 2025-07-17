@@ -84,6 +84,7 @@ jobs:
       run: |
         ssh ${{ vars.EC2_USER }}@${{ vars.EC2_HOST }} << EOF
           cd ${{ vars.EC2_PROJECT_PATH }}
+
           echo "Pulling latest Laravel image..."
           sudo docker pull ${{ vars.DOCKERHUB_USERNAME }}/penjadwalan_lab:latest
 
@@ -93,6 +94,13 @@ jobs:
           echo "Starting Laravel containers..."
           sudo docker compose up -d
 
+          echo "Waiting for MySQL to be ready..."
+          until sudo docker compose exec db mysqladmin ping -h "localhost" --silent; do
+            echo "Waiting for database..."
+            sleep 5
+          done
+
           echo "Running Laravel migrations..."
           sudo docker compose exec app php artisan migrate --force
         EOF
+
