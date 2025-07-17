@@ -83,14 +83,14 @@ jobs:
         ssh ${{ vars.EC2_USER }}@${{ vars.EC2_HOST }} << EOF
           cd ${{ vars.EC2_PROJECT_PATH }}
           echo "Pulling latest Laravel image..."
-          docker pull ${{ vars.DOCKERHUB_USERNAME }}/penjadwalan_lab:latest
+          sudo docker pull ${{ vars.DOCKERHUB_USERNAME }}/penjadwalan_lab:latest
 
           echo "Stopping existing containers..."
-          docker compose down || true
+          sudo docker compose down || true
 
           echo "Starting Laravel containers..."
-          docker compose up -d
+          sudo docker compose up -d
 
           echo "Running Laravel migrations..."
-          docker compose exec app php artisan migrate --force
+          sudo docker compose exec app php artisan migrate --force
         EOF
