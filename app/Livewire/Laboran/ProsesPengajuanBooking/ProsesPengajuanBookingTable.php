@@ -78,7 +78,7 @@ final class ProsesPengajuanBookingTable extends PowerGridComponent
             Column::make('Lokasi', 'nama_lokasi'),
             Column::make('Oleh', 'nama_pengguna'),
 
-            Column::make('Created at', 'created_at_formatted')
+            Column::make('Created at', 'created_at_formatted' , 'created_at')
                 ->sortable()
                 ->searchable(),  
 

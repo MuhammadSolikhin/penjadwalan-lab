@@ -636,7 +636,7 @@ class FormPengajuanBookingCreate extends Component
                 'status_pengajuan_booking' => 'menunggu',
                 'keperluan_pengajuan_booking' => $this->keperluanBooking,
                 'mode_tanggal_pengajuan' => $this->modeTanggal,
-                'lokasi_id' => auth()->user()->lokasi_id,
+                'lokasi_id' => $this->lokasiId,
                 'user_id' => auth()->id(),
             ]);
 

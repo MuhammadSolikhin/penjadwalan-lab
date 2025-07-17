@@ -1,6 +1,6 @@
 <div class="sidebar mybg-brown100 shadow py-5 px-4" id="sidebar">
     <div class="brand-logo gap-2 d-flex align-items-center justify-content-center">
-        <img src="{{ asset('images/logo-reslab-full.png') }}" width="200px" alt="" srcset="">
+        <!--img src="{{ asset('images/logo-reslab-full.png') }}" width="200px" alt="" srcset="" -->
     </div>
 
 
