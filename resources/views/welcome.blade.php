@@ -5,10 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Penjadwalan Lab</title>
+    <title>ResLab Universitas Pamulang</title>
 
     <!-- CSS & JS-->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'public/css/mystyle.css'])
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-reslab-square.png') }}">
     <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
 </head>
 
@@ -17,9 +18,9 @@
     {{-- Navbar --}}
     <nav class="navbar navbar-expand-lg d-flex justify-content-between">
         <div class="container-fluid px-5">
-            <div class="navbar-brand">
-                <img src="{{ asset('images/unpam-logo.png') }}" width="50px" alt="" srcset="">
-                <b class="mysite-title mytext-brown mx-3 fs-4"><i>Penjadwalan Lab</i></b>
+            <div class="d-flex align-items-end">
+                <img src="{{ asset('images/logo-reslab-square.png') }}" width="50px" alt="" srcset="">
+                <b class="mysite-title mytext-brown mx-2 fs-4"><i>ResLab</i></b>
             </div>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
@@ -126,25 +127,25 @@
             <div class="row row-cols-1 row-cols-md-4 g-4 mb-5">
                 <div class="col">
                     <div class="text-center">
-                        <img src="{{ asset('images/lb-logo.png') }}" alt="">
+                        <img src="{{ asset('images/lb-logo.png') }}" height="100px" alt="">
                         <p class="fs-5 fw-semibold pt-3">Lembaga Bahasa</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="text-center">
-                        <img src="{{ asset('images/unpam-logo.png') }}" alt="">
+                        <img src="{{ asset('images/logo-lsp.png') }}" height="100px" alt="">
                         <p class="fs-5 fw-semibold pt-3">Lembaga Sertifikasi Profesi</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="text-center">
-                        <img src="{{ asset('images/unpam-logo.png') }}" alt="">
-                        <p class="fs-5 fw-semibold pt-3">Laboran Teknik Informatika</p>
+                        <img src="{{ asset('images/unpam-logo.png') }}" height="100px" alt="">
+                        <p class="fs-5 fw-semibold pt-3">Prodi Teknik Informatika</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="text-center">
-                        <img src="{{ asset('images/faculty-logo.png') }}" alt="">
+                        <img src="{{ asset('images/faculty-logo.png') }}" height="100px" alt="">
                         <p class="fs-5 fw-semibold pt-3">Lebih dari 3 Fakultas</p>
                     </div>
                 </div>
@@ -209,7 +210,7 @@
                                     alt="">
                             </div>
                             <div class="col text-start">
-                                <p class="fs-1 fw-bold m-0">80</p>
+                                <p class="fs-1 fw-bold m-0">80+</p>
                                 <p class="m-0">Jumlah Lab</p>
                             </div>
                         </div>
@@ -224,7 +225,7 @@
                                     alt="">
                             </div>
                             <div class="col text-start">
-                                <p class="fs-1 fw-bold m-0">518</p>
+                                <p class="fs-1 fw-bold m-0">200+</p>
                                 <p class="m-0">Jumlah Komputer</p>
                             </div>
                         </div>
@@ -239,8 +240,8 @@
                                     alt="">
                             </div>
                             <div class="col text-start">
-                                <p class="fs-1 fw-bold m-0">67</p>
-                                <p class="m-0">Penjadwalan</p>
+                                <p class="fs-1 fw-bold m-0">6000+</p>
+                                <p class="m-0">Jumlah Jadwal</p>
                             </div>
                         </div>
                     </div>
@@ -254,8 +255,8 @@
                                     alt="">
                             </div>
                             <div class="col text-start">
-                                <p class="fs-1 fw-bold m-0">4</p>
-                                <p class="m-0">Fakultas</p>
+                                <p class="fs-1 fw-bold m-0">3+</p>
+                                <p class="m-0">Fakultas Menggunakan</p>
                             </div>
                         </div>
                     </div>

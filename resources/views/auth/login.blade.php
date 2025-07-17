@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login Page</title>
+    <title>Login</title>
 
     {{-- Custom CSS & JS --}}
     @vite(['resources/css/app.css', 'resources/js/app.js', 'public/css/mystyle.css'])
-    <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-reslab-square.png') }}">
 
 </head>
 
@@ -17,10 +17,10 @@
         <!-- Navbar -->
         <nav class="navbar bg-body-transparent">
             <div class="container-fluid">
-                <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-                    <img src="images/unpam-logo.png" alt="Logo" width="50" height="50"
+                <a class="navbar-brand d-flex align-items-center bg-white p-2 rounded-2" href="{{ url('/') }}">
+                    <img src="{{ asset('images/logo-reslab-square.png') }}" alt="Logo" width="50"
                         class="d-inline-block align-text-top">
-                    <b class="mysite-title mytext-white mx-3 fs-4"><i>Penjadwalan Lab</i></b>
+                    <b class="mysite-title mytext-brown mx-3 fs-4"><i>ResLab</i></b>
                 </a>
             </div>
         </nav>

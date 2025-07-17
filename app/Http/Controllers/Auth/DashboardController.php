@@ -8,6 +8,8 @@ use App\Models\JadwalBooking;
 use App\Models\LaboratoriumUnpam;
 use App\Models\PengajuanBooking;
 use App\Models\User;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -20,17 +22,64 @@ class DashboardController extends Controller
         // Total All Laboratorium
         $laboratoryCount = LaboratoriumUnpam::all()->count();
 
+        // Get past 3 years schedule data
+        $threeYearsAgo = Carbon::now()->subYears(3);
+        $threeYearSchedules = JadwalBooking::with('laboratoriumUnpam')->where('status', '=', 'diterima')->where('created_at', '>=', $threeYearsAgo)->get();
+
+        // Get current period schedules
+        $currentSchedules = $threeYearSchedules->filter(function ($item) {
+            $itemDate = \Carbon\Carbon::parse($item->created_at);
+            $currentDate = now();
+            $currentPeriod = $currentDate->month <= 6 ? 1 : 2;
+
+            if ($currentPeriod == 2) {
+                return $itemDate->year == $currentDate->year && $itemDate->month > 6;
+            } else {
+                return $itemDate->year == $currentDate->year && $itemDate->month <= 6;
+            }
+        });
+
         // Total all schedules and schedules per building
-        $schedulesCount = JadwalBooking::where('status', '=', 'diterima')->count();
         $counts = [];
         for ($i = 0; $i < 5; $i++) {
-            # code...
-            $counts[$i] = JadwalBooking::with('laboratoriumUnpam')->whereRelation('laboratoriumUnpam', 'lokasi_id', '=', ($i + 2))->where('status', '=', 'diterima')->count();
+            $location_id = $i + 2;
+            $counts[$i] = $currentSchedules->filter(function ($item) use ($location_id) {
+                return $item->laboratoriumUnpam->lokasi_id ==  $location_id;
+            })->count();
         }
 
+        // Schedules by Periods
+        $grouped = collect();
+
+        foreach ($threeYearSchedules as $item) {
+            $date = \Carbon\Carbon::parse($item->created_at);
+            $year = $date->year;
+            $semester = $date->month <= 6 ? 1 : 2;
+            $period = "{$year}-{$semester}";
+
+            $grouped->put($period, $grouped->get($period, 0) + 1);
+        }
+
+        // Get 6 recent periods
+        $sorted = $grouped->sortKeysDesc()->slice(0, 6)->sortKeys();
+
+        $schedulesbyPeriod = [
+            'labels' => $sorted->keys()->values(),
+            'data'   => $sorted->values(),
+        ];
+
         // Top frequent user
-       $topFrequent = User::withCount(['jadwalBookings as jadwal_bookings_count' => function ($query){
-            $query->where('status', '=', 'diterima');
+        $currentDate = now();
+        if ($currentDate->month < 7) {
+            $startDate = Carbon::create($currentDate->year, 1, 1)->startOfDay();
+            $endDate = Carbon::create($currentDate->year, 6, 30)->endOfDay();
+        } else {
+            $startDate = Carbon::create($currentDate->year, 7, 1)->startOfDay();
+            $endDate = Carbon::create($currentDate->year, 12, 31)->endOfDay();
+        }
+
+        $topFrequent = User::withCount(['jadwalBookings as jadwal_bookings_count' => function ($query) use ($startDate, $endDate) {
+            $query->where('status', '=', 'diterima')->whereBetween('jadwal_bookings.created_at', [$startDate, $endDate]);
         }])
             ->orderByDesc('jadwal_bookings_count')
             ->limit(5)
@@ -42,11 +91,12 @@ class DashboardController extends Controller
         return view("admin.index", [
             'usersCount' => $usersCount,
             'laboratoryCount' => $laboratoryCount,
-            'schedulesCount' => $schedulesCount,
+            'schedulesCount' => $currentSchedules->count(),
             'pusatCount' => $counts[0],
             'witanaCount' => $counts[1],
             'viktorCount' => $counts[2],
             'serangCount' => $counts[3],
+            'schedulesbyPeriod' => $schedulesbyPeriod,
             'topFrequent' => $topFrequent,
             'computerCount' => $computerCount
         ]);
@@ -60,17 +110,65 @@ class DashboardController extends Controller
         // Total All Laboratorium
         $laboratoryCount = LaboratoriumUnpam::all()->count();
 
+        // Get past 3 years schedule data
+        $threeYearsAgo = Carbon::now()->subYears(3);
+        $threeYearSchedules = JadwalBooking::with('laboratoriumUnpam')->where('status', '=', 'diterima')->where('created_at', '>=', $threeYearsAgo)->get();
+
+        // Get current period schedules
+        $currentSchedules = $threeYearSchedules->filter(function ($item) {
+            $itemDate = \Carbon\Carbon::parse($item->created_at);
+            $currentDate = now();
+            $currentPeriod = $currentDate->month <= 6 ? 1 : 2;
+
+            if ($currentPeriod == 2) {
+                return $itemDate->year == $currentDate->year && $itemDate->month > 6;
+            } else {
+                return $itemDate->year == $currentDate->year && $itemDate->month <= 6;
+            }
+        });
+
         // Total all schedules and schedules per building
-        $schedulesCount = JadwalBooking::where('status', '=', 'diterima')->count();
         $counts = [];
         for ($i = 0; $i < 5; $i++) {
-            # code...
-            $counts[$i] = JadwalBooking::with('laboratoriumUnpam')->whereRelation('laboratoriumUnpam', 'lokasi_id', '=', ($i + 2))->where('status', '=', 'diterima')->count();
+            $location_id = $i + 2;
+            $counts[$i] = $currentSchedules->filter(function ($item) use ($location_id) {
+                return $item->laboratoriumUnpam->lokasi_id ==  $location_id;
+            })->count();
+        }
+
+        // Schedules by Periods
+        $grouped = collect();
+
+        foreach ($threeYearSchedules as $item) {
+            $date = \Carbon\Carbon::parse($item->created_at);
+            $year = $date->year;
+            $semester = $date->month <= 6 ? 1 : 2;
+            $period = "{$year}-{$semester}";
+
+            $grouped->put($period, $grouped->get($period, 0) + 1);
+        }
+
+        // Get 6 recent periods
+        $sorted = $grouped->sortKeysDesc()->slice(0, 6)->sortKeys();
+
+        $schedulesbyPeriod = [
+            'labels' => $sorted->keys()->values(),
+            'data'   => $sorted->values(),
+        ];
+
+        // Get Period
+        $currentDate = now();
+        if ($currentDate->month < 7) {
+            $startDate = Carbon::create($currentDate->year, 1, 1)->startOfDay();
+            $endDate = Carbon::create($currentDate->year, 6, 30)->endOfDay();
+        } else {
+            $startDate = Carbon::create($currentDate->year, 7, 1)->startOfDay();
+            $endDate = Carbon::create($currentDate->year, 12, 31)->endOfDay();
         }
 
         // Top frequent user
-        $topFrequent = User::withCount(['jadwalBookings as jadwal_bookings_count' => function ($query){
-            $query->where('status', '=', 'diterima');
+        $topFrequent = User::withCount(['jadwalBookings as jadwal_bookings_count' => function ($query) use ($startDate, $endDate) {
+            $query->where('status', '=', 'diterima')->whereBetween('jadwal_bookings.created_at', [$startDate, $endDate]);
         }])
             ->orderByDesc('jadwal_bookings_count')
             ->limit(5)
@@ -82,11 +180,12 @@ class DashboardController extends Controller
         return view("laboran.index", [
             'usersCount' => $usersCount,
             'laboratoryCount' => $laboratoryCount,
-            'schedulesCount' => $schedulesCount,
+            'schedulesCount' => $currentSchedules->count(),
             'pusatCount' => $counts[0],
             'witanaCount' => $counts[1],
             'viktorCount' => $counts[2],
             'serangCount' => $counts[3],
+            'schedulesbyPeriod' => $schedulesbyPeriod,
             'topFrequent' => $topFrequent,
             'computerCount' => $computerCount
         ]);
@@ -97,17 +196,29 @@ class DashboardController extends Controller
         // Total All Laboratorium
         $laboratoryCount = LaboratoriumUnpam::all()->count();
 
+        // Get period
+        $currentDate = now();
+        if ($currentDate->month < 7) {
+            $startDate = Carbon::create($currentDate->year, 1, 1)->startOfDay();
+            $endDate = Carbon::create($currentDate->year, 6, 30)->endOfDay();
+        } else {
+            $startDate = Carbon::create($currentDate->year, 7, 1)->startOfDay();
+            $endDate = Carbon::create($currentDate->year, 12, 31)->endOfDay();
+        }
+
         // Total all schedules and schedules per building
-        $schedulesCount = JadwalBooking::where('status', '=', 'diterima')->count();
+        $currentSchedules = JadwalBooking::with('laboratoriumUnpam')->where('status', '=', 'diterima')->whereBetween('created_at', [$startDate, $endDate])->get();
         $counts = [];
         for ($i = 0; $i < 5; $i++) {
-            # code...
-            $counts[$i] = JadwalBooking::with('laboratoriumUnpam')->whereRelation('laboratoriumUnpam', 'lokasi_id', '=', ($i + 2))->where('status', '=', 'diterima')->count();
+            $location_id = $i + 2;
+            $counts[$i] = $currentSchedules->filter(function ($item) use ($location_id) {
+                return $item->laboratoriumUnpam->lokasi_id ==  $location_id;
+            })->count();
         }
 
         // Top frequent user
-        $topFrequent = User::withCount(['jadwalBookings as jadwal_bookings_count' => function ($query){
-            $query->where('status', '=', 'diterima');
+        $topFrequent = User::withCount(['jadwalBookings as jadwal_bookings_count' => function ($query) use ($startDate, $endDate) {
+            $query->where('status', '=', 'diterima')->whereBetween('jadwal_bookings.created_at', [$startDate, $endDate]);
         }])
             ->orderByDesc('jadwal_bookings_count')
             ->limit(5)
@@ -117,15 +228,17 @@ class DashboardController extends Controller
         $computerCount = Barang::where('nama', "LIKE", "komputer%")->count();
 
         // Available schedule for 1 semester
-        $possibleSchedules = 5 * 30 * 6 * 59;     // 5 hours per day * 30 days per month * 6 months * 59 of labs
-        $availableSchedules = $possibleSchedules - $schedulesCount;
+        $period = $currentDate->month < 7 ? CarbonPeriod::create("{$currentDate->year}-01-01", "{$currentDate->year}-06-30") : CarbonPeriod::create("$currentDate->year-07-01", "$currentDate->year-12-31");
+        $totalDays = $period->count();
+        $possibleSchedules = 5 * $totalDays * $laboratoryCount;     // 5 hours per day * total of days in 1 semester * number of labs
+        $availableSchedules = $possibleSchedules - $currentSchedules->count();
 
         // User reservation
         $reservations = PengajuanBooking::with('laboratorium.lokasi')->where('user_id', '=', Auth::user()->id)->get();
 
         return view("pengguna.index", [
             'laboratoryCount' => $laboratoryCount,
-            'schedulesCount' => $schedulesCount,
+            'schedulesCount' => $currentSchedules->count(),
             'availableSchedules' => $availableSchedules,
             'pusatCount' => $counts[0],
             'witanaCount' => $counts[1],

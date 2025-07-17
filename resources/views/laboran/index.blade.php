@@ -40,7 +40,7 @@
 
     {{-- Usage History Chart --}}
     <div class="bg-white rounded-3 m-4 p-5" style="position: relative;">
-        <h4 class="fw-bold text-center p-3">Jumlah Jadwal 6 Periode Terakhir(undefined)</h4>
+        <h4 class="fw-bold text-center p-3">Jumlah Jadwal 6 Periode Terakhir</h4>
         <canvas id="uHistoryChart"></canvas>
     </div>
 
@@ -110,11 +110,11 @@
                     $colors = ['rgb(174, 198, 207)', 'rgb(83, 83, 83)', 'rgb(162, 132, 94)', 'rgb(255, 179, 71)', 'rgb(255, 145, 155)', 'rgb(217, 217, 217)'];
                     foreach ($topFrequent as $user) {
                         echo "<li style='color : $colors[$i]'>
-                                                                                                                                                        <div class='row'>
-                                                                                                                                                            <div class='col'><p class='text-black'>$user->nama_pengguna</p></div>
-                                                                                                                                                            <div class='col col-2'><p class='text-black text-end'>$user->jadwal_bookings_count</p></div>
-                                                                                                                                                        </div>
-                                                                                                                                                    </li>";
+                                                                                                                                                                            <div class='row'>
+                                                                                                                                                                                <div class='col'><p class='text-black'>$user->nama_pengguna</p></div>
+                                                                                                                                                                                <div class='col col-2'><p class='text-black text-end'>$user->jadwal_bookings_count</p></div>
+                                                                                                                                                                            </div>
+                                                                                                                                                                        </li>";
                         $showedCount += $user->jadwal_bookings_count;
                         $i++;
                     }
@@ -169,15 +169,19 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const schedulesbyPeriod = @json($schedulesbyPeriod);
+
+            console.log(schedulesbyPeriod.labels);
+
             const ctxBar = document.getElementById('uHistoryChart').getContext('2d');
             // Usage History Chart
             new Chart(ctxBar, {
                 type: 'bar',
                 data: {
-                    labels: ['2023-1', '2023-2', '2024-1', '2024-2', '2025-1', '2025-2'],
+                    labels: schedulesbyPeriod.labels,
                     datasets: [{
                         label: 'Jumlah Jadwal',
-                        data: [500, 476, 498, 572, 490, 514],
+                        data: schedulesbyPeriod.data,
                         backgroundColor: [
                             'rgba(255, 234, 197, 0.8)',
                         ],
