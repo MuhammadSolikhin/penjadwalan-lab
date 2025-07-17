@@ -15,6 +15,11 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     && docker-php-ext-install pdo_mysql mbstring zip exif pcntl
 
+# Tambahkan NodeJS
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g npm
+
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -26,6 +31,8 @@ COPY . .
 
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader
+# Install dependencies dan build Vite
+RUN npm install && npm run build
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www \
