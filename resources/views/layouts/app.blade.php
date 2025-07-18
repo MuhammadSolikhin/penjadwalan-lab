@@ -9,8 +9,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js', 'public/css/mystyle.css'])
 
     @livewireStyles
-
-    <link rel="icon" href="{{ asset('images/unpam-logo.png') }}" type="image">
     <script src="{{ asset('js/feather.js') }}"></script>
 
     <style>

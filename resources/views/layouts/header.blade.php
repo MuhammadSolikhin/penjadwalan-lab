@@ -8,20 +8,21 @@
 
             <!-- Notification -->
             <div class="notification-icon-container" style="cursor: pointer;">
-                <i data-feather="bell" id="notificationIcon" style="height: 20px"></i><span id="notifCounter"></span>
+                <i data-feather="bell" id="notificationIcon" style="height: 20px"></i>
+                <span id="notifCounter"></span>
             </div>
             <!-- /Notification -->
 
             <!-- Search -->
-            <div class="search-icon-container" style="cursor: pointer;">
+            {{-- <div class="search-icon-container" style="cursor: pointer;">
                 <i data-feather="search" id="searchIcon" style="height: 20px"></i>
-            </div>
+            </div> --}}
             <!-- /Search -->
 
             <!-- Profile Menu -->
             <div class="profile-container">
                 <div class="d-flex align-items-center" id="profileDropdown" style="cursor: pointer;">
-                    <img src="https://i.pinimg.com/474x/d0/31/25/d031252582615a4b54880616bc82a916.jpg"
+                    <img src="{{ asset('images/mascot-stand.png') }}"
                         alt="profile-picture" class="img-fluid object-fit-cover rounded-5 border border-black"
                         width="25" height="25">
                     <i data-feather="chevron-down" class="ms-2" style="width: 1rem;"></i>
@@ -30,17 +31,17 @@
                 <!-- Dropdown Menu Profile -->
                 <ul class="dropdown-menu-profile shadow rounded-2 mt-3" id="dropdownMenuProfile">
                     <li class="profile-item border-bottom">
-                        <a class="profile-link" href="#">
+                        <a class="profile-link" href="{{ route('profile.show', auth()->user()->id) }}">
                             <i data-feather="user" class="profile-icon"></i>
                             Profil
                         </a>
                     </li>
-                    <li class="profile-item">
+                    {{-- <li class="profile-item">
                         <a class="profile-link border-bottom" href="#">
                             <i data-feather="settings" class="profile-icon"></i>
                             Pengaturan
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="profile-item">
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf

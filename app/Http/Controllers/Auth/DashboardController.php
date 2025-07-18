@@ -228,9 +228,9 @@ class DashboardController extends Controller
         $computerCount = Barang::where('nama', "LIKE", "komputer%")->count();
 
         // Available schedule for 1 semester
-        $period = $currentDate->month < 7 ? CarbonPeriod::create("{$currentDate->year}-01-01", "{$currentDate->year}-06-30") : CarbonPeriod::create("$currentDate->year-07-01", "$currentDate->year-12-31");
+        $period = $currentDate->month < 7 ? CarbonPeriod::create($currentDate, "{$currentDate->year}-06-30") : CarbonPeriod::create($currentDate, "$currentDate->year-12-31");
         $totalDays = $period->count();
-        $possibleSchedules = 5 * $totalDays * $laboratoryCount;     // 5 hours per day * total of days in 1 semester * number of labs
+        $possibleSchedules = 5 * $totalDays * $laboratoryCount;     // 5 hours per day * remaining of days in 1 semester * number of labs
         $availableSchedules = $possibleSchedules - $currentSchedules->count();
 
         // User reservation

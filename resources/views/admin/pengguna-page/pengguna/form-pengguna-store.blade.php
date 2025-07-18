@@ -82,9 +82,6 @@
                 <div class="mb-3">
                     <label for="peranPengguna" class="form-label">Peran Pengguna</label>
                     <div class="input-group">
-                        <span class="input-group-text">
-                            <i data-feather="briefcase" width="20"></i>
-                        </span>
                         <select name="peran_id_store" id="peranPengguna" class="form-select @error('peran_id_store') is-invalid @enderror">
                             <option value="" selected></option>
                             @foreach ($PeranFormSelect as $Peran)
@@ -95,6 +92,36 @@
                             @endforeach
                         </select>
                         @error('peran_id_store')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="unit-pengguna" class="form-label">
+                        Unit Pengguna
+                        <i
+                            data-feather="help-circle"
+                            width="15"
+                            tabindex="-1"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            title="Pilih Unit Tugas untuk Pengguna Ber-Peran Laboran, atau 'Fleksible' jika bukan Laboran.">
+                        </i>
+                    </label>
+                    <div class="input-group">
+                        <select name="unit_id_store" id="unit-pengguna" class="form-select @error('unit_id_store') is-invalid @enderror">
+                            <option value="" selected></option>
+                            @foreach ($UnitFormSelect as $unit)
+                            <option value="{{ $unit->id }}"
+                                {{ old('unit_id_store', $Pengguna->unit_id) == $unit->id ? 'selected' : '' }}>
+                                {{ $unit->nama_unit }}
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('unit_id_store')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
@@ -115,9 +142,6 @@
                         </i>
                     </label>
                     <div class="input-group">
-                        <span class="input-group-text">
-                            <i data-feather="map-pin" width="20"></i>
-                        </span>
                         <select name="lokasi_id_store" id="lokasiPengguna" class="form-select @error('lokasi_id_store') is-invalid @enderror">
                             <option value="" selected></option>
                             @foreach ($LokasiFormSelect as $lok)
@@ -134,7 +158,6 @@
                         @enderror
                     </div>
                 </div>
-
             </div>
 
             <div class="modal-footer">

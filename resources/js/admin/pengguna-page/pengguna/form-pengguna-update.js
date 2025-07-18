@@ -14,6 +14,12 @@ function initSelect2Update() {
             placeholder: "Pilih Lokasi Lab",
             allowClear: true,
         });
+        $('#edit-unitPengguna').select2({
+            dropdownParent: $('#formPenggunaUpdate'),
+            theme: "bootstrap-5",
+            placeholder: "Pilih Unit Pengguna",
+            allowClear: true,
+        });
     });
 }
 
@@ -32,6 +38,7 @@ export function initDatatablesValueToModalUpdatePengguna() {
             document.getElementById('edit-emailPengguna').value = data.email;
             document.getElementById('edit-lokasiPengguna').value = data.lokasi_id;
             document.getElementById('edit-peranPengguna').value = data.role_id;
+            document.getElementById('edit-unitPengguna').value = data.unit_id || ''; // Unit bisa null
 
             const form = document.getElementById('formEditPengguna');
             form.setAttribute('action', `/admin/ubah-pengguna/${data.id_pengguna}`);
@@ -61,6 +68,7 @@ export function errorUpdateModalPengguna(){
         document.getElementById('edit-passwordPengguna').value = old.password_pengguna_update;
         document.getElementById('edit-lokasiPengguna').value = old.lokasi_id_update;
         document.getElementById('edit-peranPengguna').value = old.peran_id_update;
+        document.getElementById('edit-unitPengguna').value = old.unit_id_update || ''; // Unit bisa null
 
 
         // // Set judul modal

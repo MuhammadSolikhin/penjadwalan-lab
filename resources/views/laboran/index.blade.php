@@ -171,8 +171,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const schedulesbyPeriod = @json($schedulesbyPeriod);
 
-            console.log(schedulesbyPeriod.labels);
-
             const ctxBar = document.getElementById('uHistoryChart').getContext('2d');
             // Usage History Chart
             new Chart(ctxBar, {
