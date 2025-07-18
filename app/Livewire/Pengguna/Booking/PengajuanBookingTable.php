@@ -36,8 +36,19 @@ final class PengajuanBookingTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return PengajuanBooking::query()->where('user_id', Auth::id())->where('status_pengajuan_booking', $this->status)->with('lokasi');
+        $query = PengajuanBooking::query()
+            ->join('users', 'pengajuan_bookings.user_id', '=', 'users.id')
+            ->with('lokasi')
+            ->select('pengajuan_bookings.*', 'users.nama_pengguna');
+
+        if (Auth::user()->role_id != 1) {
+            $query->where('pengajuan_bookings.lokasi_id', Auth::user()->lokasi_id)
+                ->where('pengajuan_bookings.user_id', Auth::id());
+        }
+
+        return $query->where('pengajuan_bookings.status_pengajuan_booking', $this->status);
     }
+
 
     public function fields(): PowerGridFields
     {
@@ -47,13 +58,14 @@ final class PengajuanBookingTable extends PowerGridComponent
             ->add('status_pengajuan_booking')
             ->add('keperluan_pengajuan_booking')
             ->add('nama_lokasi', fn(PengajuanBooking $model) => optional($model->lokasi)->nama_lokasi)
+            ->add('nama_pengguna')
             ->add('created_at')
             ->add('created_at_formatted', fn(PengajuanBooking $model) => Carbon::parse($model->created_at)->locale('id')->translatedFormat('d F Y H:i'));
     }
 
     public function columns(): array
     {
-        return [
+        $columns = [
             Column::make('ID', 'id')
                 ->searchable()
                 ->sortable(),
@@ -70,15 +82,23 @@ final class PengajuanBookingTable extends PowerGridComponent
 
             Column::make('Lokasi', 'nama_lokasi'),
 
-            Column::make('Created at', 'created_at')
-                ->hidden(),
+            Column::make('Created at', 'created_at')->hidden(),
 
             Column::make('Created at', 'created_at_formatted', 'created_at')
                 ->searchable(),
-
-            Column::action('Action')
         ];
+
+        if (auth()->user()->role_id == 1) {
+            $columns[] = Column::make('Dibuat oleh', 'nama_pengguna', 'users.nama_pengguna')
+                ->searchable()
+                ->sortable();
+        }
+
+        $columns[] = Column::action('Action');
+
+        return $columns;
     }
+
 
     public function filters(): array
     {
