@@ -40,6 +40,9 @@ Route::group(['middleware' => 'guest'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
+    // Profile Page
+    Route::get('/profile/{id}', [UsersController::class, 'show'])->name('profile.show');
+
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 

@@ -35,6 +35,11 @@ class UsersController extends Controller
         ]);
     }
 
+    public function show(int $id) {
+        $user = User::with(['lokasi', 'unit', 'role'])->find($id);
+        return view('profile.show', compact('user'));
+    }
+
     public function getApiPengguna(Request $request)
     {
         $query = User::select(['id', 'nama_pengguna', 'email', 'lokasi_id', 'role_id']);

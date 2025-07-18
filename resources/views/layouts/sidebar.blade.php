@@ -1,6 +1,10 @@
 <div class="sidebar mybg-brown100 shadow py-5 px-4" id="sidebar">
-    <div class="brand-logo gap-2 d-flex align-items-center justify-content-center">
-        <img src="{{ asset('images/logo-reslab-full.png') }}" width="200px" alt="" srcset="">
+    <div class="brand-logo gap-2 d-flex align-items-center py-3">
+        <img src="{{ asset('images/logo-reslab-square.png') }}" height="50px" alt="" srcset="">
+        <div class="d-flex flex-column gap-0">
+            <span class="fw-bold fs-4">ResLab</span>
+            <span style="font-size: 10px">Reservasi Laboratorium</span>
+        </div>
     </div>
 
 
@@ -76,28 +80,28 @@
 
                     <li class="sidebar-item {{ Route::is('booking.index') ? 'active' : '' }}">
                         <a href="{{ route('booking.index') }}"
-                            class="sidebar-link {{ Route::is('booking.index') ? 'text-light' : '' }}">
+                            class="sidebar-link {{ $isBookingActive ? 'text-light' : '' }}">
                             <i class="fa fa-calendar"></i> Kalender
                         </a>
                     </li>
 
                     <li class="sidebar-item {{ Route::is('booking.diterima') ? 'active' : '' }}">
                         <a href="{{ route('booking.diterima') }}"
-                            class="sidebar-link {{ Route::is('booking.diterima') ? 'text-light' : '' }}">
+                            class="sidebar-link {{ $isBookingActive ? 'text-light' : '' }}">
                             <i class="fa fa-check-circle text-success"></i> Data Diterima
                         </a>
                     </li>
 
                     <li class="sidebar-item {{ Route::is('booking.menunggu') ? 'active' : '' }}">
                         <a href="{{ route('booking.menunggu') }}"
-                            class="sidebar-link {{ Route::is('booking.menunggu') ? 'text-light' : '' }}">
+                            class="sidebar-link {{ $isBookingActive ? 'text-light' : '' }}">
                             <i class="fa fa-clock text-warning"></i> Data Menunggu
                         </a>
                     </li>
 
                     <li class="sidebar-item {{ Route::is('booking.dibatalkan') ? 'active' : '' }}">
                         <a href="{{ route('booking.dibatalkan') }}"
-                            class="sidebar-link {{ Route::is('booking.dibatalkan') ? 'text-light' : '' }}">
+                            class="sidebar-link {{ $isBookingActive ? 'text-light' : '' }}"">
                             <i class="fa fa-times-circle text-danger"></i> Data Dibatalkan
                         </a>
                     </li>
