@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Laboran\ProsesPengajuanBooking;
 
+use App\Models\PengajuanBooking;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -34,14 +35,21 @@ final class ProsesPengajuanBookingTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return DB::table('pengajuan_bookings')
+        $query = PengajuanBooking::query()
             ->leftJoin('lokasis', 'pengajuan_bookings.lokasi_id', '=', 'lokasis.id')
             ->leftJoin('users', 'pengajuan_bookings.user_id', '=', 'users.id')
             ->select(
                 'pengajuan_bookings.*',
                 'lokasis.nama_lokasi as nama_lokasi',
                 'users.nama_pengguna as nama_pengguna'
-            )->where('pengajuan_bookings.lokasi_id', Auth::user()->lokasi_id);
+            );
+
+        // Jika bukan admin (role_id ≠ 1), filter berdasarkan lokasi
+        if (Auth::user()->role_id != 1) {
+            $query->where('pengajuan_bookings.lokasi_id', Auth::user()->lokasi_id);
+        }
+
+        return $query->toBase();
     }
 
     public function fields(): PowerGridFields
@@ -55,7 +63,7 @@ final class ProsesPengajuanBookingTable extends PowerGridComponent
             ->add('nama_pengguna')
             ->add('created_at')
             ->add('created_at_formatted', function ($dish) {
-                return Carbon::parse($dish->created_at)->locale('id')->translatedFormat('d F Y H:i'); 
+                return Carbon::parse($dish->created_at)->locale('id')->translatedFormat('d F Y H:i');
             });
     }
 
@@ -78,9 +86,9 @@ final class ProsesPengajuanBookingTable extends PowerGridComponent
             Column::make('Lokasi', 'nama_lokasi'),
             Column::make('Oleh', 'nama_pengguna'),
 
-            Column::make('Created at', 'created_at_formatted' , 'created_at')
+            Column::make('Created at', 'created_at_formatted', 'created_at')
                 ->sortable()
-                ->searchable(),  
+                ->searchable(),
 
             Column::action('Action')
         ];
@@ -95,7 +103,7 @@ final class ProsesPengajuanBookingTable extends PowerGridComponent
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert(' . $rowId . ')');
     }
 
     public function actions($row): array
@@ -114,7 +122,7 @@ final class ProsesPengajuanBookingTable extends PowerGridComponent
                 ->id()
                 ->class('btn btn-success')
                 ->dispatch('bukaModalTerimaPengajuan', ['rowId' => $row->id]);
-            
+
             $actions[] = Button::add('Tolak')
                 ->slot('Tolak')
                 ->id()
@@ -123,10 +131,10 @@ final class ProsesPengajuanBookingTable extends PowerGridComponent
         }
 
         return $actions;
-    } 
+    }
 
     public function noDataLabel(): string|View
-    { 
+    {
         return 'Tidak ada data yang ditemukan.';
         // return view('dishes.no-data');
     }

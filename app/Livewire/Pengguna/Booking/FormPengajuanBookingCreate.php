@@ -272,7 +272,7 @@ class FormPengajuanBookingCreate extends Component
             $jenisUnit = $unit->unit->jenis_unit;
 
             if ($jenisUnit == 'lembaga') {
-                $this->laboratoriumList = LaboratoriumUnpam::where('status_laboratorium', 1)
+                $this->laboratoriumList = LaboratoriumUnpam::where('tipelab', 1)
                     ->where('lokasi_id', $value)->get();
             } else {
                 $this->laboratoriumList = LaboratoriumUnpam::where('lokasi_id', $value)

@@ -61,7 +61,7 @@
                                     <label for="laboratoriumId" class="form-label">Laboratorium</label>
                                     <select id="laboratoriumid" class="form-select" multiple>
                                         @foreach ($laboratoriumList as $lab)
-                                            <option value="{{ $lab->id }}">{{ $lab->nama_laboratorium }}</option>
+                                            <option title="{{ "Kapasitas : ". $lab->kapasitas_laboratorium . "\n" . "Komputer Tersedia : " }}" value="{{ $lab->id }}">{{ $lab->nama_laboratorium }}</option>
                                         @endforeach
                                     </select>
                                 </div>

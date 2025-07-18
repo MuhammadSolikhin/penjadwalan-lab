@@ -34,7 +34,7 @@ class LaboratoriumUnpamController extends Controller
 
     public function getApiLaboratorium(Request $request)
     {
-        $query = LaboratoriumUnpam::select(['id', 'kode_laboratorium', 'nama_laboratorium', 'kapasitas_laboratorium', 'status_laboratorium', 'lokasi_id', 'jenislab_id', 'deskripsi_laboratorium']);
+        $query = LaboratoriumUnpam::select(['id', 'kode_laboratorium', 'nama_laboratorium', 'kapasitas_laboratorium', 'status_laboratorium', 'tipelab', 'lokasi_id', 'jenislab_id', 'deskripsi_laboratorium']);
 
         // Pencarian
         if ($request->has('search') && !empty($request->search['value'])) {
@@ -42,7 +42,7 @@ class LaboratoriumUnpamController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('nama_laboratorium', 'like', "%{$search}%")
                     ->orWhere('kapasitas_laboratorium', 'like', "%{$search}%");
-                //->orWhere('status_laboratorium', 'like', "%{$search}%");
+                //->orWhere('tipelab', 'like', "%{$search}%");
             });
         }
 
@@ -53,11 +53,11 @@ class LaboratoriumUnpamController extends Controller
         $orderColumnIndex = $request->input('order.0.column');
         $orderDirection = $request->input('order.0.dir') ?? 'desc';
 
-        $columns = [null, 'nama_laboratorium', 'id', 'kapasitas_laboratorium', 'status_laboratorium', 'deskripsi_laboratorium'];
+        $columns = [null, 'nama_laboratorium', 'id', 'kapasitas_laboratorium', 'status_laboratorium', 'tipelab', 'deskripsi_laboratorium'];
         $orderColumnName = $columns[$orderColumnIndex] ?? 'id';
 
         // Hanya izinkan kolom DB untuk di-sort
-        if (in_array($orderColumnName, ['id', 'nama_laboratorium', 'kapasitas_laboratorium', 'status_laboratorium', 'deskripsi_laboratorium'])) {
+        if (in_array($orderColumnName, ['id', 'nama_laboratorium', 'kapasitas_laboratorium', 'status_laboratorium', 'tipelab', 'deskripsi_laboratorium'])) {
             $query->orderBy($orderColumnName, $orderDirection);
         } else {
             // Kolom tidak valid, bisa fallback atau diabaikan
@@ -78,6 +78,7 @@ class LaboratoriumUnpamController extends Controller
                 'nama_laboratorium' => $laboratorium->nama_laboratorium,
                 'kapasitas_laboratorium' => $laboratorium->kapasitas_laboratorium,
                 'status_laboratorium' => $laboratorium->status_laboratorium,
+                'tipelab' => $laboratorium->tipelab,
                 'jenislab_id' => $laboratorium->jenislab->id,
                 'lokasi_id' => $laboratorium->lokasi->id,
                 'deskripsi_laboratorium' => $laboratorium->deskripsi_laboratorium,
@@ -107,6 +108,7 @@ class LaboratoriumUnpamController extends Controller
                 'nama_laboratorium' => $data['nama_laboratorium_store'],
                 'kapasitas_laboratorium' => $data['kapasitas_laboratorium_store'],
                 'status_laboratorium' => $data['status_laboratorium_store'],
+                'tipelab' => $data['tipelab_store'],
                 'lokasi_id' => $data['lokasi_id_store'],
                 'jenislab_id' => $data['jenislab_id_store'],
                 'deskripsi_laboratorium' => $data['deskripsi_laboratorium_store']
@@ -137,6 +139,7 @@ class LaboratoriumUnpamController extends Controller
                 'jenislab_id' => $data['jenislab_id_update'],
                 'lokasi_id' => $data['lokasi_id_update'],
                 'kapasitas_laboratorium' => $data['kapasitas_laboratorium_update'],
+                'tipelab' => $data['tipelab_update'],
                 'status_laboratorium' => $data['status_laboratorium_update'],
                 'deskripsi_laboratorium' => $data['deskripsi_laboratorium_update']
             ]);

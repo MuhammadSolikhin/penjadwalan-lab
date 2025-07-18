@@ -17,6 +17,7 @@ class LaboratoriumUnpam extends Model
         'unit_id',
         'kapasitas_laboratorium',
         'status_laboratorium',
+        'tipelab',
         'jenislab_id',
         'deskripsi_laboratorium'
     ];

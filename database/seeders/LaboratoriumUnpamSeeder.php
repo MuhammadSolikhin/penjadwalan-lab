@@ -40,7 +40,7 @@ class LaboratoriumUnpamSeeder extends Seeder
                 'lokasi_id' => 4,
                 'unit_id' => $lab['unit_id'],
                 'kapasitas_laboratorium' => 25,
-                'status_laboratorium' => 0,
+                'tipelab' => $lab['unit_id'] == 1 ? 1 : 0,
                 'jenislab_id' => 1,
                 'deskripsi_laboratorium' => "Laboratorium {$lab['name']} digunakan untuk praktikum dan ujian.",
                 'created_at' => now(),
@@ -48,28 +48,29 @@ class LaboratoriumUnpamSeeder extends Seeder
             ]);
         }
 
-        $lokasiTambahan = [
-            1 => 'fleksible',
-            2 => 'pusat',
+        $generalLabs = [
             3 => 'witana',
             5 => 'serang',
+            2 => 'pusat',
         ];
 
-        foreach ($lokasiTambahan as $id => $nama) {
-            for ($i = 1; $i <= 10; $i++) {
+        foreach ($generalLabs as $lokasiId => $namaLokasi) {
+            for ($i = 1; $i <= 3; $i++) {
                 DB::table('laboratorium_unpams')->insert([
-                    'nama_laboratorium' => "Lab $nama $i",
+                    'nama_laboratorium' => "General Lab $namaLokasi $i",
                     'kode_laboratorium' => 'LAB-' . str_pad($kodeCounter++, 4, '0', STR_PAD_LEFT),
-                    'lokasi_id' => $id,
-                    'unit_id' => rand(3, 7),
-                    'kapasitas_laboratorium' => rand(15, 35),
-                    'status_laboratorium' => 0,
-                    'jenislab_id' => rand(1, 4),
-                    'deskripsi_laboratorium' => "Laboratorium di lokasi $nama nomor $i.",
+                    'lokasi_id' => $lokasiId,
+                    'unit_id' => 1,
+                    'kapasitas_laboratorium' => 30,
+                    'tipelab' => 1,
+                    'status_laboratorium' => 1, // 1 = tersedia
+                    'jenislab_id' => 1,
+                    'deskripsi_laboratorium' => "Laboratorium general di lokasi $namaLokasi nomor $i.",
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
             }
         }
+
     }
 }
