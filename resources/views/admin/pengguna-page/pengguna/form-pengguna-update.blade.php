@@ -98,9 +98,6 @@
                 <div class="mb-3">
                     <label for="edit-peranPengguna" class="form-label">Peran Pengguna</label>
                     <div class="input-group">
-                        <span class="input-group-text">
-                            <i data-feather="briefcase" width="20"></i>
-                        </span>
                         <select name="peran_id_update" id="edit-peranPengguna" class="form-select @error('peran_id_update') is-invalid @enderror">
                             <option value="" selected></option>
                             @foreach ($PeranFormSelect as $Peran)
@@ -116,6 +113,33 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="edit-unitPengguna" class="form-label">
+                        Unit Pengguna
+                        <i
+                            data-feather="help-circle"
+                            width="15"
+                            tabindex="-1"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            title="Pilih Unit untuk Prodi/Lembaga. Kosongkan untuk peran lain.">
+                        </i>
+                    </label>
+                    <div class="input-group">
+                        <select name="unit_id_update" id="edit-unitPengguna" class="form-select @error('unit_id_update') is-invalid @enderror">
+                            <option value="" selected></option>
+                            @foreach ($UnitFormSelect as $unit)
+                                <option value="{{ $unit->id }}">{{ $unit->nama_unit }}</option>
+                            @endforeach
+                        </select>
+                        @error('unit_id_update')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+
+                 <div class="mb-3">
                     <label for="edit-lokasiPengguna" class="form-label">
                         Lokasi Pengguna
                         <i
@@ -128,9 +152,6 @@
                         </i>
                     </label>
                     <div class="input-group">
-                        <span class="input-group-text">
-                            <i data-feather="map-pin" width="20"></i>
-                        </span>
                         <select name="lokasi_id_update" id="edit-lokasiPengguna" class="form-select @error('lokasi_id_update') is-invalid @enderror">
                             <option value="" selected></option>
                             @foreach ($LokasiFormSelect as $lok)

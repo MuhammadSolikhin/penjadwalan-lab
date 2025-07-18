@@ -14,6 +14,12 @@ export function initSelect2Store(){
             placeholder: "Pilih Peran Pengguna",
             allowClear: true,
         })
+        $('#unit-pengguna').select2({
+            dropdownParent: $('#formPenggunaStore'),
+            theme: "bootstrap-5",
+            placeholder: "Pilih Unit Pengguna",
+            allowClear: true,
+        });
     });
 }
 

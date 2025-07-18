@@ -26,7 +26,7 @@
         </li>
 
         @php
-            $manajemenRoutes = ['admin.pengguna', 'laboran.laboratorium', 'admin.barang'];
+            $manajemenRoutes = ['admin.pengguna', 'laboran.laboratorium', 'admin.barang', 'unit.index'];
             $isManajemenActive = in_array(Route::currentRouteName(), $manajemenRoutes);
         @endphp
 
@@ -47,11 +47,16 @@
                             <a href="{{ route('admin.pengguna') }}"
                                 class="sidebar-link {{ $isManajemenActive ? 'text-light' : '' }}">Pengguna</a>
                         </li>
+                        <li class="sidebar-item {{ Route::is('unit.index') ? 'active' : '' }}">
+                            <a href="{{ route('unit.index') }}" 
+                                class="sidebar-link {{ $isManajemenActive ? 'text-light' : '' }}">Unit</a>
+                        </li>
                     @endif
                     <li class="sidebar-item {{ Route::is('laboran.laboratorium') ? 'active' : '' }}">
                         <a href="{{ route('laboran.laboratorium') }}"
                             class="sidebar-link {{ $isManajemenActive ? 'text-light' : '' }}">Laboratorium</a>
                     </li>
+
                 </ul>
             </li>
         @endif

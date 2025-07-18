@@ -20,6 +20,9 @@ use App\Livewire\KategoriBarang\KategoriBarang;
 use App\Livewire\KategoriBarang\KategoriBarangFormDestroy;
 use App\Livewire\KategoriBarang\KategoriBarangFormStore;
 use App\Livewire\KategoriBarang\KategoriBarangFormUpdate;
+use App\Livewire\Unit\Unit;
+use App\Livewire\Unit\UnitFormStore;
+use App\Livewire\Unit\UnitFormUpdate;
 use Illuminate\Support\Facades\Route;
 
 
@@ -77,6 +80,10 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::put('/admin/ubah-lokasi/{id}', [LokasiController::class, 'update']);
     Route::delete('/admin/hapus-lokasi/{id}', [LokasiController::class, 'softDelete']);
 
+    // unit
+    Route::get('/admin/unit', Unit::class)->name('unit.index');
+    Route::get('/admin/unit/tambah', UnitFormStore::class)->name('unit.create');
+    Route::get('/admin/unit/ubah/{hash}', UnitFormUpdate::class)->name('unit.edit');
 });
 
 
