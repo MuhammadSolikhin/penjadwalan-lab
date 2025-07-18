@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Models\roles;
+use App\Models\Unit;
 
 class PenggunaUpdateRequest extends FormRequest
 {
@@ -26,11 +28,12 @@ class PenggunaUpdateRequest extends FormRequest
     {
         return [
             'nama_pengguna_update' => 'required|string|max:100|regex:/^[a-zA-Z\s]+$/',
-            'email_pengguna_update' => 'required|email|max:150|unique:users,email,' . Crypt::decryptString($this->id_pengguna_update),
+            'email_pengguna_update' => 'required|email|max:150|unique:users,email,' . \Illuminate\Support\Facades\Crypt::decryptString($this->id_pengguna_update),
             'password_pengguna_update' => 'nullable|min:8|max:16',
             'password_konfirmasi_pengguna_update' => 'nullable|same:password_pengguna_update',
             'lokasi_id_update' => 'required|integer|exists:lokasis,id',
-            'peran_id_update' => 'required|integer|exists:roles,id'
+            'peran_id_update' => 'required|integer|exists:roles,id',
+            'unit_id_update' => 'nullable|integer|exists:units,id', // tambahkan validasi unit jika ada
         ];
     }
 
@@ -59,7 +62,37 @@ class PenggunaUpdateRequest extends FormRequest
             'peran_id_update.required' => 'Peran pengguna wajib dipilih.',
             'peran_id_update.integer' => 'ID peran tidak valid.',
             'peran_id_update.exists' => 'Peran tidak ditemukan.',
+
+            'unit_id_update.integer' => 'ID unit tidak valid.',
+            'unit_id_update.exists' => 'Unit tidak ditemukan.',
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $peranId = $this->input('peran_id_update');
+            $unitId = $this->input('unit_id_update');
+
+            $peran = roles::find($peranId);
+            $unit = Unit::find($unitId);
+
+            if ($peran && $unitId) {
+                if ($peran->nama_peran === 'prodi' && $unit->jenis_unit !== 'prodi') {
+                    $validator->errors()->add('unit_id_update', 'Unit yang dipilih harus bertipe Prodi untuk peran Prodi.');
+                }
+                if ($peran->nama_peran === 'lembaga' && $unit->jenis_unit !== 'lembaga') {
+                    $validator->errors()->add('unit_id_update', 'Unit yang dipilih harus bertipe Lembaga untuk peran Lembaga.');
+                }
+                if (!in_array($peran->nama_peran, ['prodi', 'lembaga'])) {
+                    $validator->errors()->add('unit_id_update', 'Peran ini tidak boleh memiliki unit.');
+                }
+            } elseif ($peran && in_array($peran->nama_peran, ['prodi', 'lembaga']) && !$unitId) {
+                $validator->errors()->add('unit_id_update', 'Unit wajib dipilih untuk peran ' . ucfirst($peran->nama_peran) . '.');
+            } elseif ($peran && !in_array($peran->nama_peran, ['prodi', 'lembaga']) && $unitId) {
+                $validator->errors()->add('unit_id_update', 'Peran ini tidak boleh memiliki unit.');
+            }
+        });
     }
 
     protected function failedValidation(Validator $validator)

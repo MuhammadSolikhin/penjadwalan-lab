@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use App\Http\Requests\Admin\Pengguna\PenggunaStoreRequest;
 use App\Http\Requests\Admin\Pengguna\PenggunaUpdateRequest;
+use App\Models\Unit;
 
 class UsersController extends Controller
 {
@@ -21,13 +22,16 @@ class UsersController extends Controller
 
         $LokasiFormSelect = Lokasi::select('id', 'nama_lokasi')->get();
         $PeranFormSelect = roles::select('id', 'nama_peran')->get();
+        $unitFormSelect = Unit::select('id', 'nama_unit')->get();
 
         return view("admin.pengguna-page.pengguna", [
             'Pengguna' => new User(),
             'Peran' => new roles(),
             'Lokasi' => new Lokasi(),
+            'Unit' => new Unit(),
             'LokasiFormSelect' => $LokasiFormSelect,
             'PeranFormSelect' => $PeranFormSelect,
+            'UnitFormSelect' => $unitFormSelect,
             'page_meta' => [
                 'page' => 'Pengguna',
                 'description' => 'Halaman untuk manajemen pengguna, peran dan lokasi.'
@@ -42,7 +46,7 @@ class UsersController extends Controller
 
     public function getApiPengguna(Request $request)
     {
-        $query = User::select(['id', 'nama_pengguna', 'email', 'lokasi_id', 'role_id']);
+        $query = User::select(['id', 'nama_pengguna', 'email', 'lokasi_id', 'role_id', 'unit_id']);
 
         // Pencarian
         if ($request->has('search') && !empty($request->search['value'])) {
@@ -86,8 +90,10 @@ class UsersController extends Controller
                 'email' => $pengguna->email,
                 'lokasi_id' => $pengguna->lokasi_id,
                 'role_id' => $pengguna->role_id,
+                'unit_id' => $pengguna->unit_id,
                 'nama_lokasi' => $pengguna->lokasi->nama_lokasi,
-                'nama_peran' => $pengguna->role->nama_peran
+                'nama_peran' => $pengguna->role->nama_peran,
+                'nama_unit' => $pengguna->unit->nama_unit ?? '-',
             ];
         }
 
@@ -114,7 +120,8 @@ class UsersController extends Controller
                 'email' => $data['email_pengguna_store'],
                 'password' => Hash::make($data['password_pengguna_store']),
                 'lokasi_id' => $data['lokasi_id_store'],
-                'role_id' => $data['peran_id_store']
+                'role_id' => $data['peran_id_store'],
+                'unit_id' => $data['unit_id_store'] ?? null, // Unit bisa null jika tidak ada
             ]);
 
             DB::commit();
@@ -143,6 +150,7 @@ class UsersController extends Controller
                 'email' => $data['email_pengguna_update'],
                 'lokasi_id' => $data['lokasi_id_update'],
                 'role_id' => $data['peran_id_update'],
+                'unit_id' => $data['unit_id_update'] ?? null, // Unit bisa null jika tidak ada
             ];
 
             // Update password hanya jika diisi

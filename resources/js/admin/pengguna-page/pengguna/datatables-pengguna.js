@@ -54,6 +54,11 @@ export function initPenggunaDatatable() {
                 className: "text-nowrap align-middle"
             },
             {
+                title: "Unit",
+                data: "nama_unit",
+                className: "text-nowrap align-middle"
+            },
+            {
                 title: "Aksi",
                 data: null,
                 orderable: false,

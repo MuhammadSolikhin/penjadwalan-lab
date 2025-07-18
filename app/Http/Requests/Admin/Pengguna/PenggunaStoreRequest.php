@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Admin\Pengguna;
 
+use App\Models\roles;
+use App\Models\Unit;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -29,7 +31,8 @@ class PenggunaStoreRequest extends FormRequest
             'password_pengguna_store' => 'required|min:8|max:16',
             'password_konfirmasi_pengguna_store' => 'required|same:password_pengguna_store',
             'lokasi_id_store' => 'required|integer|exists:lokasis,id',
-            'peran_id_store' => 'required|integer|exists:roles,id'
+            'peran_id_store' => 'required|integer|exists:roles,id',
+            'unit_id_store' => 'nullable|integer|exists:units,id', // tambahkan validasi unit jika ada
         ];
     }
 
@@ -60,9 +63,39 @@ class PenggunaStoreRequest extends FormRequest
             'peran_id_store.required' => 'Peran pengguna wajib dipilih.',
             'peran_id_store.integer' => 'ID peran tidak valid.',
             'peran_id_store.exists' => 'Peran tidak ditemukan.',
+
+            'unit_id_store.integer' => 'ID unit tidak valid.',
+            'unit_id_store.exists' => 'Unit tidak ditemukan.',
         ];
     }
 
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $peranId = $this->input('peran_id_store');
+            $unitId = $this->input('unit_id_store');
+
+            // Ambil data peran dan unit dari database
+            $peran = roles::find($peranId);
+            $unit = Unit::find($unitId);
+
+            if ($peran && $unitId) {
+                if ($peran->nama_peran === 'prodi' && $unit->jenis_unit !== 'prodi') {
+                    $validator->errors()->add('unit_id_store', 'Unit yang dipilih harus bertipe Prodi untuk peran Prodi.');
+                }
+                if ($peran->nama_peran === 'lembaga' && $unit->jenis_unit !== 'lembaga') {
+                    $validator->errors()->add('unit_id_store', 'Unit yang dipilih harus bertipe Lembaga untuk peran Lembaga.');
+                }
+                if (!in_array($peran->nama_peran, ['prodi', 'lembaga'])) {
+                    $validator->errors()->add('unit_id_store', 'Peran ini tidak boleh memiliki unit.');
+                }
+            } elseif ($peran && in_array($peran->nama_peran, ['prodi', 'lembaga']) && !$unitId) {
+                $validator->errors()->add('unit_id_store', 'Unit wajib dipilih untuk peran ' . ucfirst($peran->nama_peran) . '.');
+            } elseif ($peran && !in_array($peran->nama_peran, ['prodi', 'lembaga']) && $unitId) {
+                $validator->errors()->add('unit_id_store', 'Peran ini tidak boleh memiliki unit.');
+            }
+        });
+    }
 
     protected function failedValidation(Validator $validator)
     {
