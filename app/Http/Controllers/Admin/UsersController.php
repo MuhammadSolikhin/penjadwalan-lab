@@ -46,16 +46,27 @@ class UsersController extends Controller
 
     public function getApiPengguna(Request $request)
     {
-        $query = User::select(['id', 'nama_pengguna', 'email', 'lokasi_id', 'role_id', 'unit_id']);
+            $query = User::select([
+                'users.id',
+                'users.nama_pengguna',
+                'users.email',
+                'users.lokasi_id',
+                'users.role_id',
+                'users.unit_id',
+                'units.nama_unit as nama_unit'
+            ])
+            ->leftJoin('units', 'users.unit_id', '=', 'units.id')
+            ->with(['lokasi', 'unit', 'role']);
 
         // Pencarian
         if ($request->has('search') && !empty($request->search['value'])) {
             $search = $request->search['value'];
             $query->where(function ($q) use ($search) {
-                $q->where('nama_pengguna', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%")
-                    ->orWhere('lokasi_id', 'like', "%{$search}%")
-                    ->orWhere('role_id', 'like', "%{$search}%");
+                $q->where('users.nama_pengguna', 'like', "%{$search}%")
+                    ->orWhere('users.email', 'like', "%{$search}%")
+                    ->orWhere('users.lokasi_id', 'like', "%{$search}%")
+                    ->orWhere('users.role_id', 'like', "%{$search}%")
+                    ->orWhere('units.nama_unit', 'like', "%{$search}%"); // Tambahkan ini
             });
         }
 
@@ -66,10 +77,10 @@ class UsersController extends Controller
         $orderColumnIndex = $request->input('order.0.column');
         $orderDirection = $request->input('order.0.dir') ?? 'desc';
 
-        $columns = [null, 'nama_pengguna', 'id', 'email', 'lokasi_id', 'role_id'];
+        $columns = [null, 'nama_pengguna', 'id', 'email', 'lokasi_id', 'role_id', 'unit_id'];
         $orderColumnName = $columns[$orderColumnIndex] ?? 'id';
 
-        if (in_array($orderColumnName, ['id', 'nama_pengguna', 'email', 'lokasi_id', 'role_id'])) {
+        if (in_array($orderColumnName, ['id', 'nama_pengguna', 'email', 'lokasi_id', 'role_id', 'unit_id'])) {
             $query->orderBy($orderColumnName, $orderDirection);
         } else {
             $query->orderBy('id', 'desc');
