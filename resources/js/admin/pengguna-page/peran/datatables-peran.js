@@ -12,13 +12,6 @@ export function initPeranDatatable() {
         },
         columns: [
             {
-                title: "",
-                render: DataTable.render.select(),
-                orderable: false,
-                data: null,
-                className: "min-mobile text-nowrap"
-            },
-            {
                 title: "No",
                 data: null,
                 render: function (data, type, row, meta) {
@@ -50,17 +43,10 @@ export function initPeranDatatable() {
                 searchable: false,
                 className: 'min-tablet text-md-center',
                 render: function (data, type, row) {
-                    return `
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-success border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Aksi
-                            </button>
-                            <ul class="dropdown-menu p-0">
-                                <li><button class="dropdown-item btn-edit-peran" data-row='${JSON.stringify(row)}'>Ubah</button></li>
-                                <li><button class="dropdown-item text-danger btn-delete-peran" data-row='${JSON.stringify(row)}'>Hapus</button></li>
-                            </ul>
-                        </div>
-                    `;
+                    return `<div class="d-flex justify-content-center align-items-center gap-2">
+                                <button class="btn btn-sm btn-warning btn-edit-peran" data-row='${JSON.stringify(row)}'><i data-feather="edit" width="14px"></i></button>
+                                <button class="btn btn-sm btn-danger btn-delete-peran" data-row='${JSON.stringify(row)}'><i data-feather="trash-2" width="14px"></i></button>
+                            </div>`;
                 }
             }
         ],
@@ -80,6 +66,7 @@ export function initPeranDatatable() {
             thElements.forEach(th => {
                 th.classList.add('table-white', 'text-nowrap', 'text-center');
             });
+            feather.replace();
         }
     });
 }

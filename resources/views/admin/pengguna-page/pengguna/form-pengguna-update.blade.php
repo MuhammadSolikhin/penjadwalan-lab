@@ -1,5 +1,5 @@
 <div class="modal fade" id="formPenggunaUpdate" tabindex="-1" aria-labelledby="modalEditPenggunaLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
 
         <div class="modal-header bg-warning">
@@ -84,7 +84,7 @@
                             <i data-feather="key" width="20"></i>
                         </span>
                         <input type="password" name="password_konfirmasi_pengguna_update" class="form-control @error('password_konfirmasi_pengguna_update') is-invalid @enderror" id="edit-passwordKonfirmasiPengguna" autocomplete="off" placeholder="Ulangi Password Pengguna">
-                        <button class="btn btn-outline-secondary edit-toggle-password" type="button" id="edit-togglePassword" data-target="#edit-passwordKonfirmasiPengguna" tabindex="-1">
+                        <button class="btn btn-outline-secondary edit-toggle-password" type="button" data-target="#edit-passwordKonfirmasiPengguna" tabindex="-1">
                             <i class="toggle-icon" data-feather="eye"></i>
                         </button>
                         @error('password_konfirmasi_pengguna_update')

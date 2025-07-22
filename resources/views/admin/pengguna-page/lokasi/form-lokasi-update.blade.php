@@ -23,7 +23,7 @@
                 <span class="input-group-text">
                     <i data-feather="map" width="20"></i>
                 </span>
-                <input type="text" name="nama_lokasi_update" id="edit-namaLokasi" class="form-control @error('nama_lokasi_update') is-invalid @enderror" autocomplete="off">
+                <input type="text" name="nama_lokasi_update" id="edit-namaLokasi" class="form-control @error('nama_lokasi_update') is-invalid @enderror" placeholder="Masukkan nama lokasi" autocomplete="off">
                 @error('nama_lokasi_update')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -38,7 +38,7 @@
                     <span class="input-group-text">
                         <i data-feather="align-right" width="20"></i>
                     </span>
-                    <textarea class="form-control @error('deskripsi_lokasi_update') is-invalid @enderror" name="deskripsi_lokasi_update" id="edit-deskripsiLokasi" placeholder="Merupakan Jenis Laboratorium..." autocomplete="off" style="min-height: 100px; max-height:100px; resize:none;"></textarea>
+                    <textarea class="form-control @error('deskripsi_lokasi_update') is-invalid @enderror" name="deskripsi_lokasi_update" id="edit-deskripsiLokasi" placeholder="Masukkan deskripsi lokasi" autocomplete="off" style="min-height: 100px; max-height:100px; resize:none;"></textarea>
                     @error('deskripsi_lokasi_update')
                         <div class="invalid-feedback">
                             {{ $message }}

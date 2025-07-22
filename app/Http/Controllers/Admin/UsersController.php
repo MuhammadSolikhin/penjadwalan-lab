@@ -32,10 +32,6 @@ class UsersController extends Controller
             'LokasiFormSelect' => $LokasiFormSelect,
             'PeranFormSelect' => $PeranFormSelect,
             'UnitFormSelect' => $unitFormSelect,
-            'page_meta' => [
-                'page' => 'Pengguna',
-                'description' => 'Halaman untuk manajemen pengguna, peran dan lokasi.'
-            ]
         ]);
     }
 

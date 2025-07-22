@@ -25,20 +25,23 @@ function initSelect2Update() {
 
 export function initDatatablesValueToModalUpdatePengguna() {
     document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('btn-edit-pengguna')) {
-            const data = JSON.parse(e.target.getAttribute('data-row'));
+        const btn = e.target.closest('.btn-edit-pengguna');
+        if (!btn) return; // Jika tidak klik tombol edit, keluar
 
-            // // Set Judul Modal
-            // const message = `<i data-feather="edit" class="me-2"></i>Ubah Laboratorium ${data.name} dari Lokasi ${data.lokasi_name}`;
-            // document.getElementById('modalEditLaboratoriumLabel').innerHTML = message;
+        try {
+            const dataAttr = btn.getAttribute('data-row');
+            const data = JSON.parse(dataAttr);
 
-            // Set Data ke input
+            // Debug bantuan
+            console.log('✔️ Klik edit:', data);
+
+            // Set isi form
             document.getElementById('edit-idPengguna').value = data.id_pengguna;
             document.getElementById('edit-namaPengguna').value = data.nama_pengguna;
             document.getElementById('edit-emailPengguna').value = data.email;
             document.getElementById('edit-lokasiPengguna').value = data.lokasi_id;
             document.getElementById('edit-peranPengguna').value = data.role_id;
-            document.getElementById('edit-unitPengguna').value = data.unit_id || ''; // Unit bisa null
+            document.getElementById('edit-unitPengguna').value = data.unit_id || '';
 
             const form = document.getElementById('formEditPengguna');
             form.setAttribute('action', `/admin/ubah-pengguna/${data.id_pengguna}`);
@@ -47,9 +50,12 @@ export function initDatatablesValueToModalUpdatePengguna() {
             editModal.show();
 
             initSelect2Update();
+        } catch (error) {
+            console.error('❌ Gagal parsing data-row:', error);
         }
     });
 }
+
 
 export function errorUpdateModalPengguna(){
     const formData = document.getElementById('formDataPenggunaUpdate');

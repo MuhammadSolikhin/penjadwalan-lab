@@ -14,8 +14,10 @@ class LokasiController extends Controller
 {
     // Index Nya ada di UsersController, karena pakai modal untuk formnya jadi gk pindah halaman
 
-    public function getApiLokasi(Request $request) {
-        $query = Lokasi::select(['id','nama_lokasi', 'deskripsi_lokasi']);
+    public function getApiLokasi(Request $request)
+    {
+
+        $query = Lokasi::select(['id', 'nama_lokasi', 'deskripsi_lokasi']);
 
         // Pencarian
         if ($request->has('search') && !empty($request->search['value'])) {
@@ -33,10 +35,10 @@ class LokasiController extends Controller
         $orderColumnIndex = $request->input('order.0.column');
         $orderDirection = $request->input('order.0.dir') ?? 'desc';
 
-        $columns = [null, 'nama_lokasi','id', 'deskripsi_lokasi'];
+        $columns = [null, 'nama_lokasi', 'id', 'deskripsi_lokasi'];
         $orderColumnName = $columns[$orderColumnIndex] ?? 'id';
 
-        if (in_array($orderColumnName, ['id','nama_lokasi', 'deskripsi_lokasi'])) {
+        if (in_array($orderColumnName, ['id', 'nama_lokasi', 'deskripsi_lokasi'])) {
             $query->orderBy($orderColumnName, $orderDirection);
         } else {
             $query->orderBy('id', 'desc');
@@ -66,7 +68,8 @@ class LokasiController extends Controller
         ]);
     }
 
-    public function store(LokasiStoreRequest $Request) {
+    public function store(LokasiStoreRequest $Request)
+    {
         // dd($Request->validated());
 
         DB::beginTransaction();
@@ -81,14 +84,21 @@ class LokasiController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.pengguna')->with('success', 'Lokasi Berhasil ditambahkan');
+            return redirect()->route('admin.pengguna')->with([
+                'success' => 'Lokasi berhasil ditambahkan',
+                'tab' => 'lokasi'
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('admin.pengguna')->with('error', 'Lokasi Gagal ditambahkan <br>'. $e->getMessage());
+            return redirect()->route('admin.pengguna')->with([
+                'error' => 'Lokasi gagal ditambahkan <br>' . $e->getMessage(),
+                'tab' => 'lokasi'
+            ]);
         }
     }
 
-    public function update(LokasiUpdateRequest $Request, $id) {
+    public function update(LokasiUpdateRequest $Request, $id)
+    {
         // dd($Request->validated());
 
         DB::beginTransaction();
@@ -105,14 +115,21 @@ class LokasiController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.pengguna')->with('success', 'Lokasi Berhasil di-ubah');
-        } catch(\Exception $e) {
+            return redirect()->route('admin.pengguna')->with([
+                'success' => 'Lokasi berhasil di-ubah',
+                'tab' => 'lokasi'
+            ]);
+        } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('admin.pengguna')->with('error', 'Lokasi Gagal di-ubah<br>' . $e->getMessage());
+            return redirect()->route('admin.pengguna')->with([
+                'error' => 'Lokasi gagal diubah<br>' . $e->getMessage(),
+                'tab' => 'lokasi'
+            ]);
         }
     }
 
-    public function softDelete($id) {
+    public function softDelete($id)
+    {
         DB::beginTransaction();
 
         try {
@@ -122,10 +139,16 @@ class LokasiController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.pengguna')->with('success', 'Lokasi Berhasil dihapus');
+            return redirect()->route('admin.pengguna')->with([
+                'success' => 'Lokasi berhasil dihapus',
+                'tab' => 'lokasi'
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('admin.pengguna')->with('error', 'Lokasi Gagal dihapus');
+            return redirect()->route('admin.pengguna')->with([
+                'error' => 'Lokasi gagal dihapus',
+                'tab' => 'lokasi'
+            ]);
         }
     }
 }

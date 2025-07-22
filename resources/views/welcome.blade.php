@@ -282,7 +282,7 @@
 
     {{-- Footer --}}
     <footer class="mybg-brown text-light text-center py-3">
-        Penjadwalan Lab &copy; 2024. Hak Cipta Sepenuhnya milik Universitas Pamulang.
+        ResLab &copy; 2024. Hak Cipta Sepenuhnya milik Universitas Pamulang.
     </footer>
 </body>
 

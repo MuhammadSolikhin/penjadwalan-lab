@@ -1,10 +1,3 @@
-<div class="col-12 p-2">
-    <div class="alert alert-warning align-items-start" role="alert">
-        <span><b>Perhatian!</b></span><br>
-        <span>Pengguna hanya dapat mengajukan ruang laboratorium sesuai dengan lokasinya</span>
-    </div>
-</div>
-
 <div class="col-12 p-2 d-flex flex-wrap align-items-center justify-content-between">
     <div class="d-flex">
         <div id="searchLokasi" class="col-12 col-md-auto mb-2 me-2"></div>
