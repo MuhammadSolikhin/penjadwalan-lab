@@ -30,10 +30,6 @@
         </div>
     </div>
 
-    {{-- <button id="btn-ke-peran" class="btn btn-primary mb-3">
-        Buka Tab Peran
-    </button> --}}
-
     <script>
         let tab = @json(session('tab')) ?? 'pengguna';
         

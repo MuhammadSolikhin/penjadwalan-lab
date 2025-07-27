@@ -18,6 +18,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class PengajuanBookingTable extends PowerGridComponent
 {
     public string $tableName = 'pengajuan_bookings';
+    public string $currentRoute = '';
     public string $status;
 
     public bool $deferLoading = true;
@@ -99,13 +100,13 @@ final class PengajuanBookingTable extends PowerGridComponent
     }
 
 
-    public function filters(): array
-    {
-        return [
-            Filter::inputText('kode_booking'),
-            Filter::datepicker('created_at_formatted', 'created_at'),
-        ];
-    }
+    // public function filters(): array
+    // {
+    //     return [
+    //         Filter::inputText('kode_booking'),
+    //         Filter::datepicker('created_at_formatted', 'created_at'),
+    //     ];
+    // }
 
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void

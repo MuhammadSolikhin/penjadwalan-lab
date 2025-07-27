@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Laboran\JenisLabController;
 use App\Http\Controllers\Laboran\LaboratoriumUnpamController;
+use App\Http\Controllers\laboran\LaporanController;
 use App\Http\Controllers\Pengguna\BookingController;
 use App\Http\Controllers\Pengguna\JadwalBookingController;
 use App\Http\Controllers\Pengguna\ProsesPengajuanBookingController;
@@ -84,6 +85,10 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/admin/unit', Unit::class)->name('unit.index');
     Route::get('/admin/unit/tambah', UnitFormStore::class)->name('unit.create');
     Route::get('/admin/unit/ubah/{hash}', UnitFormUpdate::class)->name('unit.edit');
+
+        // Laporan
+    Route::get('/laboran/laporan', [LaporanController::class, 'admin'])->name('laporan.admin');
+    Route::get('/laboran/laporan/cetak', [LaporanController::class, 'cetakAdmin'])->name('laporan.admin.cetak');
 });
 
 
@@ -124,7 +129,6 @@ Route::group(['middleware' => ['role:admin,laboran']], function () {
     Route::get('/barang/tambah', BarangFormStore::class)->name('barang.create');
     Route::get('/barang/ubah/{hash}', BarangFormUpdate::class)->name('barang.edit');
     Route::get('/barang/hapus/{hash}', BarangFormDestroy::class)->name('barang.destroy');
-
 });
 
 Route::group(['middleware' => ['role:admin,lembaga,prodi,user']], function () {
@@ -143,6 +147,5 @@ Route::group(['middleware' => ['role:admin,lembaga,prodi,user']], function () {
     });
     
     Route::get('/api/booking-events', [BookingController::class, 'getBookingEvents']);
-
 });
 

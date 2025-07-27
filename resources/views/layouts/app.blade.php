@@ -9,7 +9,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js', 'public/css/mystyle.css'])
 
     @livewireStyles
-    <script src="{{ asset('js/feather.js') }}"></script>
 
     <style>
         [x-cloak] {
@@ -21,7 +20,6 @@
 </head>
 
 <body x-data x-cloak class="bg-light">
-
     @include('layouts.header')
 
     <div class="wrapper d-flex">
@@ -39,14 +37,21 @@
         </div>
     </div>
 
+    {{-- Livewire Script --}}
+    @livewireScripts
+
+    {{-- Feather Icons --}}
+    <script src="{{ asset('js/feather.js') }}"></script>
+
+    {{-- SweetAlert --}}
     <script src="{{ asset('js/sweetalert2.js') }}"></script>
+
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener('DOMContentLoaded', function() {
             feather.replace();
         });
     </script>
 
-    @livewireScripts
 </body>
 
 </html>

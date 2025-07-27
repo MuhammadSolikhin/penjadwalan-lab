@@ -15,8 +15,9 @@ class JenisLabController extends Controller
 
     // Index Nya ada di LaboratoriumUnpamController, karena pakai modal untuk formnya jadi gk pindah halaman
 
-    public function getApiJenisLaboratorium(Request $request) {
-        $query = Jenislab::select(['id','nama_jenis_lab', 'deskripsi_jenis_lab']);
+    public function getApiJenisLaboratorium(Request $request)
+    {
+        $query = Jenislab::select(['id', 'nama_jenis_lab', 'deskripsi_jenis_lab']);
 
         // Pencarian
         if ($request->has('search') && !empty($request->search['value'])) {
@@ -34,10 +35,10 @@ class JenisLabController extends Controller
         $orderColumnIndex = $request->input('order.0.column');
         $orderDirection = $request->input('order.0.dir') ?? 'desc';
 
-        $columns = [null, 'nama_jenis_lab','id', 'deskripsi_jenis_lab'];
+        $columns = [null, 'nama_jenis_lab', 'id', 'deskripsi_jenis_lab'];
         $orderColumnName = $columns[$orderColumnIndex] ?? 'id';
 
-        if (in_array($orderColumnName, ['id','nama_jenis_lab', 'deskripsi_jenis_lab'])) {
+        if (in_array($orderColumnName, ['id', 'nama_jenis_lab', 'deskripsi_jenis_lab'])) {
             $query->orderBy($orderColumnName, $orderDirection);
         } else {
             $query->orderBy('id', 'desc');
@@ -67,7 +68,8 @@ class JenisLabController extends Controller
         ]);
     }
 
-    public function store(JenisLabStoreRequest $Request){
+    public function store(JenisLabStoreRequest $Request)
+    {
         // dd($Request->all());
 
         DB::beginTransaction();
@@ -82,14 +84,15 @@ class JenisLabController extends Controller
 
             DB::commit();
 
-            return redirect()->route('laboran.laboratorium')->with('success', 'Jenis Laboratorium Berhasil ditambahkan');
+            return redirect()->route('laboran.laboratorium')->with(['success' => 'Jenis Laboratorium Berhasil ditambahkan', 'tab' => 'jenis']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('laboran.laboratorium')->with('error', 'Jenis Laboratorium Gagal ditambahkan <br>'. $e->getMessage());
+            return redirect()->route('laboran.laboratorium')->with('error', 'Jenis Laboratorium Gagal ditambahkan <br>' . $e->getMessage());
         }
     }
 
-    public function update(JenisLabUpdateRequest $Request, $id){
+    public function update(JenisLabUpdateRequest $Request, $id)
+    {
         // dd($Request->all());
 
         DB::beginTransaction();
@@ -105,7 +108,10 @@ class JenisLabController extends Controller
 
             DB::commit();
 
-            return redirect()->route('laboran.laboratorium')->with('success', 'Jenis Lab Berhasil di-ubah');
+            return redirect()->route('laboran.laboratorium')->with([
+                'success' => 'Jenis Lab Berhasil di-ubah',
+                'tab' => 'jenis'
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->route('laboran.laboratorium')->with('error', 'Jenis Lab Gagal di-ubah');
@@ -121,7 +127,7 @@ class JenisLabController extends Controller
             $lab->delete(); // ini akan soft delete
 
             DB::commit();
-            return redirect()->route('laboran.laboratorium')->with('success', 'Jenis Lab Berhasil dihapus');
+            return redirect()->route('laboran.laboratorium')->with(['success' => 'Jenis Lab Berhasil dihapus', 'tab' => 'jenis']);
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->route('laboran.laboratorium')->with('error', 'Jenis Lab Gagal dihapus');

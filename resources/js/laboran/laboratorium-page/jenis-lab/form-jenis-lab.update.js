@@ -2,8 +2,11 @@ import { Modal } from 'bootstrap';
 
 export function initDatatablesValueToModalUpdateJenisLab() {
     document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('btn-edit-jenis-lab')) {
-            const data = JSON.parse(e.target.getAttribute('data-row'));
+        const btn = e.target.closest('.btn-edit-jenis-lab')
+        if (!btn) return;
+        
+        try {
+            const data = JSON.parse(btn.getAttribute('data-row'));
 
             // // judul modal
             // const message = `<i data-feather="edit" class="me-2"></i>Ubah Jenis Laboratorium ${data.name}`;
@@ -21,7 +24,9 @@ export function initDatatablesValueToModalUpdateJenisLab() {
             // panggil modal
             const editModal = new Modal(document.getElementById('formJenisLabUpdate'));
             editModal.show();
-
+        } catch (error) {
+            console.log('Gagal mengambil data : ', error);
+            
         }
     });
 }

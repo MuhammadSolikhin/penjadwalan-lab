@@ -19,6 +19,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class ProsesPengajuanBookingTable extends PowerGridComponent
 {
     public string $tableName = 'pengajuan_bookings';
+    public string $currentRoute = '';
 
     public function setUp(): array
     {

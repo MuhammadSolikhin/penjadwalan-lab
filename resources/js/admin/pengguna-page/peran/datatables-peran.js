@@ -81,7 +81,17 @@ function moveToolsPeran() {
 
     if (search && length && info && paging) {
         const input = search.querySelector("input");
-        if (input) input.placeholder = "Pencarian...";
+        if (input) {
+            input.placeholder = "Pencarian...";
+            input.classList.remove("form-control-sm");
+            input.classList.add("rounded-start-0", "p-2");
+        }
+
+        const select = length.querySelector("select");
+        if (select) {
+            select.classList.remove("form-select-sm");
+        }
+
 
         document.getElementById("searchPeran").appendChild(search);
         document.getElementById("sortingPeran").appendChild(length);

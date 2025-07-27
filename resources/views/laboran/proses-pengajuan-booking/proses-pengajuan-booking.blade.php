@@ -10,7 +10,7 @@
         <span>{{ $page_meta['description'] }}</span>
         <hr>
 
-        @livewire('laboran.prosespengajuanbooking.proses-pengajuan-booking-table')
+        @livewire('laboran.prosespengajuanbooking.proses-pengajuan-booking-table', ['currentRoute'=>$path])
         @livewire('laboran.prosespengajuanbooking.detail-proses-pengajuan-booking')
         @livewire('laboran.prosespengajuanbooking.terima-proses-pengajuan-booking')
         @livewire('laboran.prosespengajuanbooking.tolak-proses-pengajuan-booking')

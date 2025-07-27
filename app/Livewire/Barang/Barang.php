@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Barang;
 
+use Illuminate\Support\Facades\Route;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -10,6 +11,6 @@ class Barang extends Component
 {
     public function render()
     {
-        return view('livewire.barang.barang');
+        return view('livewire.barang.barang', ['path' => Route::currentRouteName()]);
     }
 }

@@ -5,8 +5,11 @@ const deleteModal = new Modal(modalElement);
 
 export function initSoftDeleteLaboratoriumModal() {
     document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('btn-delete-laboratorium')) {
-            const row = JSON.parse(e.target.getAttribute('data-row'));
+        const btn = e.target.closest('.btn-delete-laboratorium');
+        if (!btn) return;
+
+        try {
+             const row = JSON.parse(btn.getAttribute('data-row'));
 
             // Set form action
             const form = document.getElementById('formDeleteLab');
@@ -18,6 +21,9 @@ export function initSoftDeleteLaboratoriumModal() {
 
             // Tampilkan modal
             deleteModal.show();
+        } catch (error) {
+            console.log('Gagal mengambil data : ', error);
+            
         }
     });
 }

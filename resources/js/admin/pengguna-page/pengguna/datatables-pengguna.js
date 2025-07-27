@@ -98,7 +98,16 @@ function moveToolsPengguna() {
 
     if (search && length && info && paging) {
         const input = search.querySelector("input");
-        if (input) input.placeholder = "Pencarian...";
+        if (input) {
+            input.placeholder = "Pencarian...";
+            input.classList.remove("form-control-sm");
+            input.classList.add("rounded-start-0", "p-2");
+        }
+
+        const select = length.querySelector("select");
+        if (select) {
+            select.classList.remove("form-select-sm");
+        }
 
         document.getElementById("searchPengguna").appendChild(search);
         document.getElementById("sortingPengguna").appendChild(length);

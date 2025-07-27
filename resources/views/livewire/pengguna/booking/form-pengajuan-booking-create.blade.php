@@ -199,7 +199,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" wire:click="$dispatchSelf('closeModalCreate')">Tutup</button>
-                            <button type="submit" class="mybtn mybtn-primary p-2">Kirim</button>
+                            <button type="submit" class="mybtn mybtn-primary p-2">Simpan</button>
                         </div>
                     </div>
                 </form>

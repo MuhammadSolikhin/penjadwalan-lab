@@ -48,7 +48,7 @@
                                 class="sidebar-link {{ $isManajemenActive ? 'text-light' : '' }}">Pengguna</a>
                         </li>
                         <li class="sidebar-item {{ Route::is('unit.index') ? 'active' : '' }}">
-                            <a href="{{ route('unit.index') }}" 
+                            <a href="{{ route('unit.index') }}"
                                 class="sidebar-link {{ $isManajemenActive ? 'text-light' : '' }}">Unit</a>
                         </li>
                     @endif
@@ -71,7 +71,7 @@
             <a href="#"
                 class="sidebar-link d-flex flex-grow collapsed {{ $isBookingActive ? 'text-light' : '' }}"
                 data-bs-toggle="collapse" data-bs-target="#bookingDropdown">
-                <i data-feather="calendar" class="sidebar-icon-link"></i>Booking
+                <i data-feather="calendar" class="sidebar-icon-link"></i>Reservasi
                 <i data-feather="chevron-right" class="dropdown-icon {{ $isBookingActive ? 'active' : '' }}"></i>
             </a>
 
@@ -147,6 +147,20 @@
                             class="sidebar-link {{ $isBarangActive ? 'text-light' : '' }}">Daftar Barang</a>
                     </li>
                 </ul>
+            </li>
+        @endif
+
+        @php
+            $currentPriority = auth()->user()->role->prioritas_peran;
+            $isLaporanActive = Route::is('laporan.*');
+        @endphp
+
+        @if ($currentPriority == 1)
+            <li
+                class="sidebar-item pb-2 px-3 mt-2 rounded-3 {{ $isLaporanActive ? 'mybg-brown active' : 'mybg-brown200' }}">
+                <a href="{{ route('laporan.admin') }}" class="sidebar-link {{ $isLaporanActive ? 'text-light' : '' }}">
+                    <i data-feather="file-text" class="me-2"></i>Laporan
+                </a>
             </li>
         @endif
 

@@ -8,7 +8,7 @@
     <h2>{{ $page_meta['page'] }}</h2>
     <p>{{ $page_meta['description'] }}</p>
     <hr>
-    @livewire('pengguna.booking.pengajuan-booking-table', ['status' => 'menunggu'])
+    @livewire('pengguna.booking.pengajuan-booking-table', ['status' => 'menunggu', 'currentRoute' => $path])
     @livewire('pengguna.booking.detail-pengajuan-booking')
     @livewire('pengguna.booking.batalkan-pengajuan-booking')
     @livewire('pengguna.booking.form-pengajuan-booking-edit')

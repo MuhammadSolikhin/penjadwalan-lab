@@ -7,6 +7,7 @@ use App\Models\JadwalBooking;
 use App\Models\PengajuanBooking;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class BookingController extends Controller
 {
@@ -23,6 +24,7 @@ class BookingController extends Controller
     public function diterima()
     {
         return view('pengguna.booking.diterima', [
+            'path' => Route::currentRouteName(),
             'page_meta' => [
                 'page' => 'Data Booking Diterima',
                 'description' => 'Daftar pengajuan booking yang diterima.'
@@ -33,6 +35,7 @@ class BookingController extends Controller
     public function menunggu()
     {
         return view('pengguna.booking.menunggu', [
+            'path' => Route::currentRouteName(),
             'page_meta' => [
                 'page' => 'Data Booking Menunggu',
                 'description' => 'Daftar pengajuan booking yang masih menunggu.'
@@ -43,6 +46,7 @@ class BookingController extends Controller
     public function dibatalkan()
     {
         return view('pengguna.booking.dibatalkan', [
+            'path' => Route::currentRouteName(),
             'page_meta' => [
                 'page' => 'Data Booking Dibatalkan',
                 'description' => 'Daftar pengajuan booking yang dibatalkan.'

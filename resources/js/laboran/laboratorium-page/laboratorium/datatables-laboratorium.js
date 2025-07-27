@@ -12,13 +12,6 @@ export function initLaboratoriumDatatable() {
         },
         columns: [
             {
-                title: "",
-                render: DataTable.render.select(),
-                orderable: false,
-                data: null,
-                className: "min-mobile text-nowrap"
-            },
-            {
                 title: "No",
                 data: null,
                 render: function (data, type, row, meta) {
@@ -76,17 +69,11 @@ export function initLaboratoriumDatatable() {
                 searchable: false,
                 className: 'min-tablet text-md-center align-middle',
                 render: function (data, type, row) {
-                    return `
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-success border dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Aksi
-                            </button>
-                            <ul class="dropdown-menu p-0">
-                                <li><button class="dropdown-item btn-edit-laboratorium" data-row='${JSON.stringify(row)}'>Ubah</button></li>
-                                <li><button class="dropdown-item text-danger btn-delete-laboratorium" data-row='${JSON.stringify(row)}'>Hapus</button></li>
-                            </ul>
-                        </div>
-                    `;
+                    return `<div class="d-flex justify-content-center align-items-center gap-2">
+                                <button class="btn btn-sm btn-secondary btn-detail-laboratorium" data-row='${JSON.stringify(row)}'><i data-feather="file-text" width="14px"></i></button>
+                                <button class="btn btn-sm btn-warning btn-edit-laboratorium" data-row='${JSON.stringify(row)}'><i data-feather="edit" width="14px"></i></button>
+                                <button class="btn btn-sm btn-danger btn-delete-laboratorium" data-row='${JSON.stringify(row)}'><i data-feather="trash-2" width="14px"></i></button>
+                            </div>`;
                 }
             }
         ],
@@ -106,6 +93,8 @@ export function initLaboratoriumDatatable() {
             thElements.forEach(th => {
                 th.classList.add('table-white', 'text-nowrap', 'text-center');
             });
+
+            feather.replace();
         }
     });
 }
@@ -120,7 +109,16 @@ function moveToolsLaboratorium() {
 
     if (search && length && info && paging) {
         const input = search.querySelector("input");
-        if (input) input.placeholder = "Pencarian...";
+        if (input) {
+            input.placeholder = "Pencarian...";
+            input.classList.remove("form-control-sm");
+            input.classList.add("rounded-start-0", "p-2");
+        }
+
+        const select = length.querySelector("select");
+         if (select) {
+            select.classList.remove("form-select-sm");
+        }
 
         document.getElementById("searchLaboratorium").appendChild(search);
         document.getElementById("sortingLaboratorium").appendChild(length);
