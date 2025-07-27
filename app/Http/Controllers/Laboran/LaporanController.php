@@ -14,7 +14,7 @@ class LaporanController extends Controller
     {
         $startDate = $request->startDate;
         $endDate = $request->endDate;
-        $schedules = PengajuanBooking::with(['jadwalBookings', 'user', 'laboratorium'])->whereHas('jadwalBookings', function ($query) use ($startDate, $endDate) {
+        $schedules = PengajuanBooking::with(['jadwalBookings', 'user', 'laboratorium.lokasi'])->whereHas('jadwalBookings', function ($query) use ($startDate, $endDate) {
             $query->whereBetween('created_at', [
                 Carbon::parse($startDate)->startOfDay(),
                 Carbon::parse($endDate)->endOfDay(),

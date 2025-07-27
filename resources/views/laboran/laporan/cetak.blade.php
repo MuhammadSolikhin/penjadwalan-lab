@@ -41,6 +41,7 @@
             <th>Kode Booking</th>
             <th>Nama Pengguna</th>
             <th>Ruangan</th>
+            <th>Lokasi</th>
             <th>Tanggal Penggunaan</th>
             <th>Tanggal Pengajuan</th>
         </thead>
@@ -62,6 +63,7 @@
                             @endif
                         @endforeach
                     </td>
+                    <td>{{$schedule->laboratorium->first()->lokasi->nama_lokasi}}</td>
                     <td>
                         @if ($schedule->mode_tanggal_pengajuan == 'range')
                             @php
