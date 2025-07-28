@@ -218,7 +218,7 @@ class DashboardController extends Controller
             return $laboratorium->status_laboratorium == 1; // Assuming 1 means available
         })->count();
         $brokenLaboratoryCount = $laboratory->filter(function ($laboratorium) {
-            return $laboratorium->status_laboratorium == 0; // Assuming 2 means broken
+            return $laboratorium->status_laboratorium == 0; // Assuming 0 means broken
         })->count();
 
         // Get period

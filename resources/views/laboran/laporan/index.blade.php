@@ -52,6 +52,12 @@
                 <th>Tanggal Pengajuan</th>
             </thead>
             <tbody>
+                @if ($schedules->count() < 1)
+                    <tr>
+                        <td colspan="7" class="text-center text-secondary"><i>Belum ada data</i></td>
+                    </tr>
+                @endif
+
                 <?php $i = 1; ?>
                 @foreach ($schedules as $schedule)
                     <tr>
@@ -69,7 +75,7 @@
                                 @endif
                             @endforeach
                         </td>
-                        <td>{{$schedule->laboratorium->first()->lokasi->nama_lokasi}}</td>
+                        <td>{{ $schedule->laboratorium->first()->lokasi->nama_lokasi }}</td>
                         <td>
                             @if ($schedule->mode_tanggal_pengajuan == 'range')
                                 @php

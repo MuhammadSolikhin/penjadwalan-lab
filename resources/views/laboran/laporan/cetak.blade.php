@@ -12,6 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Cetak Laporan</title>
 
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-reslab-square.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js', 'public/css/mystyle.css'])
 </head>
 
@@ -28,13 +29,50 @@
                 srcset=""></div>
     </div>
 
-    <h4 class="text-center pt-4">LAPORAN PENGGUNAAN LABORATORIUM</h4>
-
-    <div class="mt-5">
+    <div class="text-center my-5">
+        <h4>LAPORAN PENGGUNAAN LABORATORIUM</h4>
         Periode : {{ Carbon::parse($startDate)->translatedFormat('d F Y') }} s/d
         {{ Carbon::parse($endDate)->translatedFormat('d F Y') }}
     </div>
 
+    <h6 class="fw-bold">Jumlah Jadwal</h6>
+
+    <table class="table table-bordered text-center">
+        <thead>
+            <th>Gedung Pusat</th>
+            <th>Gedung Viktor</th>
+            <th>Gedung Witana</th>
+            <th>Gedung Serang</th>
+            <th>Jumlah</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ $pusatCount }}</td>
+                <td>{{ $viktorCount }}</td>
+                <td>{{ $witanaCount }}</td>
+                <td>{{ $serangCount }}</td>
+                <td>{{ $schedules->count() }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h6 class="fw-bold mt-4">Peringkat 5 Teratas</h6>
+    <table class="table table-bordered text-center">
+        <thead>
+            <th>Nama Pengguna</th>
+            <th>Jumlah Jadwal</th>
+        </thead>
+        <tbody>
+            @foreach ($topFrequent as $user)
+                <tr>
+                    <td>{{$user->nama_pengguna}}</td>
+                    <td>{{$user->jadwal_bookings_count}}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <h6 class="fw-bold mt-4">Daftar Pengajuan</h6>
     <table class="table table-bordered">
         <thead>
             <th>No.</th>
@@ -46,6 +84,13 @@
             <th>Tanggal Pengajuan</th>
         </thead>
         <tbody>
+
+            @if ($schedules->count() < 1)
+                <tr>
+                    <td colspan="7" class="text-center text-secondary"><i>Belum ada data</i></td>
+                </tr>
+            @endif
+
             <?php $i = 1; ?>
             @foreach ($schedules as $schedule)
                 <tr>
@@ -63,7 +108,7 @@
                             @endif
                         @endforeach
                     </td>
-                    <td>{{$schedule->laboratorium->first()->lokasi->nama_lokasi}}</td>
+                    <td>{{ $schedule->laboratorium->first()->lokasi->nama_lokasi }}</td>
                     <td>
                         @if ($schedule->mode_tanggal_pengajuan == 'range')
                             @php
