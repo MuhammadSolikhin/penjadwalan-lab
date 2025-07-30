@@ -19,7 +19,7 @@
                         <span class="input-group-text">
                             <i data-feather="map" width="20"></i>
                         </span>
-                        <input type="text" name="nama_lokasi_store" class="form-control @error('nama_lokasi_store') is-invalid @enderror" id="namaLokasi" placeholder="Pamulang" autocomplete="off" value="{{ old('nama_lokasi_store', $Lokasi->nama_lokasi) }}">
+                        <input type="text" name="nama_lokasi_store" class="form-control @error('nama_lokasi_store') is-invalid @enderror" id="namaLokasi" placeholder="Masukkan nama lokasi" autocomplete="off" value="{{ old('nama_lokasi_store', $Lokasi->nama_lokasi) }}">
                         @error('nama_lokasi_store')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -34,7 +34,7 @@
                         <span class="input-group-text">
                             <i data-feather="align-right" width="20"></i>
                         </span>
-                        <textarea class="form-control @error('deskripsi_lokasi_store') is-invalid @enderror" name="deskripsi_lokasi_store" id="deskripsiLokasi" placeholder="Untuk Pengguna Peran..." autocomplete="off" style="min-height: 100px; max-height:100px; resize:none;">{{ old('deskripsi_lokasi_store', $Lokasi->deskripsi_lokasi) }}</textarea>
+                        <textarea class="form-control @error('deskripsi_lokasi_store') is-invalid @enderror" name="deskripsi_lokasi_store" id="deskripsiLokasi" placeholder="Masukkan deskripsi lokasi" autocomplete="off" style="min-height: 100px; max-height:100px; resize:none;">{{ old('deskripsi_lokasi_store', $Lokasi->deskripsi_lokasi) }}</textarea>
                         @error('deskripsi_lokasi_store')
                             <div class="invalid-feedback">
                                 {{ $message }}

@@ -22,7 +22,9 @@ class DatabaseSeeder extends Seeder
                 JenisLabSeeder::class,
                 LaboratoriumUnpamSeeder::class,
                 HariOperasionalSeeder::class,
-                JamOperasionalSeeder::class
+                JamOperasionalSeeder::class,
+                KategoriSeeder::class,
+                BarangSeeder::class,
             ]
         );
     }

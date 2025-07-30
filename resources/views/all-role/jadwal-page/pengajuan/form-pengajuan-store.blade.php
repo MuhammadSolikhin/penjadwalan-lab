@@ -56,7 +56,7 @@
 
         <div class="modal-footer">
             <button type="reset" class="btn btn-danger">Reset</button>
-            <button type="submit" class="btn btn-primary">Kirim</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
         </div>
 
       </form>

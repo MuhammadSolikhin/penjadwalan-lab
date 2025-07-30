@@ -61,7 +61,7 @@
                                     <label for="laboratoriumId" class="form-label">Laboratorium</label>
                                     <select id="laboratoriumid" class="form-select" multiple>
                                         @foreach ($laboratoriumList as $lab)
-                                            <option value="{{ $lab->id }}">{{ $lab->nama_laboratorium }}</option>
+                                            <option title="{{ "Kapasitas : ". $lab->kapasitas_laboratorium . "\n" . "Komputer Tersedia : " }}" value="{{ $lab->id }}">{{ $lab->nama_laboratorium }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -199,7 +199,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" wire:click="$dispatchSelf('closeModalCreate')">Tutup</button>
-                            <button type="submit" class="mybtn mybtn-primary p-2">Kirim</button>
+                            <button type="submit" class="mybtn mybtn-primary p-2">Simpan</button>
                         </div>
                     </div>
                 </form>

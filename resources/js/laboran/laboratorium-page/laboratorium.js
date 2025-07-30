@@ -10,6 +10,7 @@ select2();
 
 // Laboratorium
 import { initLaboratoriumDatatable } from "./laboratorium/datatables-laboratorium.js";
+import { initDatatablesValueToModalDetailLaboratorium } from './laboratorium/form-laboratorium-detail.js';
 import { initSelect2Store, errorStoreModalLaboratorium } from "./laboratorium/form-laboratorium-store.js";
 import { initDatatablesValueToModalUpdateLab, errorUpdateModalLaboratorium } from "./laboratorium/form-laboratorium-update.js";
 import { initSoftDeleteLaboratoriumModal } from './laboratorium/form-laboratorium-soft-delete.js';
@@ -25,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Laboratorium
     initLaboratoriumDatatable();
     initSelect2Store();
+    initDatatablesValueToModalDetailLaboratorium();
     initDatatablesValueToModalUpdateLab();
     initSoftDeleteLaboratoriumModal();
 

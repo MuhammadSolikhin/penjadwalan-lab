@@ -8,7 +8,7 @@
 @section('content')
 <div class="col-12">
     <h2>Reservasi</h2>
-    <span>Halaman untuk melihat jadwal booking</span>
+    <span>Halaman untuk melihat jadwal reservasi</span>
     <hr>
 
     @livewire('pengguna.booking.form-pengajuan-booking-create')

@@ -5,8 +5,9 @@ const deleteModal = new Modal(modalElement);
 
 export function initSoftDeleteLokasiModal() {
     document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('btn-delete-lokasi')) {
-            const row = JSON.parse(e.target.getAttribute('data-row'));
+        const btn = e.target.closest('.btn-delete-lokasi')
+        if (btn) {
+            const row = JSON.parse(btn.getAttribute('data-row'));
 
             // Set form action
             const form = document.getElementById('formDeleteLokasi');

@@ -5,8 +5,9 @@ const deleteModal = new Modal(modalElement);
 
 export function initSoftDeletePenggunaModal() {
     document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('btn-delete-pengguna')) {
-            const row = JSON.parse(e.target.getAttribute('data-row'));
+        const btn = e.target.closest('.btn-delete-pengguna');
+        if (btn) {
+            const row = JSON.parse(btn.getAttribute('data-row'));
 
             // Set form action
             const form = document.getElementById('formDeletePengguna');

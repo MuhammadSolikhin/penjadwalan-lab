@@ -38,7 +38,8 @@ class LaboratoriumUnpamUpdateRequest extends FormRequest
             'lokasi_id_update' => 'required|string|exists:lokasis,id',
             'kapasitas_laboratorium_update' => 'required|integer',
             'status_laboratorium_update' => 'required|string|in:tersedia,tidak tersedia',
-            'deskripsi_laboratorium_update' => 'nullable|string|max:50'
+            'deskripsi_laboratorium_update' => 'nullable|string|max:50',
+            'tipelab_update' => 'required|string|in:general,tidak',
         ];
     }
 

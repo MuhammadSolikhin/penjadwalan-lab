@@ -1,6 +1,10 @@
 <div class="sidebar mybg-brown100 shadow py-5 px-4" id="sidebar">
-    <div class="brand-logo gap-2 d-flex align-items-center justify-content-center">
-        <!--img src="{{ asset('images/logo-reslab-full.png') }}" width="200px" alt="" srcset="" -->
+    <div class="brand-logo gap-2 d-flex align-items-center py-3">
+        <img src="{{ asset('images/logo-reslab-square.png') }}" height="50px" alt="" srcset="">
+        <div class="d-flex flex-column gap-0">
+            <span class="fw-bold fs-4">ResLab</span>
+            <span style="font-size: 10px">Reservasi Laboratorium</span>
+        </div>
     </div>
 
 
@@ -22,7 +26,7 @@
         </li>
 
         @php
-            $manajemenRoutes = ['admin.pengguna', 'laboran.laboratorium', 'admin.barang'];
+            $manajemenRoutes = ['admin.pengguna', 'laboran.laboratorium', 'admin.barang', 'unit.index'];
             $isManajemenActive = in_array(Route::currentRouteName(), $manajemenRoutes);
         @endphp
 
@@ -43,11 +47,16 @@
                             <a href="{{ route('admin.pengguna') }}"
                                 class="sidebar-link {{ $isManajemenActive ? 'text-light' : '' }}">Pengguna</a>
                         </li>
+                        <li class="sidebar-item {{ Route::is('unit.index') ? 'active' : '' }}">
+                            <a href="{{ route('unit.index') }}"
+                                class="sidebar-link {{ $isManajemenActive ? 'text-light' : '' }}">Unit</a>
+                        </li>
                     @endif
                     <li class="sidebar-item {{ Route::is('laboran.laboratorium') ? 'active' : '' }}">
                         <a href="{{ route('laboran.laboratorium') }}"
                             class="sidebar-link {{ $isManajemenActive ? 'text-light' : '' }}">Laboratorium</a>
                     </li>
+
                 </ul>
             </li>
         @endif
@@ -62,7 +71,7 @@
             <a href="#"
                 class="sidebar-link d-flex flex-grow collapsed {{ $isBookingActive ? 'text-light' : '' }}"
                 data-bs-toggle="collapse" data-bs-target="#bookingDropdown">
-                <i data-feather="calendar" class="sidebar-icon-link"></i>Booking
+                <i data-feather="calendar" class="sidebar-icon-link"></i>Reservasi
                 <i data-feather="chevron-right" class="dropdown-icon {{ $isBookingActive ? 'active' : '' }}"></i>
             </a>
 
@@ -76,28 +85,28 @@
 
                     <li class="sidebar-item {{ Route::is('booking.index') ? 'active' : '' }}">
                         <a href="{{ route('booking.index') }}"
-                            class="sidebar-link {{ Route::is('booking.index') ? 'text-light' : '' }}">
+                            class="sidebar-link {{ $isBookingActive ? 'text-light' : '' }}">
                             <i class="fa fa-calendar"></i> Kalender
                         </a>
                     </li>
 
                     <li class="sidebar-item {{ Route::is('booking.diterima') ? 'active' : '' }}">
                         <a href="{{ route('booking.diterima') }}"
-                            class="sidebar-link {{ Route::is('booking.diterima') ? 'text-light' : '' }}">
+                            class="sidebar-link {{ $isBookingActive ? 'text-light' : '' }}">
                             <i class="fa fa-check-circle text-success"></i> Data Diterima
                         </a>
                     </li>
 
                     <li class="sidebar-item {{ Route::is('booking.menunggu') ? 'active' : '' }}">
                         <a href="{{ route('booking.menunggu') }}"
-                            class="sidebar-link {{ Route::is('booking.menunggu') ? 'text-light' : '' }}">
+                            class="sidebar-link {{ $isBookingActive ? 'text-light' : '' }}">
                             <i class="fa fa-clock text-warning"></i> Data Menunggu
                         </a>
                     </li>
 
                     <li class="sidebar-item {{ Route::is('booking.dibatalkan') ? 'active' : '' }}">
                         <a href="{{ route('booking.dibatalkan') }}"
-                            class="sidebar-link {{ Route::is('booking.dibatalkan') ? 'text-light' : '' }}">
+                            class="sidebar-link {{ $isBookingActive ? 'text-light' : '' }}"">
                             <i class="fa fa-times-circle text-danger"></i> Data Dibatalkan
                         </a>
                     </li>
@@ -138,6 +147,20 @@
                             class="sidebar-link {{ $isBarangActive ? 'text-light' : '' }}">Daftar Barang</a>
                     </li>
                 </ul>
+            </li>
+        @endif
+
+        @php
+            $currentPriority = auth()->user()->role->prioritas_peran;
+            $isLaporanActive = Route::is('laporan.*');
+        @endphp
+
+        @if ($currentPriority == 1)
+            <li
+                class="sidebar-item pb-2 px-3 mt-2 rounded-3 {{ $isLaporanActive ? 'mybg-brown active' : 'mybg-brown200' }}">
+                <a href="{{ route('laporan.admin') }}" class="sidebar-link {{ $isLaporanActive ? 'text-light' : '' }}">
+                    <i data-feather="file-text" class="me-2"></i>Laporan
+                </a>
             </li>
         @endif
 

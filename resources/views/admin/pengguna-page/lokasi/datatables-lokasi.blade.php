@@ -1,22 +1,20 @@
-<div class="col-12 p-2">
-    <div class="alert alert-warning align-items-start" role="alert">
-        <span><b>Perhatian!</b></span><br>
-        <span>Pengguna hanya dapat mengajukan ruang laboratorium sesuai dengan lokasinya</span>
+<div class="row p-2">
+    <div class="col d-flex align-items-center gap-2">
+        <div id="searchLokasi" class="input-group" style="width: auto">
+            <span class="input-group-text"><i data-feather="search"></i></span>
+        </div>
+
+        <div id="sortingLokasi"></div>
+    </div>
+
+    <div class="col text-end">
+        <button class="mybtn mybtn-primary p-2" data-bs-toggle="modal" data-bs-target="#formLokasiStore">
+            <i data-feather="plus"></i>
+        </button>
     </div>
 </div>
 
-<div class="col-12 p-2 d-flex flex-wrap align-items-center justify-content-between">
-    <div class="d-flex">
-        <div id="searchLokasi" class="col-12 col-md-auto mb-2 me-2"></div>
-        <div id="sortingLokasi" class="col-12 col-md-auto mb-2"></div>
-    </div>
-
-    <button class="mybtn mybtn-primary p-2" data-bs-toggle="modal" data-bs-target="#formLokasiStore">
-        <i data-feather="plus"></i>
-    </button>
-</div>
-
-<div class="table-responsive px-2" id="tableLokasiContainer">
+<div class="table-responsive overflow-x-hidden px-2" id="tableLokasiContainer">
     <table class="table bg-white table-hover table-bordered" id="tableLokasi" style="width: 100%;">
     </table>
 </div>

@@ -1,5 +1,5 @@
 <div class="modal fade" id="formLaboratoriumUpdate" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
 
         <div class="modal-header bg-warning">

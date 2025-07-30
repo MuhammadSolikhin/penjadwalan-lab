@@ -1,12 +1,16 @@
-<div class="col-12 p-2 d-flex flex-wrap align-items-center justify-content-between">
-    <div class="d-flex">
-        <div id="searchLaboratorium" class="col-12 col-md-auto mb-2 me-2"></div>
-        <div id="sortingLaboratorium" class="col-12 col-md-auto mb-2"></div>
+<div class="row p-2">
+    <div class="col d-flex align-items-center gap-2">
+        <div id="searchLaboratorium" class="input-group" style="width: auto">
+            <span class="input-group-text"><i data-feather="search"></i></span>
+        </div>
+        <div id="sortingLaboratorium"></div>
     </div>
 
-    <button class="mybtn mybtn-primary p-2" data-bs-toggle="modal" data-bs-target="#formLaboratoriumStore">
-        <i data-feather="plus"></i>
-    </button>
+    <div class="col text-end">
+        <button class="mybtn mybtn-primary p-2" data-bs-toggle="modal" data-bs-target="#formLaboratoriumStore">
+            <i data-feather="plus"></i>
+        </button>
+    </div>
 </div>
 
 <div class="table-responsive px-2" id="tableLaboratoriumContainer">

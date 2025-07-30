@@ -7,14 +7,15 @@ select2();
 
 // Pengguna
 import { initPenggunaDatatable } from './pengguna/datatables-pengguna';
+import { initDatatablesValueToModalDetailPengguna } from './pengguna/form-pengguna-detail';
 import { errorStoreModalPengguna, formPasswordViewStore, initSelect2Store } from './pengguna/form-pengguna-store';
 import { initSoftDeletePenggunaModal } from './pengguna/form-pengguna-soft-delete';
+import { errorUpdateModalPengguna, formPasswordViewUpdate, initDatatablesValueToModalUpdatePengguna } from './pengguna/form-pengguna-update';
 
 // Peran
 import { initPeranDatatable } from './peran/datatables-peran';
 import { errorUpdateModalPeran, initDatatablesValueToModalUpdatePeran } from './peran/form-peran-update';
 import { initSoftDeletePeranModal } from './peran/form-peran-soft-delete';
-import { errorUpdateModalPengguna, formPasswordViewUpdate, initDatatablesValueToModalUpdatePengguna } from './pengguna/form-pengguna-update';
 
 // Lokasi
 import { initLokasiDatatable } from './lokasi/datatables-lokasi';
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Pengguna
     initPenggunaDatatable();
     initSelect2Store();
+    initDatatablesValueToModalDetailPengguna();
     initDatatablesValueToModalUpdatePengguna();
     formPasswordViewStore();
     formPasswordViewUpdate();

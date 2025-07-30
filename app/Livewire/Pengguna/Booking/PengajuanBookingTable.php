@@ -18,6 +18,7 @@ use PowerComponents\LivewirePowerGrid\PowerGridFields;
 final class PengajuanBookingTable extends PowerGridComponent
 {
     public string $tableName = 'pengajuan_bookings';
+    public string $currentRoute = '';
     public string $status;
 
     public bool $deferLoading = true;
@@ -37,16 +38,14 @@ final class PengajuanBookingTable extends PowerGridComponent
     public function datasource(): Builder
     {
         $query = PengajuanBooking::query()
-            ->join('users', 'pengajuan_bookings.user_id', '=', 'users.id')
-            ->with('lokasi')
-            ->select('pengajuan_bookings.*', 'users.nama_pengguna');
+            ->with('lokasi');
 
         if (Auth::user()->role_id != 1) {
-            $query->where('pengajuan_bookings.lokasi_id', Auth::user()->lokasi_id)
-                ->where('pengajuan_bookings.user_id', Auth::id());
+            $query->where('lokasi_id', Auth::user()->lokasi_id)
+                ->where('user_id', Auth::id());
         }
 
-        return $query->where('pengajuan_bookings.status_pengajuan_booking', $this->status);
+        return $query->where('status_pengajuan_booking', $this->status);
     }
 
 
@@ -58,7 +57,7 @@ final class PengajuanBookingTable extends PowerGridComponent
             ->add('status_pengajuan_booking')
             ->add('keperluan_pengajuan_booking')
             ->add('nama_lokasi', fn(PengajuanBooking $model) => optional($model->lokasi)->nama_lokasi)
-            ->add('nama_pengguna')
+            ->add('nama_pengguna', fn(PengajuanBooking $model) => optional($model->user)->nama_pengguna)
             ->add('created_at')
             ->add('created_at_formatted', fn(PengajuanBooking $model) => Carbon::parse($model->created_at)->locale('id')->translatedFormat('d F Y H:i'));
     }
@@ -89,10 +88,11 @@ final class PengajuanBookingTable extends PowerGridComponent
         ];
 
         if (auth()->user()->role_id == 1) {
-            $columns[] = Column::make('Dibuat oleh', 'nama_pengguna', 'users.nama_pengguna')
+            $columns[] = Column::make('Dibuat oleh', 'nama_pengguna', 'nama_pengguna')
                 ->searchable()
                 ->sortable();
         }
+
 
         $columns[] = Column::action('Action');
 
@@ -100,13 +100,13 @@ final class PengajuanBookingTable extends PowerGridComponent
     }
 
 
-    public function filters(): array
-    {
-        return [
-            Filter::inputText('kode_booking'),
-            Filter::datepicker('created_at_formatted', 'created_at'),
-        ];
-    }
+    // public function filters(): array
+    // {
+    //     return [
+    //         Filter::inputText('kode_booking'),
+    //         Filter::datepicker('created_at_formatted', 'created_at'),
+    //     ];
+    // }
 
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void

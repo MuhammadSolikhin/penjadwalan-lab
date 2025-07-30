@@ -17,7 +17,7 @@ class RolesController extends Controller
 
     public function getApiPeran(Request $request)
     {
-        $query = roles::select(['id','nama_peran', 'prioritas_peran']);
+        $query = roles::select(['id', 'nama_peran', 'prioritas_peran']);
 
         // Pencarian
         if ($request->has('search') && !empty($request->search['value'])) {
@@ -35,10 +35,10 @@ class RolesController extends Controller
         $orderColumnIndex = $request->input('order.0.column');
         $orderDirection = $request->input('order.0.dir') ?? 'desc';
 
-        $columns = [null, 'nama_peran','id', 'prioritas_peran'];
+        $columns = [null, 'nama_peran', 'id', 'prioritas_peran'];
         $orderColumnName = $columns[$orderColumnIndex] ?? 'id';
 
-        if (in_array($orderColumnName, ['id','nama_peran', 'prioritas_peran'])) {
+        if (in_array($orderColumnName, ['id', 'nama_peran', 'prioritas_peran'])) {
             $query->orderBy($orderColumnName, $orderDirection);
         } else {
             $query->orderBy('id', 'desc');
@@ -68,7 +68,8 @@ class RolesController extends Controller
         ]);
     }
 
-    public function store(PeranStoreRequest $Request) {
+    public function store(PeranStoreRequest $Request)
+    {
         // dd($Request->validated());
 
         DB::beginTransaction();
@@ -84,14 +85,21 @@ class RolesController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.pengguna')->with('success', 'Peran berhasil ditambahkan');
+            return redirect()->route('admin.pengguna')->with([
+                'success' => 'Peran berhasil ditambahkan',
+                'tab' => 'peran'
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('admin.pengguna')->with('error', 'Peran Gagal ditambahkan');
+            return redirect()->route('admin.pengguna')->with([
+                'error' => 'Peran Gagal ditambahkan',
+                'tab' => 'peran'
+            ]);
         }
     }
 
-    public function update(PeranUpdateRequest $Request, $id) {
+    public function update(PeranUpdateRequest $Request, $id)
+    {
         // dd($Request->validated());
 
         DB::beginTransaction();
@@ -109,14 +117,21 @@ class RolesController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.pengguna')->with('success', 'Peran Berhasil di-ubah');
+            return redirect()->route('admin.pengguna')->with([
+                'success' => 'Peran berhasil diubah',
+                'tab' => 'peran'
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('admin.pengguna')->with('error', 'Peran Gagal di-ubah');
+            return redirect()->route('admin.pengguna')->with([
+                'error' => 'Peran gagal diubah',
+                'tab' => 'peran'
+            ]);
         }
     }
 
-    public function softDelete($id) {
+    public function softDelete($id)
+    {
 
         DB::beginTransaction();
 
@@ -127,10 +142,16 @@ class RolesController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.pengguna')->with('success', 'Peran Berhasil dihapus');
+            return redirect()->route('admin.pengguna')->with([
+                'success' => 'Peran berhasil dihapus',
+                'tab' => 'peran'
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('admin.pengguna')->with('error', 'Peran Gagal dihapus');
+            return redirect()->route('admin.pengguna')->with([
+                'error' => 'Peran gagal dihapus',
+                'tab' => 'peran'
+            ]);
         }
     }
 }

@@ -46,7 +46,7 @@
 
     {{-- Building Chart --}}
     <div class="row bg-white rounded-3 m-4 p-4">
-        <div class="col-12 col-md-4 text-center">
+        <div class="col-12 col-md-4 d-flex flex-column align-items-center justify-content-center">
             <p class="fs-1 fw-bold">{{ $schedulesCount }}</h6>
             <p>Jumlah Keseluruhan Jadwal</p>
         </div>
@@ -145,21 +145,14 @@
 
                 <div class="d-flex align-items-center justify-content-around">
                     <div class="text-center">
-                        <p class="fw-bold fs-3">{{ $laboratoryCount }}</p>
+                        <p class="fw-bold fs-3">{{ $availableLab }}</p>
                         <p>Ruangan<br>Tersedia</p>
                     </div>
 
                     <div class="mx-3">
                         <div class="text-center">
-                            <p class="fw-bold fs-3">0</p>
+                            <p class="fw-bold fs-3">{{ $brokenLab }}</p>
                             <p>Ruangan<br>Diperbaiki</p>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="text-center">
-                            <p class="fw-bold fs-3">0</p>
-                            <p>Ruangan<br>Rusak</p>
                         </div>
                     </div>
                 </div>
@@ -170,8 +163,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const schedulesbyPeriod = @json($schedulesbyPeriod);
-
-            console.log(schedulesbyPeriod.labels);
 
             const ctxBar = document.getElementById('uHistoryChart').getContext('2d');
             // Usage History Chart

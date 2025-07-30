@@ -20,7 +20,14 @@ class DashboardController extends Controller
         $usersCount = User::all()->count();
 
         // Total All Laboratorium
-        $laboratoryCount = LaboratoriumUnpam::all()->count();
+        $laboratory = LaboratoriumUnpam::all();
+
+        $availableLaboratoryCount = $laboratory->filter(function ($laboratorium) {
+            return $laboratorium->status_laboratorium == 1; // Assuming 1 means available
+        })->count();
+        $brokenLaboratoryCount = $laboratory->filter(function ($laboratorium) {
+            return $laboratorium->status_laboratorium == 0; // Assuming 2 means broken
+        })->count();
 
         // Get past 3 years schedule data
         $threeYearsAgo = Carbon::now()->subYears(3);
@@ -90,7 +97,9 @@ class DashboardController extends Controller
 
         return view("admin.index", [
             'usersCount' => $usersCount,
-            'laboratoryCount' => $laboratoryCount,
+            'laboratoryCount' => $laboratory->count(),
+            'availableLab' => $availableLaboratoryCount,
+            'brokenLab' => $brokenLaboratoryCount,
             'schedulesCount' => $currentSchedules->count(),
             'pusatCount' => $counts[0],
             'witanaCount' => $counts[1],
@@ -108,7 +117,14 @@ class DashboardController extends Controller
         $usersCount = User::all()->count();
 
         // Total All Laboratorium
-        $laboratoryCount = LaboratoriumUnpam::all()->count();
+        $laboratory = LaboratoriumUnpam::all();
+
+        $availableLaboratoryCount = $laboratory->filter(function ($laboratorium) {
+            return $laboratorium->status_laboratorium == 1; // Assuming 1 means available
+        })->count();
+        $brokenLaboratoryCount = $laboratory->filter(function ($laboratorium) {
+            return $laboratorium->status_laboratorium == 0; // Assuming 2 means broken
+        })->count();
 
         // Get past 3 years schedule data
         $threeYearsAgo = Carbon::now()->subYears(3);
@@ -179,7 +195,9 @@ class DashboardController extends Controller
 
         return view("laboran.index", [
             'usersCount' => $usersCount,
-            'laboratoryCount' => $laboratoryCount,
+            'laboratoryCount' => $laboratory->count(),
+            'availableLab' => $availableLaboratoryCount,
+            'brokenLab' => $brokenLaboratoryCount,
             'schedulesCount' => $currentSchedules->count(),
             'pusatCount' => $counts[0],
             'witanaCount' => $counts[1],
@@ -194,7 +212,14 @@ class DashboardController extends Controller
     public function dashboardPengguna()
     {
         // Total All Laboratorium
-        $laboratoryCount = LaboratoriumUnpam::all()->count();
+        $laboratory = LaboratoriumUnpam::all();
+
+        $availableLaboratoryCount = $laboratory->filter(function ($laboratorium) {
+            return $laboratorium->status_laboratorium == 1; // Assuming 1 means available
+        })->count();
+        $brokenLaboratoryCount = $laboratory->filter(function ($laboratorium) {
+            return $laboratorium->status_laboratorium == 0; // Assuming 0 means broken
+        })->count();
 
         // Get period
         $currentDate = now();
@@ -228,16 +253,18 @@ class DashboardController extends Controller
         $computerCount = Barang::where('nama', "LIKE", "komputer%")->count();
 
         // Available schedule for 1 semester
-        $period = $currentDate->month < 7 ? CarbonPeriod::create("{$currentDate->year}-01-01", "{$currentDate->year}-06-30") : CarbonPeriod::create("$currentDate->year-07-01", "$currentDate->year-12-31");
+        $period = $currentDate->month < 7 ? CarbonPeriod::create($currentDate, "{$currentDate->year}-06-30") : CarbonPeriod::create($currentDate, "$currentDate->year-12-31");
         $totalDays = $period->count();
-        $possibleSchedules = 5 * $totalDays * $laboratoryCount;     // 5 hours per day * total of days in 1 semester * number of labs
+        $possibleSchedules = 5 * $totalDays * $laboratory->count();     // 5 hours per day * remaining of days in 1 semester * number of labs
         $availableSchedules = $possibleSchedules - $currentSchedules->count();
 
         // User reservation
         $reservations = PengajuanBooking::with('laboratorium.lokasi')->where('user_id', '=', Auth::user()->id)->get();
 
         return view("pengguna.index", [
-            'laboratoryCount' => $laboratoryCount,
+            'laboratoryCount' => $laboratory->count(),
+            'availableLab' => $availableLaboratoryCount,
+            'brokenLab' => $brokenLaboratoryCount,
             'schedulesCount' => $currentSchedules->count(),
             'availableSchedules' => $availableSchedules,
             'pusatCount' => $counts[0],

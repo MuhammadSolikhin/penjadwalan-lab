@@ -7,6 +7,7 @@ use App\Models\JadwalBooking;
 use App\Models\PengajuanBooking;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class BookingController extends Controller
 {
@@ -23,6 +24,7 @@ class BookingController extends Controller
     public function diterima()
     {
         return view('pengguna.booking.diterima', [
+            'path' => Route::currentRouteName(),
             'page_meta' => [
                 'page' => 'Data Booking Diterima',
                 'description' => 'Daftar pengajuan booking yang diterima.'
@@ -33,6 +35,7 @@ class BookingController extends Controller
     public function menunggu()
     {
         return view('pengguna.booking.menunggu', [
+            'path' => Route::currentRouteName(),
             'page_meta' => [
                 'page' => 'Data Booking Menunggu',
                 'description' => 'Daftar pengajuan booking yang masih menunggu.'
@@ -43,13 +46,14 @@ class BookingController extends Controller
     public function dibatalkan()
     {
         return view('pengguna.booking.dibatalkan', [
+            'path' => Route::currentRouteName(),
             'page_meta' => [
                 'page' => 'Data Booking Dibatalkan',
                 'description' => 'Daftar pengajuan booking yang dibatalkan.'
             ]
         ]);
     }
-    
+
     public function getBookingEvents(Request $request)
     {
         try {
@@ -59,21 +63,24 @@ class BookingController extends Controller
             }
 
             $role = $user->role->nama_peran;
+            $priority = $user->role->prioritas_peran;
 
             $query = PengajuanBooking::with(['jadwalBookings.laboratoriumUnpam', 'user.role']);
             $query->whereIn('status_pengajuan_booking', ['diterima', 'menunggu']);
 
-            if ($role === 'lembaga') {
-                $query->whereHas('user.role', function ($q) {
-                    $q->where('prioritas_peran', '<=', 3);
-                });
-            } elseif ($role === 'prodi') {
-                $query->whereHas('user.role', function ($q) {
-                    $q->where('prioritas_peran', '>=', 3);
-                });
-            }
+            // if ($role === 'lembaga') {
+            //     $query->whereHas('user.role', function ($q) {
+            //         $q->where('pri6hhoritas_peran', '<=', 3);
+            //     });
+            // } elseif ($role === 'prodi') {
+            //     $query->whereHas('user.role', function ($q) {
+            //         $q->where('prioritas_peran', '>=', 3);
+            //     });
+            // }
 
-            $query->where('lokasi_id', $user->lokasi_id);
+            if ($priority != 1) {
+                $query->where('lokasi_id', $user->lokasi_id);
+            }
             $pengajuanList = $query->get();
 
             $events = $pengajuanList->flatMap(function ($pengajuan) {

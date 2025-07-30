@@ -37,7 +37,8 @@ class LaboratoriumUnpamStoreRequest extends FormRequest
             'lokasi_id_store' => 'required|string|exists:lokasis,id',
             'kapasitas_laboratorium_store' => 'required|integer',
             'status_laboratorium_store' => 'required|string|in:tersedia,tidak tersedia',
-            'deskripsi_laboratorium_store' => 'nullable|string|max:50'
+            'deskripsi_laboratorium_store' => 'nullable|string|max:50',
+            'tipelab_store' => 'required|string|in:tersedia,tidak tersedia',
         ];
     }
 

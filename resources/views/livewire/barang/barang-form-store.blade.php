@@ -75,7 +75,7 @@
 
                 <div class="row pb-3 justify-content-end gap-2">
                     <button type="button" class="btn btn-sm btn-danger col-12 col-md-2">Reset</button>
-                    <button type="submit" class="btn btn-sm btn-primary col-12 col-md-2">Kirim</button>
+                    <button type="submit" class="btn btn-sm btn-primary col-12 col-md-2">Simpan</button>
                 </div>
             </form>
         </div>

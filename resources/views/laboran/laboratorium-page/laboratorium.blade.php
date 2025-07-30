@@ -7,6 +7,7 @@
 
     {{-- Laboratorium --}}
     @include('laboran.laboratorium-page.laboratorium.form-laboratorium-store')
+    @include('laboran.laboratorium-page.laboratorium.form-laboratorium-detail')
     @include('laboran.laboratorium-page.laboratorium.form-laboratorium-update')
     @include('laboran.laboratorium-page.laboratorium.form-laboratorium-soft-delete')
 
@@ -24,4 +25,34 @@
             @include('laboran.laboratorium-page.navigasi-laboratorium')
         </div>
     </div>
+
+    <script>
+        let labTab = @json(session('tab')) ?? 'laboratorium';
+        
+
+        document.addEventListener('DOMContentLoaded', function() {
+            function bukaTab(tabId) {
+                const tabTrigger = document.querySelector(`#${tabId}`);
+                if (tabTrigger) {
+                    const labTab = new bootstrap.Tab(tabTrigger);
+                    labTab.show();
+                }
+            }
+
+            console.log(labTab);
+            
+
+            // Ambil nilai dari server via tab (dari Blade)
+            const tabFromServer = labTab || 'laboratorium';
+
+            const tabMap = {
+                laboratorium: 'nav-laboratorium-tab',
+                jenis: 'nav-jenis-laboratorium-tab',
+            };
+
+            if (tabMap[tabFromServer]) {
+                bukaTab(tabMap[tabFromServer]);
+            }
+        });
+    </script>
 @endsection

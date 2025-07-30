@@ -19,8 +19,12 @@ function initSelect2Update() {
 
 export function initDatatablesValueToModalUpdateLab() {
     document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('btn-edit-laboratorium')) {
-            const data = JSON.parse(e.target.getAttribute('data-row'));
+        const btn = e.target.closest('.btn-edit-laboratorium');
+
+        if (!btn) return;
+
+        try {
+            const data = JSON.parse(btn.getAttribute('data-row'));
 
             // // Set Judul Modal
             // const message = `<i data-feather="edit" class="me-2"></i>Ubah Laboratorium ${data.name} dari Lokasi ${data.lokasi_name}`;
@@ -42,12 +46,14 @@ export function initDatatablesValueToModalUpdateLab() {
             editModal.show();
 
             initSelect2Update();
+        } catch (error) {
+            console.error('❌ Gagal parsing data-row:', error);
         }
     });
 }
 
 
-export function errorUpdateModalLaboratorium(){
+export function errorUpdateModalLaboratorium() {
     const formData = document.getElementById('formDataLaboratoriumUpdate');
     const errors = JSON.parse(formData.dataset.errors);
     const sessionForm = formData.dataset.session;

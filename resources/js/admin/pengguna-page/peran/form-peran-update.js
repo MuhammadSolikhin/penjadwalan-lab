@@ -2,8 +2,9 @@ import { Modal } from 'bootstrap';
 
 export function initDatatablesValueToModalUpdatePeran() {
     document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('btn-edit-peran')) {
-            const data = JSON.parse(e.target.getAttribute('data-row'));
+        const btn = e.target.closest('.btn-edit-peran');
+        if (btn) {
+            const data = JSON.parse(btn.getAttribute('data-row'));
 
             // // judul modal
             // const message = `<i data-feather="edit" class="me-2"></i>Ubah Jenis Laboratorium ${data.name}`;

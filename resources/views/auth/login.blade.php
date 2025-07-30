@@ -15,10 +15,10 @@
 <body class="hold-transition login-page">
     <div class="container-fluid bg-fullscreen">
         <!-- Navbar -->
-        <nav class="navbar bg-body-transparent">
+        <nav class="navbar bg-body-transparent p-0">
             <div class="container-fluid">
-                <a class="navbar-brand d-flex align-items-center bg-white p-2 rounded-2" href="{{ url('/') }}">
-                    <img src="{{ asset('images/logo-reslab-square.png') }}" alt="Logo" width="50"
+                <a class="navbar-brand d-flex align-items-center bg-white p-2 rounded-bottom-2" href="{{ url('/') }}">
+                    <img src="{{ asset('images/logo-reslab-square.png') }}" alt="Logo" width="50px"
                         class="d-inline-block align-text-top">
                     <b class="mysite-title mytext-brown mx-3 fs-4"><i>ResLab</i></b>
                 </a>
