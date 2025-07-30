@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('nama_unit');
             $table->string('kode_unit')->unique();
-            $table->enum('jenis_unit', ['prodi', 'lembaga', 'genaral'])->default('prodi');
+            $table->enum('jenis_unit', ['prodi', 'lembaga', 'general'])->default('prodi');
             $table->timestamps();
         });
     }

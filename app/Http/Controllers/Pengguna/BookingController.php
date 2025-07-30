@@ -53,7 +53,7 @@ class BookingController extends Controller
             ]
         ]);
     }
-    
+
     public function getBookingEvents(Request $request)
     {
         try {
@@ -63,21 +63,24 @@ class BookingController extends Controller
             }
 
             $role = $user->role->nama_peran;
+            $priority = $user->role->prioritas_peran;
 
             $query = PengajuanBooking::with(['jadwalBookings.laboratoriumUnpam', 'user.role']);
             $query->whereIn('status_pengajuan_booking', ['diterima', 'menunggu']);
 
-            if ($role === 'lembaga') {
-                $query->whereHas('user.role', function ($q) {
-                    $q->where('prioritas_peran', '<=', 3);
-                });
-            } elseif ($role === 'prodi') {
-                $query->whereHas('user.role', function ($q) {
-                    $q->where('prioritas_peran', '>=', 3);
-                });
-            }
+            // if ($role === 'lembaga') {
+            //     $query->whereHas('user.role', function ($q) {
+            //         $q->where('pri6hhoritas_peran', '<=', 3);
+            //     });
+            // } elseif ($role === 'prodi') {
+            //     $query->whereHas('user.role', function ($q) {
+            //         $q->where('prioritas_peran', '>=', 3);
+            //     });
+            // }
 
-            $query->where('lokasi_id', $user->lokasi_id);
+            if ($priority != 1) {
+                $query->where('lokasi_id', $user->lokasi_id);
+            }
             $pengajuanList = $query->get();
 
             $events = $pengajuanList->flatMap(function ($pengajuan) {
