@@ -3,29 +3,46 @@ stages:
 
 deploy_production:
   stage: deploy
+  # Gunakan image dari registry internal UNPAM
   image: registry.unpam.ac.id/unpamofficial/skaffold:core
 
-  script:
-    - echo "--- MEMULAI DEBUGGING VARIABEL ---"
-    
-    # Tes apakah variabelnya benar-benar kosong atau tidak
-    - |
-      if [ -z "$SSH_PRIVATE_KEY" ]; then
-        echo "KESALAHAN FATAL: Variabel SSH_PRIVATE_KEY benar-benar KOSONG."
-        exit 1
-      else
-        echo "INFO: Variabel SSH_PRIVATE_KEY memiliki isi."
-      fi
-    
-    # Jika tidak kosong, kita lanjutkan seperti biasa dengan printf
+  before_script:
+    # Bagian ini akan berjalan sebelum script utama
+    # Menyiapkan koneksi SSH dengan benar
+    - echo "Menyiapkan koneksi SSH..."
+    # 1. Buat folder .ssh terlebih dahulu
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    # 2. Nonaktifkan pemeriksaan host key yang ketat
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    # 3. Tulis private key ke file menggunakan printf yang aman
     - printf "%s\n" "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-    - echo "--- Mencetak 50 karakter pertama dari file yang dibuat ---"
-    - head -c 50 ~/.ssh/id_rsa
-    - echo ""
-    - echo "--- Selesai mencetak ---"
-    
-    # Lanjutkan sisa skrip...
-    - eval $(ssh-agent -s)
+    # 4. Atur permission file key
     - chmod 600 ~/.ssh/id_rsa
+    # 5. Mulai ssh-agent dan tambahkan key
+    - eval $(ssh-agent -s)
     - ssh-add ~/.ssh/id_rsa
-    # ... sisa skrip Anda ...
+    - echo "Koneksi SSH siap."
+
+  script:
+    # Bagian utama, menjalankan perintah di server Anda
+    - |
+      ssh $SSH_USER_HOST "
+        echo 'Membuat file .env di server...';
+        echo '${ENV_FILE}' > ${PROJECT_PATH}/.env;
+
+        if [ ! -d '$PROJECT_PATH' ]; then
+          echo 'Direktori proyek tidak ada. Melakukan clone dari repository...';
+          git clone git@gitlab.unpam.ac.id:${CI_PROJECT_PATH}.git $PROJECT_PATH;
+        fi;
+
+        echo 'Menjalankan skrip deployment di server...';
+        cd $PROJECT_PATH && ./deploy.sh;
+      "
+  
+  environment:
+    name: production
+    url: http://10.11.0.20
+  
+  only:
+    - develop
