@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\laboran;
+namespace App\Http\Controllers\Laboran;
 
 use App\Http\Controllers\Controller;
 use App\Models\JadwalBooking;
