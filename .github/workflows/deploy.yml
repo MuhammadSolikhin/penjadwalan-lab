@@ -3,7 +3,7 @@ name: Deploy Laravel to VPS (CentOS 7)
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   build-and-deploy:

@@ -1,0 +1,37 @@
+stages:
+  - deploy
+
+deploy_production:
+  stage: deploy
+  # Use a minimal image with SSH client
+  image: alpine:latest
+  
+  # This section runs before the main script
+  before_script:
+    - 'which ssh-agent || ( apk update && apk add openssh-client )'
+    - eval $(ssh-agent -s)
+    # Add the private key from the CI/CD variable
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    # Add the server's host key to known_hosts to avoid interactive prompts
+    - ssh-keyscan $SSH_USER_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+
+  script:
+    - |
+      ssh $SSH_USER_HOST "
+        if [ ! -d "$PROJECT_PATH" ]; then
+          echo 'Project directory does not exist. Cloning repository...';
+          git clone git@gitlab.com:${CI_PROJECT_PATH}.git $PROJECT_PATH;
+        fi;
+        cd $PROJECT_PATH && ./deploy.sh
+      "
+  
+  environment:
+    name: production
+    url: http://10.11.0.20
+  
+  # This job will only run on pushes to the 'develop' branch
+  only:
+    - develop
