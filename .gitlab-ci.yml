@@ -6,36 +6,26 @@ deploy_production:
   image: registry.unpam.ac.id/unpamofficial/skaffold:core
 
   script:
-    # Setup kunci SSH
-    - mkdir -p ~/.ssh
-    - eval $(ssh-agent -s)
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - echo "--- MEMULAI DEBUGGING VARIABEL ---"
     
-    # --- PERBAIKAN DI SINI ---
-    # Gunakan 'printf' sebagai ganti 'echo'. Ini jauh lebih aman untuk variabel multi-baris.
+    # Tes apakah variabelnya benar-benar kosong atau tidak
+    - |
+      if [ -z "$SSH_PRIVATE_KEY" ]; then
+        echo "KESALAHAN FATAL: Variabel SSH_PRIVATE_KEY benar-benar KOSONG."
+        exit 1
+      else
+        echo "INFO: Variabel SSH_PRIVATE_KEY memiliki isi."
+      fi
+    
+    # Jika tidak kosong, kita lanjutkan seperti biasa dengan printf
     - printf "%s\n" "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - echo "--- Mencetak 50 karakter pertama dari file yang dibuat ---"
+    - head -c 50 ~/.ssh/id_rsa
+    - echo ""
+    - echo "--- Selesai mencetak ---"
     
+    # Lanjutkan sisa skrip...
+    - eval $(ssh-agent -s)
     - chmod 600 ~/.ssh/id_rsa
     - ssh-add ~/.ssh/id_rsa
-
-    # Jalankan perintah di server Anda
-    - |
-      ssh $SSH_USER_HOST "
-        echo 'Creating .env file on server...';
-        echo '${ENV_FILE}' > ${PROJECT_PATH}/.env;
-
-        if [ ! -d '$PROJECT_PATH' ]; then
-          echo 'Project directory does not exist. Cloning repository...';
-          git clone git@gitlab.unpam.ac.id:${CI_PROJECT_PATH}.git $PROJECT_PATH;
-        fi;
-
-        echo 'Executing deployment script on server...';
-        cd $PROJECT_PATH && ./deploy.sh;
-      "
-  
-  environment:
-    name: production
-    url: http://10.11.0.20
-  
-  only:
-    - develop
+    # ... sisa skrip Anda ...
