@@ -3,32 +3,41 @@ stages:
 
 deploy_production:
   stage: deploy
-  # Use a minimal image with SSH client
-  image: kroniak/ssh-client
-  # This section runs before the main script
-  before_script:
-    - eval $(ssh-agent -s)
-    - chmod 600 "$SSH_PRIVATE_KEY"
-    - ssh-add "$SSH_PRIVATE_KEY"
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - ssh-keyscan $SSH_USER_HOST >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
+  # Gunakan image dari registry internal UNPAM yang sudah terbukti bisa diakses
+  image: registry.unpam.ac.id/unpamofficial/skaffold:core
 
   script:
+    # Setup kunci SSH
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    # Nonaktifkan pemeriksaan host key yang ketat
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    # Tulis private key dari variabel ke file, ini cara yang digunakan di contoh Anda
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-add ~/.ssh/id_rsa
+
+    # Jalankan perintah di server Anda
     - |
       ssh $SSH_USER_HOST "
-        if [ ! -d "$PROJECT_PATH" ]; then
+        # Pertama, buat file .env di server menggunakan variabel $ENV_FILE
+        echo 'Creating .env file on server...';
+        echo '${ENV_FILE}' > ${PROJECT_PATH}/.env;
+
+        # Cek apakah direktori proyek sudah ada, jika tidak, clone dari gitlab
+        if [ ! -d '$PROJECT_PATH' ]; then
           echo 'Project directory does not exist. Cloning repository...';
           git clone git@gitlab.unpam.ac.id:${CI_PROJECT_PATH}.git $PROJECT_PATH;
         fi;
-        cd $PROJECT_PATH && ./deploy.sh
+
+        # Pindah ke direktori proyek dan jalankan skrip deployment kita
+        echo 'Executing deployment script on server...';
+        cd $PROJECT_PATH && ./deploy.sh;
       "
   
   environment:
     name: production
     url: http://10.11.0.20
   
-  # This job will only run on pushes to the 'develop' branch
   only:
     - develop
