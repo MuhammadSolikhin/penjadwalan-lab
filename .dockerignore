@@ -1,0 +1,21 @@
+# File: .dockerignore
+
+# Ignore sensitive files
+.env
+.env.example
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+
+# Ignore local development dependencies
+/vendor/
+/node_modules/
+
+# Ignore local storage files
+/storage/app/public
+/storage/framework/cache/data
+/storage/framework/sessions
+/storage/framework/testing
+/storage/framework/views
+/storage/logs/*.log

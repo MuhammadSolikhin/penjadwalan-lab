@@ -1,6 +1,6 @@
 FROM php:8.2-fpm
 
-# Install dependencies
+# Install system dependencies required by Laravel
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpng-dev \
@@ -13,29 +13,23 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
-    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl
+    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd
 
-# Tambahkan NodeJS
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g npm
-
-# Install Composer
+# Install Composer globally
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
+# Set the working directory
 WORKDIR /var/www
 
-# Copy project
+# Copy the entire project
 COPY . .
 
-# Install dependencies
-RUN composer install --no-dev --optimize-autoloader
-# Install dependencies dan build Vite
-RUN npm install && npm run build
+# Install Composer dependencies for production
+RUN composer install --no-interaction --optimize-autoloader --no-dev
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www/storage
+# Set correct permissions for storage and bootstrap cache
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
+    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-EXPOSE 8000
+# The FPM image will automatically expose port 9000, so we don't need an EXPOSE line.
+# The container will run the php-fpm process by default.

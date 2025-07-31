@@ -21,3 +21,5 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+gitlab_runner_key
+gitlab_runner_key.pub
