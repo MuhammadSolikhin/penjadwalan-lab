@@ -3,41 +3,32 @@ stages:
 
 deploy_production:
   stage: deploy
-  # Gunakan image dari registry internal UNPAM
   image: registry.unpam.ac.id/unpamofficial/skaffold:core
 
   before_script:
-    # Bagian ini akan berjalan sebelum script utama
-    # Menyiapkan koneksi SSH dengan benar
     - echo "Menyiapkan koneksi SSH..."
-    # 1. Buat folder .ssh terlebih dahulu
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    # 2. Nonaktifkan pemeriksaan host key yang ketat
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    # 3. Tulis private key ke file menggunakan printf yang aman
     - printf "%s\n" "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-    # 4. Atur permission file key
     - chmod 600 ~/.ssh/id_rsa
-    # 5. Mulai ssh-agent dan tambahkan key
     - eval $(ssh-agent -s)
     - ssh-add ~/.ssh/id_rsa
     - echo "Koneksi SSH siap."
 
   script:
-    # Bagian utama, menjalankan perintah di server Anda
     - |
       ssh $SSH_USER_HOST "
+        # Pindah ke direktori proyek yang sudah ada
+        cd $PROJECT_PATH;
+
+        # Buat file .env terlebih dahulu
         echo 'Membuat file .env di server...';
-        echo '${ENV_FILE}' > ${PROJECT_PATH}/.env;
+        echo \"$ENV_FILE\" > .env;
 
-        if [ ! -d '$PROJECT_PATH' ]; then
-          echo 'Direktori proyek tidak ada. Melakukan clone dari repository...';
-          git clone git@gitlab.unpam.ac.id:${CI_PROJECT_PATH}.git $PROJECT_PATH;
-        fi;
-
+        # Jalankan skrip deployment
         echo 'Menjalankan skrip deployment di server...';
-        cd $PROJECT_PATH && ./deploy.sh;
+        ./deploy.sh;
       "
   
   environment:
