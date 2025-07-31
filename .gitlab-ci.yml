@@ -6,19 +6,33 @@ deploy_production:
   image: registry.unpam.ac.id/unpamofficial/skaffold:core
 
   script:
-    # Setup kunci SSH
+    # --- SKRIP DEBUGGING ---
+    # Tujuan: Melihat isi file id_rsa sebelum digunakan.
+
+    - echo "--- MEMULAI PROSES DEBUG ---"
+    
+    # 1. Setup direktori
     - mkdir -p ~/.ssh
-    - eval $(ssh-agent -s)
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    
-    # --- PERBAIKAN DI SINI ---
-    # Tambahkan flag "-e" untuk memastikan format key multi-baris ditulis dengan benar
+    - chmod 700 ~/.ssh
+
+    # 2. Tulis key ke file
     - echo -e "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-    
     - chmod 600 ~/.ssh/id_rsa
+
+    # 3. CETAK ISI FILE KE LOG UNTUK INSPEKSI
+    - echo "--- Mulai mencetak isi file /root/.ssh/id_rsa ---"
+    - cat ~/.ssh/id_rsa
+    - echo "--- Selesai mencetak isi file ---"
+    - echo "Bandingkan teks di atas dengan file asli di laptop Anda."
+
+    # 4. Kita akan tetap mencoba menjalankan ssh-add agar bisa melihat errornya lagi
+    #    Namun, output debug di atas adalah yang paling penting.
+    - echo "--- Mencoba menambahkan key ke ssh-agent ---"
+    - eval $(ssh-agent -s)
     - ssh-add ~/.ssh/id_rsa
 
-    # Jalankan perintah di server Anda
+    # Jika baris di atas berhasil, skrip akan lanjut. Jika gagal, kita punya lognya.
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - |
       ssh $SSH_USER_HOST "
         echo 'Creating .env file on server...';
