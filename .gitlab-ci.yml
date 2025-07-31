@@ -5,19 +5,20 @@ deploy_production:
   stage: deploy
   # Use a minimal image with SSH client
   image: alpine:latest
-  
   # This section runs before the main script
   before_script:
     - 'which ssh-agent || ( apk update && apk add openssh-client )'
     - eval $(ssh-agent -s)
-    # Add the private key from the CI/CD variable
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    # The following two lines are the fix:
+    # We make the key file readable only by the current user.
+    - chmod 600 "$SSH_PRIVATE_KEY"
+    # We add the key directly from the file path provided by GitLab.
+    - ssh-add "$SSH_PRIVATE_KEY"
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    # Add the server's host key to known_hosts to avoid interactive prompts
     - ssh-keyscan $SSH_USER_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-
+    
   script:
     - |
       ssh $SSH_USER_HOST "
