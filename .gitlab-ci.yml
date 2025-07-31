@@ -4,27 +4,23 @@ stages:
 deploy_production:
   stage: deploy
   # Use a minimal image with SSH client
-  image: alpine:latest
+  image: kroniak/ssh-client
   # This section runs before the main script
   before_script:
-    - 'which ssh-agent || ( apk update && apk add openssh-client )'
     - eval $(ssh-agent -s)
-    # The following two lines are the fix:
-    # We make the key file readable only by the current user.
     - chmod 600 "$SSH_PRIVATE_KEY"
-    # We add the key directly from the file path provided by GitLab.
     - ssh-add "$SSH_PRIVATE_KEY"
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - ssh-keyscan $SSH_USER_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    
+
   script:
     - |
       ssh $SSH_USER_HOST "
         if [ ! -d "$PROJECT_PATH" ]; then
           echo 'Project directory does not exist. Cloning repository...';
-          git clone git@gitlab.com:${CI_PROJECT_PATH}.git $PROJECT_PATH;
+          git clone git@gitlab.unpam.ac.id:${CI_PROJECT_PATH}.git $PROJECT_PATH;
         fi;
         cd $PROJECT_PATH && ./deploy.sh
       "
