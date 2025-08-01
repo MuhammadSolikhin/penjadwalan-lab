@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use App\Models\roles;
+use App\Models\Roles;
 use App\Models\Unit;
 
 class PenggunaUpdateRequest extends FormRequest
@@ -74,7 +74,7 @@ class PenggunaUpdateRequest extends FormRequest
             $peranId = $this->input('peran_id_update');
             $unitId = $this->input('unit_id_update');
 
-            $peran = roles::find($peranId);
+            $peran = Roles::find($peranId);
             $unit = Unit::find($unitId);
 
             if ($peran && $unitId) {

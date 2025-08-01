@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Admin\Pengguna;
 
-use App\Models\roles;
+use App\Models\Roles;
 use App\Models\Unit;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -76,7 +76,7 @@ class PenggunaStoreRequest extends FormRequest
             $unitId = $this->input('unit_id_store');
 
             // Ambil data peran dan unit dari database
-            $peran = roles::find($peranId);
+            $peran = Roles::find($peranId);
             $unit = Unit::find($unitId);
 
             if ($peran && $unitId) {

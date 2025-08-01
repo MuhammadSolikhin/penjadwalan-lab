@@ -9,7 +9,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Laboran\JenisLabController;
 use App\Http\Controllers\Laboran\LaboratoriumUnpamController;
-use App\Http\Controllers\laboran\LaporanController;
+use App\Http\Controllers\Laboran\LaporanController;
 use App\Http\Controllers\Pengguna\BookingController;
 use App\Http\Controllers\Pengguna\JadwalBookingController;
 use App\Http\Controllers\Pengguna\ProsesPengajuanBookingController;

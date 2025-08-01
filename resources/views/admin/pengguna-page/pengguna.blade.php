@@ -3,7 +3,7 @@
 @section('title', 'Pengguna')
 
 @section('content')
-    @vite(['resources/js/admin/pengguna-page/pengguna'])
+    @vite(['resources/js/admin/pengguna-page/pengguna.js'])
 
     {{-- Pengguna --}}
     @include('admin.pengguna-page.pengguna.form-pengguna-store')

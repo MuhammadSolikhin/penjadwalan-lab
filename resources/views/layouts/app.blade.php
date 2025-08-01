@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="icon" type="image/png" href="{{ asset('images/logo-reslab-square.png') }}">
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'public/css/mystyle.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
 
     @livewireStyles
 
@@ -47,10 +48,11 @@
     <script src="{{ asset('js/sweetalert2.js') }}"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             feather.replace();
         });
     </script>
+    @yield('scripts')
 
 </body>
 

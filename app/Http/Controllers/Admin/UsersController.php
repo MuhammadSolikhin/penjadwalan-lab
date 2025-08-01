@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
-use App\Models\roles;
+use App\Models\Roles;
 use App\Models\Lokasi;
 use Illuminate\Http\Request;
 use App\Models\LaboratoriumUnpam;
@@ -21,12 +21,12 @@ class UsersController extends Controller
     {
 
         $LokasiFormSelect = Lokasi::select('id', 'nama_lokasi')->get();
-        $PeranFormSelect = roles::select('id', 'nama_peran')->get();
+        $PeranFormSelect = Roles::select('id', 'nama_peran')->get();
         $unitFormSelect = Unit::select('id', 'nama_unit')->get();
 
         return view("admin.pengguna-page.pengguna", [
             'Pengguna' => new User(),
-            'Peran' => new roles(),
+            'Peran' => new Roles(),
             'Lokasi' => new Lokasi(),
             'Unit' => new Unit(),
             'LokasiFormSelect' => $LokasiFormSelect,

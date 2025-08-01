@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\roles;
+use App\Models\Roles;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -15,27 +15,27 @@ class RolesSeeder extends Seeder
     {
         // Makin Kecil makin tinggi prioritasnya
 
-        roles::create([
+        Roles::create([
             'nama_peran' => 'admin',
             'prioritas_peran' => 1
         ]);
 
-        roles::create([
+        Roles::create([
             'nama_peran' => 'laboran',
             'prioritas_peran' => 2
         ]);
 
-        roles::create([
+        Roles::create([
             'nama_peran' => 'lembaga',
             'prioritas_peran' => 3
         ]);
 
-        roles::create([
+        Roles::create([
             'nama_peran' => 'prodi',
             'prioritas_peran' => 4
         ]);
 
-        roles::create([
+        Roles::create([
             'nama_peran' => 'user',
             'prioritas_peran' => 5
         ]);

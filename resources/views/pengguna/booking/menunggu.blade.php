@@ -2,7 +2,6 @@
 
 @section('title', $page_meta['page'])
 @vite(['resources/css/form-pengajuan.css'])
-@vite(['resources/js/pengguna/booking/form-pengajuan-booking.js'])
 
 @section('content')
     <h2>{{ $page_meta['page'] }}</h2>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\roles;
+use App\Models\Roles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -17,7 +17,7 @@ class RolesController extends Controller
 
     public function getApiPeran(Request $request)
     {
-        $query = roles::select(['id', 'nama_peran', 'prioritas_peran']);
+        $query = Roles::select(['id', 'nama_peran', 'prioritas_peran']);
 
         // Pencarian
         if ($request->has('search') && !empty($request->search['value'])) {
@@ -28,7 +28,7 @@ class RolesController extends Controller
             });
         }
 
-        $totalData = roles::count();
+        $totalData = Roles::count();
         $totalFiltered = $query->count();
 
         // Sorting
@@ -78,7 +78,7 @@ class RolesController extends Controller
 
             $data = $Request->validated();
 
-            roles::create([
+            Roles::create([
                 'nama_peran' => $data['nama_peran_store'],
                 'prioritas_peran' => $data['prioritas_peran_store']
             ]);
@@ -108,7 +108,7 @@ class RolesController extends Controller
 
             $data = $Request->validated();
 
-            $Peran = roles::findOrFail(Crypt::decryptString($id));
+            $Peran = Roles::findOrFail(Crypt::decryptString($id));
 
             $Peran->update([
                 'nama_peran' => $data['nama_peran_update'],
@@ -137,7 +137,7 @@ class RolesController extends Controller
 
         try {
 
-            $Peran = roles::findOrFail(Crypt::decryptString($id));
+            $Peran = Roles::findOrFail(Crypt::decryptString($id));
             $Peran->delete();
 
             DB::commit();

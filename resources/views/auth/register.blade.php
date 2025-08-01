@@ -7,7 +7,8 @@
     <title>Daftar</title>
 
     {{-- Custom CSS & JS --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'public/css/mystyle.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/mystyle.css') }}">
     <link rel="icon" type="image/png" href="{{ asset('images/logo-reslab-square.png') }}">
 
 </head>

@@ -3,7 +3,7 @@
 @section('title', 'Laboratorium')
 
 @section('content')
-    @vite(['resources/js/laboran/laboratorium-page/laboratorium'])
+    @vite(['resources/js/laboran/laboratorium-page/laboratorium.js'])
 
     {{-- Laboratorium --}}
     @include('laboran.laboratorium-page.laboratorium.form-laboratorium-store')
