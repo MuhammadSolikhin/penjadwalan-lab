@@ -26,7 +26,7 @@
 
         <div class="row pb-3 justify-content-end gap-2">
             <button type="button" class="btn btn-sm btn-danger col-12 col-md-2">Reset</button>
-            <button type="submit" class="mybtn btn-sm mybtn-primary rounded-1 col-12 col-md-2">Simpan</button>
+            <button type="submit" class="mybtn btn-sm mybtn-secondary rounded-1 col-12 col-md-2" style="font-size: 12px">Simpan</button>
         </div>
     </form>
 
