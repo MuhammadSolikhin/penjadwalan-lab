@@ -61,7 +61,7 @@
                     </a>
 
                     {{-- If Unit page --}}
-                @elseif ($parentRoute == 'unit')
+                @elseif ($parentRoute == 'unit' || $parentRoute == 'kategori-barang')
                     <button type="button" class="mybtn mybtn-primary text-light ms-2 p-2 mb-2" data-bs-toggle="modal"
                         data-bs-target="#formModalStore" id="{{ $parentRoute . 'Store' }}">
                         <i data-feather="plus" x-init="feather.replace()"></i>
