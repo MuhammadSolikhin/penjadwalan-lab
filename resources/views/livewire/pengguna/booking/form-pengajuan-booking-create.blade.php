@@ -61,10 +61,30 @@
                                     <label for="laboratoriumId" class="form-label">Laboratorium</label>
                                     <select id="laboratoriumid" class="form-select" multiple>
                                         @foreach ($laboratoriumList as $lab)
-                                            <option title="{{ "Kapasitas : ". $lab->kapasitas_laboratorium . "\n" . "Komputer Tersedia : " }}" value="{{ $lab->id }}">{{ $lab->nama_laboratorium }}</option>
+                                            @php
+                                                $komputerTersedia = \App\Models\Barang::where('lab_id', $lab->id)
+                                                                    ->where('kategori_barang_id', 1)
+                                                                    ->count();
+
+                                                $komputerRusak = \App\Models\Barang::where('lab_id', $lab->id)
+                                                                    ->where('kategori_barang_id', 1)
+                                                                    ->where('status', 'rusak')
+                                                                    ->count();
+                                            @endphp
+                                            <option 
+                                                title="{{ 
+                                                    'Kapasitas : ' . $lab->kapasitas_laboratorium . "\n" .
+                                                    'Komputer Tersedia : ' . $komputerTersedia . "\n" .
+                                                    'Komputer Rusak : ' . $komputerRusak 
+                                                }}" 
+                                                value="{{ $lab->id }}"
+                                            >
+                                                {{ $lab->nama_laboratorium }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
+
 
                                 <div class="mb-3">
                                     <label for="form-label">Mode Tanggal</label>
