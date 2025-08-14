@@ -8,6 +8,12 @@ function initSelect2Update() {
             placeholder: "Pilih Jenis Lab",
             allowClear: true,
         });
+        $('#edit-unitLaboratorium').select2({
+            dropdownParent: $('#formLaboratoriumUpdate'),
+            theme: "bootstrap-5",
+            placeholder: "Pilih Unit",
+            allowClear: true,
+        });
         $('#edit-lokasiLaboratorium').select2({
             dropdownParent: $('#formLaboratoriumUpdate'),
             theme: "bootstrap-5",
@@ -32,8 +38,11 @@ export function initDatatablesValueToModalUpdateLab() {
 
             // Set Data ke input
             document.getElementById('edit-idLaboratorium').value = data.id_laboratorium;
+            document.getElementById('edit-kodeLaboratorium').value = data.kode_laboratorium;
             document.getElementById('edit-namaLaboratorium').value = data.nama_laboratorium;
             document.getElementById('edit-jenisLaboratorium').value = data.jenislab_id;
+            document.getElementById('edit-tipelab').value = data.tipelab;
+            document.getElementById('edit-unitLaboratorium').value = data.unit_id;
             document.getElementById('edit-lokasiLaboratorium').value = data.lokasi_id;
             document.getElementById('edit-kapasitasLaboratorium').value = data.kapasitas_laboratorium;
             document.getElementById('edit-statusLaboratorium').value = data.status_laboratorium;

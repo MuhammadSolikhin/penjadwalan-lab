@@ -114,7 +114,7 @@
 
 
                 @if ($userRole == 'laboran' || $userRole == 'admin')
-                    <li class="sidebar-item {{ Route::is('proses-pengajuan*') ? 'active' : '' }}">
+                    <li class="sidebar-item text-nowrap {{ Route::is('proses-pengajuan*') ? 'active' : '' }}">
                         <a href="{{ route('proses-pengajuan.index') }}"
                             class="sidebar-link {{ $isBookingActive ? 'text-light' : '' }}">Proses Pengajuan</a>
                     </li>

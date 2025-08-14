@@ -86,9 +86,9 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/admin/unit/tambah', UnitFormStore::class)->name('unit.create');
     Route::get('/admin/unit/ubah/{hash}', UnitFormUpdate::class)->name('unit.edit');
 
-        // Laporan
-    Route::get('/laboran/laporan', [LaporanController::class, 'admin'])->name('laporan.admin');
-    Route::get('/laboran/laporan/cetak', [LaporanController::class, 'cetakAdmin'])->name('laporan.admin.cetak');
+    // Laporan
+    Route::get('/admin/laporan', [LaporanController::class, 'admin'])->name('laporan.admin');
+    Route::get('/admin/laporan/cetak', [LaporanController::class, 'cetakAdmin'])->name('laporan.admin.cetak');
 });
 
 

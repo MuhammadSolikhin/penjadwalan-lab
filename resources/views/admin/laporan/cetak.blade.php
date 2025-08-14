@@ -87,21 +87,21 @@
         </thead>
         <tbody>
 
-            @if ($schedules->count() < 1)
+            @if ($submissions->count() < 1)
                 <tr>
                     <td colspan="7" class="text-center text-secondary"><i>Belum ada data</i></td>
                 </tr>
             @endif
 
             <?php $i = 1; ?>
-            @foreach ($schedules as $schedule)
+            @foreach ($submissions as $submission)
                 <tr>
                     <th scope="row">{{ $i++ }}</th>
-                    <td>{{ $schedule->kode_booking }}</td>
-                    <td>{{ $schedule->user->nama_pengguna }}</td>
+                    <td>{{ $submission->kode_booking }}</td>
+                    <td>{{ $submission->user->nama_pengguna }}</td>
                     <td>
                         @php
-                            $selectedLaboratory = $schedule->laboratorium->unique('nama_laboratorium');
+                            $selectedLaboratory = $submission->laboratorium->unique('nama_laboratorium');
                         @endphp
 
                         @foreach ($selectedLaboratory as $laboratory)
@@ -110,18 +110,18 @@
                             @endif
                         @endforeach
                     </td>
-                    <td>{{ $schedule->laboratorium->first()->lokasi->nama_lokasi }}</td>
+                    <td>{{ $submission->laboratorium->first()->lokasi->nama_lokasi }}</td>
                     <td>
-                        @if ($schedule->mode_tanggal_pengajuan == 'range')
+                        @if ($submission->mode_tanggal_pengajuan == 'range')
                             @php
-                                $startDate = $schedule->jadwalBookings->first();
-                                $endDate = $schedule->jadwalBookings->last();
+                                $startDate = $submission->jadwalBookings->first();
+                                $endDate = $submission->jadwalBookings->last();
                             @endphp
                             {{ Carbon::parse($startDate->tanggal_jadwal)->translatedFormat('d F Y') }} -
                             {{ Carbon::parse($endDate->tanggal_jadwal)->translatedFormat('d F Y') }}
                         @else
                             @php
-                                $selectedSchedule = $schedule->jadwalBookings->unique('tanggal_jadwal');
+                                $selectedSchedule = $submission->jadwalBookings->unique('tanggal_jadwal');
                             @endphp
 
                             @foreach ($selectedSchedule as $selected)
@@ -131,7 +131,7 @@
                             @endforeach
                         @endif
                     </td>
-                    <td>{{ Carbon::parse($schedule->created_at)->translatedFormat('d F Y') }}</td>
+                    <td>{{ Carbon::parse($submission->created_at)->translatedFormat('d F Y') }}</td>
                 </tr>
             @endforeach
         </tbody>
