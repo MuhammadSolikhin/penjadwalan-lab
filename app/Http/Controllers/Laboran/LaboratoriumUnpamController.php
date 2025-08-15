@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Crypt;
 use App\Http\Requests\Laboran\LaboratoriumUnpam\LaboratoriumUnpamStoreRequest;
 use App\Http\Requests\Laboran\LaboratoriumUnpam\LaboratoriumUnpamUpdateRequest;
+use App\Models\Unit;
 
 class LaboratoriumUnpamController extends Controller
 {
@@ -19,11 +20,13 @@ class LaboratoriumUnpamController extends Controller
     {
         $Jenislab = Jenislab::select(['id', 'nama_jenis_lab'])->get();
         $Lokasi = Lokasi::select(['id', 'nama_lokasi'])->whereNot('nama_lokasi', 'fleksible')->get();
+        $units = Unit::all();
 
         return view("laboran.laboratorium-page.laboratorium", [
             'Laboratorium' => new LaboratoriumUnpam(),
             'JenisLaboratorium' => new Jenislab(),
             'Jenislab' => $Jenislab,
+            'units' => $units,
             'Lokasi' => $Lokasi,
             'page_meta' => [
                 'page' => 'Laboratorium',
@@ -34,7 +37,7 @@ class LaboratoriumUnpamController extends Controller
 
     public function getApiLaboratorium(Request $request)
     {
-        $query = LaboratoriumUnpam::select(['id', 'kode_laboratorium', 'nama_laboratorium', 'kapasitas_laboratorium', 'status_laboratorium', 'tipelab', 'lokasi_id', 'jenislab_id', 'deskripsi_laboratorium']);
+        $query = LaboratoriumUnpam::select(['id', 'kode_laboratorium', 'nama_laboratorium', 'kapasitas_laboratorium', 'status_laboratorium', 'tipelab', 'unit_id', 'lokasi_id', 'jenislab_id', 'deskripsi_laboratorium']);
 
         // Pencarian
         if ($request->has('search') && !empty($request->search['value'])) {
@@ -79,6 +82,9 @@ class LaboratoriumUnpamController extends Controller
                 'kapasitas_laboratorium' => $laboratorium->kapasitas_laboratorium,
                 'status_laboratorium' => $laboratorium->status_laboratorium,
                 'tipelab' => $laboratorium->tipelab,
+                'unit_id' => $laboratorium->unit_id,
+                'nama_unit' => $laboratorium->unit->nama_unit,
+                'kode_unit' => $laboratorium->unit->kode_unit,
                 'jenislab_id' => $laboratorium->jenislab->id,
                 'lokasi_id' => $laboratorium->lokasi->id,
                 'deskripsi_laboratorium' => $laboratorium->deskripsi_laboratorium,
@@ -105,10 +111,12 @@ class LaboratoriumUnpamController extends Controller
             $data = $Request->validated();
 
             LaboratoriumUnpam::create([
+                'kode_laboratorium' => $data['kode_laboratorium_store'],
                 'nama_laboratorium' => $data['nama_laboratorium_store'],
                 'kapasitas_laboratorium' => $data['kapasitas_laboratorium_store'],
                 'status_laboratorium' => $data['status_laboratorium_store'],
                 'tipelab' => $data['tipelab_store'],
+                'unit_id' => $data['unit_id_store'],
                 'lokasi_id' => $data['lokasi_id_store'],
                 'jenislab_id' => $data['jenislab_id_store'],
                 'deskripsi_laboratorium' => $data['deskripsi_laboratorium_store']
@@ -135,11 +143,13 @@ class LaboratoriumUnpamController extends Controller
             $Laboratorium = LaboratoriumUnpam::findOrFail(Crypt::decryptString($id));
 
             $Laboratorium->update([
+                'kode_laboratorium' => $data['kode_laboratorium_update'],
                 'nama_laboratorium' => $data['nama_laboratorium_update'],
                 'jenislab_id' => $data['jenislab_id_update'],
                 'lokasi_id' => $data['lokasi_id_update'],
                 'kapasitas_laboratorium' => $data['kapasitas_laboratorium_update'],
                 'tipelab' => $data['tipelab_update'],
+                'unit_id' => $data['unit_id_update'],
                 'status_laboratorium' => $data['status_laboratorium_update'],
                 'deskripsi_laboratorium' => $data['deskripsi_laboratorium_update']
             ]);

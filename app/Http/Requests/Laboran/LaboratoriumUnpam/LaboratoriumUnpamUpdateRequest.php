@@ -26,6 +26,14 @@ class LaboratoriumUnpamUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'kode_laboratorium_update' => [
+                'required',
+                'string',
+                'max:10',
+                Rule::unique('laboratorium_unpams', 'kode_laboratorium')->where(function ($query) {
+                    return $query->where('lokasi_id', $this->lokasi_id_update);
+                })->ignore(Crypt::decryptString($this->id_laboratorium_update))
+            ],
             'nama_laboratorium_update' => [
                 'required',
                 'string',
@@ -35,11 +43,12 @@ class LaboratoriumUnpamUpdateRequest extends FormRequest
                 })->ignore(Crypt::decryptString($this->id_laboratorium_update))
             ],
             'jenislab_id_update' => 'required|string|exists:jenislabs,id',
+            'unit_id_update' => 'required|integer',
             'lokasi_id_update' => 'required|string|exists:lokasis,id',
             'kapasitas_laboratorium_update' => 'required|integer',
-            'status_laboratorium_update' => 'required|string|in:tersedia,tidak tersedia',
+            'status_laboratorium_update' => 'required|integer|min:0,max:1',
             'deskripsi_laboratorium_update' => 'nullable|string|max:50',
-            'tipelab_update' => 'required|string|in:general,tidak',
+            'tipelab_update' => 'required|integer|min:0,max:1',
         ];
     }
 

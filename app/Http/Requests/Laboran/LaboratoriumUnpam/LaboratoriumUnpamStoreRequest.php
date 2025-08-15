@@ -25,6 +25,14 @@ class LaboratoriumUnpamStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'kode_laboratorium_store' => [
+                'required',
+                'string',
+                'max:10',
+                Rule::unique('laboratorium_unpams', 'kode_laboratorium')->where(function ($query) {
+                    return $query->where('lokasi_id', request()->lokasi_id_store);
+                })
+            ],
             'nama_laboratorium_store' => [
                 'required',
                 'string',
@@ -34,11 +42,12 @@ class LaboratoriumUnpamStoreRequest extends FormRequest
                 })
             ],
             'jenislab_id_store' => 'required|string|exists:jenislabs,id',
+            'unit_id_store' => 'required|integer',
             'lokasi_id_store' => 'required|string|exists:lokasis,id',
             'kapasitas_laboratorium_store' => 'required|integer',
-            'status_laboratorium_store' => 'required|string|in:tersedia,tidak tersedia',
+            'status_laboratorium_store' => 'required|integer|max:1,min:0',
             'deskripsi_laboratorium_store' => 'nullable|string|max:50',
-            'tipelab_store' => 'required|string|in:tersedia,tidak tersedia',
+            'tipelab_store' => 'required|integer|max:1,min:0',
         ];
     }
 

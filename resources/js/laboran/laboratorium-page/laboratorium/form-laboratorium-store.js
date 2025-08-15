@@ -8,6 +8,12 @@ export function initSelect2Store(){
             placeholder: "Pilih Jenis Lab",
             allowClear: true,
         });
+        $('#unitLaboratorium').select2({
+            dropdownParent: $('#formLaboratoriumStore'),
+            theme: "bootstrap-5",
+            placeholder: "Pilih Unit",
+            allowClear: true,
+        })
         $('#lokasiLaboratorium').select2({
             dropdownParent: $('#formLaboratoriumStore'),
             theme: "bootstrap-5",

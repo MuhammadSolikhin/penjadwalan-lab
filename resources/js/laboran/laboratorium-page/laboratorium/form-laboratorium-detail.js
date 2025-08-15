@@ -13,12 +13,15 @@ export function initDatatablesValueToModalDetailLaboratorium() {
             
 
             // Isi semua data ke elemen modal detail
-            document.getElementById('detail-namaLaboratorium').textContent = data.nama_laboratorium || '-';
-            document.getElementById('detail-jenisLaboratorium').textContent = data.nama_jenislab || '-';
-            document.getElementById('detail-lokasiLaboratorium').textContent = data.nama_lokasi || '-';
-            document.getElementById('detail-kapasitasLaboratorium').textContent = data.kapasitas_laboratorium || '-';
+            document.getElementById('detail-kodeLaboratorium').textContent = data.kode_laboratorium;
+            document.getElementById('detail-namaLaboratorium').textContent = data.nama_laboratorium;
+            document.getElementById('detail-jenisLaboratorium').textContent = data.nama_jenislab;
+            document.getElementById('detail-tipelab').textContent = data.tipelab == 0 ? 'General' : 'Khusus Prodi';
+            document.getElementById('detail-unitLaboratorium').textContent = data.kode_unit + " - " + data.nama_unit;
+            document.getElementById('detail-lokasiLaboratorium').textContent = data.nama_lokasi;
+            document.getElementById('detail-kapasitasLaboratorium').textContent = data.kapasitas_laboratorium;
             document.getElementById('detail-statusLaboratorium').textContent = data.status_laboratorium == 1 ? 'Tersedia' : 'Diperbaiki';
-            document.getElementById('detail-deskripsiLaboratorium').textContent = data.deskripsi_laboratorium || '-';
+            document.getElementById('detail-deskripsiLaboratorium').textContent = data.deskripsi_laboratorium;
 
             const detailModal = new Modal(document.getElementById('modalDetailLaboratorium'));
             detailModal.show();

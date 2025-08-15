@@ -18,6 +18,19 @@
             <input type="hidden" name="id_laboratorium_update" id="edit-idLaboratorium">
 
             <div class="mb-3">
+              <label for="edit-kodeLaboratorium" class="form-label">Kode Laboratorium</label>
+              <div class="input-group">
+                <span class="input-group-text"><i data-feather="hash" width="20"></i></span>
+                <input type="text" name="kode_laboratorium_update" id="edit-kodeLaboratorium" class="form-control @error('kode_laboratorium_update') is-invalid @enderror" autocomplete="off">
+                @error('kode_laboratorium_update')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+              </div>
+            </div>
+
+            <div class="mb-3">
               <label for="edit-namaLaboratorium" class="form-label">Nama Ruangan</label>
               <div class="input-group">
                 <span class="input-group-text"><i data-feather="trello" width="20"></i></span>
@@ -32,7 +45,7 @@
 
             <div class="mb-3">
               <label for="edit-jenisLaboratorium" class="form-label">Jenis Laboratorium</label>
-              <div class="input-group">
+              <div class="input-group flex-nowrap">
                 <span class="input-group-text"><i data-feather="pocket" width="20"></i></span>
                 <select name="jenislab_id_update" id="edit-jenisLaboratorium" class="form-select  @error('jenislab_id_update') is-invalid @enderror">
                   <option value="" selected></option>
@@ -44,8 +57,31 @@
             </div>
 
             <div class="mb-3">
-              <label for="edit-lokasiLaboratorium" class="form-label">Lokasi Laboratorium</label>
+              <label for="edit-tipelab" class="form-label">Tipe Laboratorium</label>
               <div class="input-group">
+                <span class="input-group-text"><i data-feather="tag" width="20"></i></span>
+                <select name="tipelab_update" id="edit-tipelab" class="form-select  @error('tipelab_update') is-invalid @enderror">
+                  <option value="0">General</option>
+                  <option value="1">Khusus Prodi</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-unitLaboratorium" class="form-label">Unit</label>
+              <div class="input-group flex-nowrap">
+                <span class="input-group-text"><i data-feather="slack" width="20"></i></span>
+                <select name="unit_id_update" id="edit-unitLaboratorium" class="form-select  @error('unit_id_update') is-invalid @enderror">
+                  @foreach ($units as $unit)
+                    <option value="{{ $unit->id }}">{{ $unit->kode_unit }} - {{ $unit->nama_unit }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-lokasiLaboratorium" class="form-label">Lokasi Laboratorium</label>
+              <div class="input-group flex-nowrap">
                 <span class="input-group-text"><i data-feather="map-pin" width="20"></i></span>
                 <select name="lokasi_id_update" id="edit-lokasiLaboratorium" class="form-select @error('lokasi_id_update') is-invalid @enderror">
                   <option value="" selected></option>
@@ -67,10 +103,10 @@
             <div class="mb-3">
               <label for="edit-statusLaboratorium" class="form-label">Status Laboratorium</label>
               <div class="input-group">
-                <span class="input-group-text"><i data-feather="bar-chart-2" width="20"></i></span>
+                <span class="input-group-text"><i data-feather="check-square" width="20"></i></span>
                 <select name="status_laboratorium_update" id="edit-statusLaboratorium" class="form-select @error('status_laboratorium_update') is-invalid @enderror">
-                  <option value="tersedia">Tersedia</option>
-                  <option value="tidak tersedia">Tidak Tersedia</option>
+                  <option value="1">Tersedia</option>
+                  <option value="0">Tidak Tersedia</option>
                 </select>
               </div>
             </div>
@@ -79,7 +115,7 @@
                 <label for="edit-deskripsiLaboratorium" class="form-label">Deskripsi Laboratorium</label>
                 <div class="input-group">
                     <span class="input-group-text">
-                        <i data-feather="align-right" width="20"></i>
+                        <i data-feather="align-left" width="20"></i>
                     </span>
                     <textarea name="deskripsi_laboratorium_update" class="form-control @error('deskripsi_laboratorium_update') is-invalid @enderror" id="edit-deskripsiLaboratorium" placeholder="Tuliskan deskripsi laboratorium..." rows="3" style="min-height: 100px; max-height:100px; resize:none;"></textarea>
                     @error('deskripsi_laboratorium_update')

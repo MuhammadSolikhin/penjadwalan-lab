@@ -16,21 +16,21 @@ class LaporanController extends Controller
     {
         $startDate = $request->startDate;
         $endDate = $request->endDate;
-        $schedules = PengajuanBooking::with(['jadwalBookings', 'user', 'laboratorium.lokasi'])->whereHas('jadwalBookings', function ($query) use ($startDate, $endDate) {
+        $submissions = PengajuanBooking::with(['jadwalBookings', 'user', 'laboratorium.lokasi'])->whereHas('jadwalBookings', function ($query) use ($startDate, $endDate) {
             $query->whereBetween('created_at', [
                 Carbon::parse($startDate)->startOfDay(),
                 Carbon::parse($endDate)->endOfDay(),
             ])->where('status', '=', 'diterima');
         })->get();
-        return view('laboran.laporan.index', compact('schedules'));
+        return view('admin.laporan.index', compact('submissions'));
     }
 
     public function cetakAdmin(Request $request)
     {
-        // Schedules
+        // Submission
         $startDate = $request->startDate;
         $endDate = $request->endDate;
-        $schedules = PengajuanBooking::with(['jadwalBookings', 'user', 'laboratorium'])->whereHas('jadwalBookings', function ($query) use ($startDate, $endDate) {
+        $submissions = PengajuanBooking::with(['jadwalBookings', 'user', 'laboratorium'])->whereHas('jadwalBookings', function ($query) use ($startDate, $endDate) {
             $query->whereBetween('created_at', [
                 Carbon::parse($startDate)->startOfDay(),
                 Carbon::parse($endDate)->endOfDay(),
@@ -38,13 +38,12 @@ class LaporanController extends Controller
         })->get();
 
         // Total all schedules and schedules per building
+        $schedules = JadwalBooking::with(['laboratoriumUnpam'])->get();
         $counts = [];
         for ($i = 0; $i < 5; $i++) {
             $location_id = $i + 2;
             $counts[$i] = $schedules->filter(function ($item) use ($location_id) {
-                return $item->laboratorium->contains(function ($lab) use ($location_id) {
-                    return $lab->lokasi_id == $location_id;
-                });
+                return $item->laboratoriumUnpam->lokasi_id == $location_id;
             })->count();
         }
 
@@ -55,9 +54,10 @@ class LaporanController extends Controller
             ->orderByDesc('jadwal_bookings_count')
             ->limit(5)
             ->get();
-        return view('laboran.laporan.cetak', [
+        return view('admin.laporan.cetak', [
             'startDate' => $startDate,
             'endDate' => $endDate,
+            'submissions' => $submissions,
             'schedules' => $schedules,
             'pusatCount' => $counts[0],
             'witanaCount' => $counts[1],
