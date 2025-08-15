@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama_pengguna' => 'Admin',
-            'email' => 'admin@example.com',
+            'email' => 'admin@unpam.ac.id',
             'password' => Hash::make('password'),
             'lokasi_id' => 1,
             'unit_id' => 1,
@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama_pengguna' => 'Prodi Pusat',
-            'email' => 'dosen1@example.com',
+            'email' => 'dosen1@unpam.ac.id',
             'password' => Hash::make('password'),
             'lokasi_id' => 2,
             'unit_id' => 4,
@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama_pengguna' => 'Prodi Witana',
-            'email' => 'dosen2@example.com',
+            'email' => 'dosen2@unpam.ac.id',
             'password' => Hash::make('password'),
             'lokasi_id' => 3,
             'unit_id' => 5,
@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama_pengguna' => 'Prodi Viktor',
-            'email' => 'dosen3@example.com',
+            'email' => 'dosen3@unpam.ac.id',
             'password' => Hash::make('password'),
             'lokasi_id' => 4,
             'unit_id' => 3,
@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama_pengguna' => 'Prodi Serang',
-            'email' => 'dosen4@example.com',
+            'email' => 'dosen4@unpam.ac.id',
             'password' => Hash::make('password'),
             'lokasi_id' => 5,
             'unit_id' => 4,
@@ -63,7 +63,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama_pengguna' => 'Validator Unpam Pusat',
-            'email' => 'validatorpusat@example.com',
+            'email' => 'validatorpusat@unpam.ac.id',
             'password' => Hash::make('password'),
             'lokasi_id' => 2,
             'unit_id' => 1,
@@ -72,7 +72,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama_pengguna' => 'Validator Unpam Witana',
-            'email' => 'validatorwitana@example.com',
+            'email' => 'validatorwitana@unpam.ac.id',
             'password' => Hash::make('password'),
             'lokasi_id' => 3,
             'unit_id' => 1,
@@ -81,7 +81,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama_pengguna' => 'Validator Unpam Viktor',
-            'email' => 'validatorviktor@example.com',
+            'email' => 'validatorviktor@unpam.ac.id',
             'password' => Hash::make('password'),
             'lokasi_id' => 4,
             'unit_id' => 1,
@@ -90,7 +90,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama_pengguna' => 'Validator Unpam Serang',
-            'email' => 'validatorserang@example.com',
+            'email' => 'validatorserang@unpam.ac.id',
             'password' => Hash::make('password'),
             'lokasi_id' => 5,
             'unit_id' => 1,
@@ -99,7 +99,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama_pengguna' => 'Lembaga Unpam Pusat',
-            'email' => 'lembagapusat@example.com',
+            'email' => 'lembagapusat@unpam.ac.id',
             'password' => Hash::make('password'),
             'lokasi_id' => 2,
             'unit_id' => 2,
@@ -108,7 +108,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama_pengguna' => 'Lembaga Unpam Witana',
-            'email' => 'lembagawitana@example.com',
+            'email' => 'lembagawitana@unpam.ac.id',
             'password' => Hash::make('password'),
             'lokasi_id' => 3,
             'unit_id' => 2,
@@ -117,7 +117,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama_pengguna' => 'Lembaga Unpam Viktor',
-            'email' => 'lembagaviktor@example.com',
+            'email' => 'lembagaviktor@unpam.ac.id',
             'password' => Hash::make('password'),
             'lokasi_id' => 4,
             'unit_id' => 1,
@@ -126,7 +126,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama_pengguna' => 'Lembaga Unpam Serang',
-            'email' => 'lembagaserang@example.com',
+            'email' => 'lembagaserang@unpam.ac.id',
             'password' => Hash::make('password'),
             'lokasi_id' => 5,
             'unit_id' => 1,
@@ -135,7 +135,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'nama_pengguna' => 'Lembaga LSP',
-            'email' => 'lsp@example.com',
+            'email' => 'lsp@unpam.ac.id',
             'password' => Hash::make('password'),
             'lokasi_id' => 4,
             'unit_id' => 1,
@@ -204,7 +204,7 @@ class UserSeeder extends Seeder
         foreach ($usersData as $userData) {
             User::create([
                 'nama_pengguna' => $userData[0],
-                'email' => $userData[1] . '@example.com',
+                'email' => $userData[1] . '@unpam.ac.id',
                 'password' => Hash::make('password'),
                 'unit_id' => $userData[2],
                 'lokasi_id' => $userData[3],
