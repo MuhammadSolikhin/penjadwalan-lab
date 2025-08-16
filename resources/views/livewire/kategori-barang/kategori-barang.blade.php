@@ -5,7 +5,6 @@
 
         <h2 class="fw-bold fs-3">Kategori Barang</h2>
         <span>Halaman untuk mengelola kategori barang</span>
-         <pre>{{ Route::currentRouteName() }}</pre> 
         <hr>
         <div id="container-fluid">
             <livewire:kategoribarang.kategori-barang-table :currentRoute="$path" />
