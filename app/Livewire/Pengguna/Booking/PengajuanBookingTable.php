@@ -41,8 +41,7 @@ final class PengajuanBookingTable extends PowerGridComponent
             ->with('lokasi');
 
         if (Auth::user()->role_id != 1) {
-            $query->where('lokasi_id', Auth::user()->lokasi_id)
-                ->where('user_id', Auth::id());
+            $query->where('user_id', Auth::id());
         }
 
         return $query->where('status_pengajuan_booking', $this->status);

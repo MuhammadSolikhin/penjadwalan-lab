@@ -17,8 +17,8 @@ class HariOperasionalSeeder extends Seeder
         // Mapping hari dalam angka sesuai getDay()
         // 0 = Minggu, 1 = Senin, ..., 6 = Sabtu
         $lokasiHari = [
-            'Pusat' => [1, 2, 3, 4, 5],             // Senin–Jumat
-            'Viktor' => [1, 2, 3, 4, 5, 6],         // Senin–Sabtu
+            'Pusat' => [0, 1, 2, 3, 4, 5, 6],             // Senin–Jumat
+            'Viktor' => [0, 1, 2, 3, 4, 5, 6],         // Senin–Sabtu
             'Serang' => [0, 1, 2, 3, 4, 5, 6],      // Semua hari
         ];
     

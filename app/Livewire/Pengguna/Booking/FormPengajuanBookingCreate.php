@@ -11,6 +11,7 @@ use App\Models\Unit;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -277,7 +278,7 @@ class FormPengajuanBookingCreate extends Component
             } else {
                 $this->laboratoriumList = LaboratoriumUnpam::where('lokasi_id', $value)
                     ->whereHas('unit', function ($query) use ($kodeUnit) {
-                        $query->where('kode_unit', '00000') 
+                        $query->where('kode_unit', '00000')
                             ->orWhere('kode_unit', $kodeUnit);
                     })->get();
             }
@@ -388,10 +389,12 @@ class FormPengajuanBookingCreate extends Component
             'keperluanBooking' => 'required|string|max:255'
         ];
 
+        $min = now()->addDays(7)->toDateString();
+
         if ($this->modeTanggal === 'multi') {
             $rules = array_merge($rules, [
                 'tanggalMulti' => 'required|array|min:1',
-                'tanggalMulti.*' => 'date',
+                'tanggalMulti.*' => ['date', 'after_or_equal:' . $min],
             ]);
 
             if ($this->modeJam === 'manual') {
@@ -405,6 +408,12 @@ class FormPengajuanBookingCreate extends Component
             $rules = array_merge($rules, [
                 'tanggalRange' => 'required|string',
             ]);
+
+            if (collect($this->tanggalAktif)->contains(fn($t) => $t < $min)) {
+                throw ValidationException::withMessages([
+                    'tanggalRange' => 'Tanggal minimal H+7 dari hari ini.',
+                ]);
+            }
 
             if ($this->modeJam === 'manual') {
                 $rules = array_merge($rules, [
@@ -621,7 +630,7 @@ class FormPengajuanBookingCreate extends Component
     {
         try {
             $data = $this->validatePengajuanBooking();
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             session()->flash('error', 'Validasi gagal: ' . json_encode($e->errors()));
             return;
         }
