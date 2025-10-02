@@ -1,71 +1,78 @@
 # ===== Stage 1: PHP deps (composer) =====
-FROM php:8.2-fpm AS php-deps
+FROM php:8.2-fpm-alpine AS php-deps
 
-RUN apt-get update && apt-get install -y \
-    git unzip libzip-dev libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
-    libonig-dev libxml2-dev build-essential \
-  && docker-php-ext-configure gd --with-freetype --with-jpeg \
-  && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd bcmath opcache \
-  && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache git unzip libzip-dev libpng-dev libjpeg-turbo-dev \
+    freetype-dev oniguruma-dev libxml2-dev icu-dev autoconf g++ make \
+ && docker-php-ext-configure gd --with-freetype --with-jpeg \
+ && docker-php-ext-install pdo_mysql mbstring zip exif bcmath gd opcache intl
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
-
-# Cache layer composer
 COPY composer.json composer.lock ./
 RUN composer install --no-interaction --prefer-dist --no-dev --no-scripts --optimize-autoloader
 
 # ===== Stage 2: Frontend build (node) =====
-FROM node:20 AS assets
+FROM node:20-alpine AS assets
 WORKDIR /app
 
-# Cache layer npm
+# Cache layer for JS deps
 COPY package.json package-lock.json* yarn.lock* pnpm-lock.yaml* .npmrc* ./
 RUN if [ -f package-lock.json ]; then npm ci; \
     elif [ -f yarn.lock ]; then yarn install --frozen-lockfile; \
     elif [ -f pnpm-lock.yaml ]; then corepack enable && pnpm i --frozen-lockfile; \
     else npm i; fi
 
-# Copy source yang diperlukan untuk build aset (hemat layer)
+# Copy only what's needed to build assets
 COPY resources ./resources
 COPY vite.config.* postcss.config.* tailwind.config.* ./
+# In case your Vite build references vendor (ziggy, etc.)
 COPY --from=php-deps /var/www/vendor ./vendor
-# Build (sesuaikan command kamu)
+
 RUN npm run build
 
-# ===== Stage 3: Final runtime image =====
-FROM php:8.2-fpm AS app
+# ===== Stage 3: Final runtime image (PHP-FPM) =====
+FROM php:8.2-fpm-alpine AS app
 
-# (Optional) php.ini production tweaks
+# php.ini production + opcache
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
- && { \
-    echo "opcache.enable=1"; \
-    echo "opcache.validate_timestamps=0"; \
-    echo "opcache.jit=1255"; \
-    echo "opcache.jit_buffer_size=64M"; \
- } > /usr/local/etc/php/conf.d/opcache.ini
+ && { echo "opcache.enable=1"; \
+      echo "opcache.enable_cli=0"; \
+      echo "opcache.validate_timestamps=0"; \
+      echo "opcache.max_accelerated_files=20000"; \
+      echo "opcache.memory_consumption=256"; \
+      echo "opcache.interned_strings_buffer=16"; } > /usr/local/etc/php/conf.d/opcache.ini
 
-# Install libs minimal runtime + deps untuk build ekstensi
-RUN apt-get update && apt-get install -y \
-    libzip-dev libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
-    libonig-dev libxml2-dev \
- && docker-php-ext-configure gd --with-freetype --with-jpeg \
- && docker-php-ext-install -j$(nproc) pdo_mysql mbstring zip exif bcmath gd \
- && rm -rf /var/lib/apt/lists/*
+# Runtime libs needed by the extensions
+RUN apk add --no-cache libzip libpng libjpeg-turbo freetype oniguruma libxml2 icu-libs
+
+# ⬇️ bring in the compiled PHP extensions & their INI from php-deps
+COPY --from=php-deps /usr/local/lib/php/extensions /usr/local/lib/php/extensions
+COPY --from=php-deps /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 
 WORKDIR /var/www
 
-# Copy vendor dari stage composer
-COPY --from=php-deps /var/www/vendor ./vendor
-# Copy seluruh app (kecuali yang di-ignore oleh .dockerignore)
+# Copy the application (respects .dockerignore)
 COPY . .
 
-# Copy hasil build aset dari stage node (sesuaikan path output Vite)
-COPY --from=assets /app/public ./public
+# Vendor from composer stage
+COPY --from=php-deps /var/www/vendor ./vendor
 
-# Siapkan folder writeable
-RUN mkdir -p bootstrap/cache storage/framework/{sessions,cache,views} storage/logs \
- && chown -R www-data:www-data storage bootstrap/cache \
- && chmod -R ug+rwX,o-rwx storage bootstrap/cache
+# Copy built assets (only /public/build so we don't overwrite public/index.php)
+COPY --from=assets /app/public/build ./public/build
+
+# Safety: never ship stale caches
+RUN rm -f bootstrap/cache/*.php \
+ && mkdir -p storage/framework/{sessions,cache,views} storage/logs bootstrap/cache \
+ && chown -R www-data:www-data storage bootstrap/cache
+
+EXPOSE 9000
+CMD ["php-fpm"]
+
+# ===== Stage 4: Nginx image shipping only public/ and config =====
+FROM nginx:1.27-alpine AS nginx
+# Your nginx vhost
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+# Publish static files + front controller
+COPY --from=app /var/www/public /var/www/public

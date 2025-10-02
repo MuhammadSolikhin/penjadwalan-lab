@@ -68,19 +68,13 @@ class BookingController extends Controller
             $query = PengajuanBooking::with(['jadwalBookings.laboratoriumUnpam', 'user.role']);
             $query->whereIn('status_pengajuan_booking', ['diterima', 'menunggu']);
 
-            // if ($role === 'lembaga') {
-            //     $query->whereHas('user.role', function ($q) {
-            //         $q->where('pri6hhoritas_peran', '<=', 3);
-            //     });
-            // } elseif ($role === 'prodi') {
-            //     $query->whereHas('user.role', function ($q) {
-            //         $q->where('prioritas_peran', '>=', 3);
-            //     });
-            // }
-
             if ($priority != 1) {
-                $query->where('lokasi_id', $user->lokasi_id);
+                $query->where(function ($q) use ($user) {
+                    $q->where('lokasi_id', $user->lokasi_id)
+                        ->orWhere('user_id', $user->id);
+                });
             }
+
             $pengajuanList = $query->get();
 
             $events = $pengajuanList->flatMap(function ($pengajuan) {

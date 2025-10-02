@@ -121,6 +121,8 @@ function initLaboratoriumSelect2(laboratorium, livewire) {
 
 function initTanggalMultiFlatpickr(tanggalMultiInput, livewire, hariAktif) {
     const tanggalMultiFromLivewire = livewire.get('tanggalMulti') || [];
+    const minSelectable = new Date();
+    minSelectable.setDate(minSelectable.getDate() + 7);
 
     const instance = flatpickr(tanggalMultiInput, {
         mode: 'multiple',
@@ -129,6 +131,7 @@ function initTanggalMultiFlatpickr(tanggalMultiInput, livewire, hariAktif) {
         dateFormat: 'Y-m-d',
         locale: 'id',
         defaultDate: tanggalMultiFromLivewire,
+        minDate: minSelectable,
         disable: [
             function (date) {
                 return !hariAktif.includes(date.getDay());
@@ -145,6 +148,8 @@ function initTanggalMultiFlatpickr(tanggalMultiInput, livewire, hariAktif) {
 
 function initTanggalRangeFlatpickr(tanggalRange, livewire) {
     const tanggalRangeFromLivewire = livewire.get('tanggalRange') || '';
+    const minSelectable = new Date();
+    minSelectable.setDate(minSelectable.getDate() + 7);
 
     const instance = flatpickr(tanggalRange, {
         mode: 'range',
@@ -153,6 +158,7 @@ function initTanggalRangeFlatpickr(tanggalRange, livewire) {
         dateFormat: 'Y-m-d',
         locale: 'id',
         defaultDate: tanggalRangeFromLivewire,
+        minDate: minSelectable, 
         onChange: function (selectedDates, dateStr, instance) {
             if (selectedDates.length === 2) {
                 const start = instance.formatDate(selectedDates[0], 'Y-m-d');
