@@ -59,11 +59,6 @@ services:
   db:
     image: mariadb:10.6
     restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: penjadwalan_lab
-      MYSQL_ROOT_PASSWORD: penjadwalan_lab
-      MYSQL_PASSWORD: penjadwalan_lab
-      MYSQL_USER: penjadwalan_lab
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--user=root", "--password=penjadwalan_lab"]
       interval: 10s
