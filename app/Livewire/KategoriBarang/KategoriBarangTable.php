@@ -61,8 +61,7 @@ final class KategoriBarangTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Dibuat', 'created_at_formmatted')
-                ->sortable()
-                ->searchable(),
+                ->sortable(),
 
             Column::action('Aksi')
         ];

@@ -35,10 +35,17 @@ final class PengajuanBookingTable extends PowerGridComponent
         ];
     }
 
+    public function relationSearch(): array
+    {
+        return [
+            'user' => ['nama_pengguna'], // Search for 'nama_pengguna' inside the 'user' relationship
+        ];
+    }
+
     public function datasource(): Builder
     {
         $query = PengajuanBooking::query()
-            ->with('lokasi');
+            ->with('lokasi', 'user');
 
         if (Auth::user()->role_id != 1) {
             $query->where('user_id', Auth::id());

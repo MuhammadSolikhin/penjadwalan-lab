@@ -78,9 +78,8 @@ final class BarangTable extends PowerGridComponent
             Column::make('Meja', 'meja_nama'),
 
             Column::make('Dibuat', 'created_at_formatted')
-                ->sortable()
-                ->searchable(),
-
+                ->sortable(),
+                
             Column::action('Aksi')
         ];
     }
